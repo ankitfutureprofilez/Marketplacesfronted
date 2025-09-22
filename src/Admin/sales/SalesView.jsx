@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Listing from "../../Apis/Listing";
-import SideBarAdmin from "../../common/SideBarAdmin";
 import HeaderAdmin from "../../common/HeaderAdmin";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import Nodata from "../../common/Nodata";
+import AuthLayout from "../../component/AuthLayout";
 
 function SalesView() {
     const [Job, setJob] = useState([]);
@@ -31,11 +31,9 @@ function SalesView() {
     }, []);
 
     return (
-        <div className="md:flex flex-wrap bg-[#F5F6FB]">
-            <SideBarAdmin />
-            <div className="w-full lg:w-[calc(100%-304px)]">
+       <AuthLayout>
+            <div className="w-full ">
                 <HeaderAdmin title={"Sales Listing"} />
-
                 <div className="px-4 py-2 lg:px-10 lg:py-2.5">
                     <div className="bg-white rounded-[20px] mb-[30px]">
                         <div className="py-4 px-4 md:px-6 lg:px-10 flex justify-between items-center border-b border-black border-opacity-10">
@@ -92,7 +90,7 @@ function SalesView() {
                     </div>
                 </div>
             </div>
-        </div>
+        </AuthLayout>
     );
 }
 

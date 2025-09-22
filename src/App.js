@@ -6,6 +6,7 @@ import Dashboard from "./Admin/Dashboard/Dashboard";
 import List from "./Admin/vendor/List";
 import SalesView from "./Admin/sales/SalesView";
 import CustomerList from "./Admin/Customer/CustomerList";
+import Setting from "./Admin/setting/Setting";
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
         <Route path="/vendor" element={<List />} />
         <Route path="/sales" element={<SalesView />} />
         <Route path="/customer" element={<CustomerList />} />
+        <Route path="/settings" element={<Setting />} />
+
       </Routes>
     </Router>
   );

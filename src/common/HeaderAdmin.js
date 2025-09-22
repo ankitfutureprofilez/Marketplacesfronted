@@ -8,17 +8,13 @@ import { useNavigate } from "react-router-dom";
 
 
 function HeaderAdmin({ title, back }) {
-    const [sideOpen, setSideOpen] = useState(false);
-    const toggleSidebar = (e) => {
-        setSideOpen(!sideOpen);
-    };
     const [menuOpen, setMenuOpen] = useState(false);
     const toggleMenu = (e) => {
         e.preventDefault();
         setMenuOpen(!menuOpen);
     };
-   
-const navigate = useNavigate();
+
+    const navigate = useNavigate();
     const handleclick = () => {
         localStorage
             && localStorage
@@ -26,55 +22,35 @@ const navigate = useNavigate();
         toast.success("Logout successfully!");
         navigate("/admin/login")
     };
-      const [listing, setListing] = useState("");
+    const [listing, setListing] = useState("");
 
-      const fetchData = async (signal) => {
+    const fetchData = async (signal) => {
         try {
-          const main = new Listing();
-          const response = await main.profileVerify({ signal });
-          setListing(response?.data?.data)
-          console.log("response", response)
+            const main = new Listing();
+            const response = await main.profileVerify({ signal });
+            setListing(response?.data?.data)
+            console.log("response", response)
         } catch (error) {
-          localStorage && localStorage.removeItem("AdminToken");
-        //   toast.error("Please log in first.");
+            localStorage && localStorage.removeItem("AdminToken");
+            //   toast.error("Please log in first.");
         }
-      }
-    
-      useEffect(() => {
+    }
+
+    useEffect(() => {
         fetchData();
-      }, []);
+    }, []);
     return (
         <>
             <div className=" px-4 py-2 lg:px-10 lg:py-2.5">
                 <div className="flex  justify-between items-center">
                     <div className="flex items-center" >
                         {back === 1 && <IoMdArrowRoundBack size={24} className="mr-2 cursor-pointer" />}
-                      
+
                         <div className="flex items-center" >
-                    <h2 className="flex items-center lg:block text-[#1E1E1E] font-semibold text-[26px]">
-                    Dashboard
-                    </h2>
-                </div>
-                    </div>
-                    <div className="lg:hidden">
-                        <button type="button" className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu"
-                            aria-expanded={sideOpen} onClick={toggleSidebar}
-                        >
-                            <span className="absolute -inset-0.5"></span>
-                            <span className="sr-only">Open main menu</span>
-                            <svg
-                                className={`${sideOpen ? 'hidden' : 'block'} h-6 w-6`}
-                                fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                            </svg>
-                            <svg
-                                className={`${sideOpen ? 'block' : 'hidden'} h-6 w-6`}
-                                fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-
-
+                            <h2 className="flex items-center lg:block text-[#1E1E1E] font-semibold text-[26px]">
+                                {title || "Dashboard"}
+                            </h2>
+                        </div>
                     </div>
                     <div className="flex justify-end items-center space-x-3">
                         <div className="p-[6px] lg:p-[11px] pr-5 lg:pr-8 flex items-center bg-white rounded-xl relative">
@@ -104,14 +80,14 @@ const navigate = useNavigate();
                                     </div>
                                 </div>
                                 <div className="py-1" role="none">
-                                    <a href="/admin/settings" className="flex gap-2  px-4 py-2 text-sm text-gray-700 hover:text-[#0367F7]" role="menuitem" tabindex="-1" id="menu-item-5">
+                                    <a href="/settings" className="flex gap-2  px-4 py-2 text-sm text-gray-700 hover:text-[#0367F7]" role="menuitem" tabindex="-1" id="menu-item-5">
                                         <MdSettings size={22} />
                                         Profile Settings</a>
                                 </div>
                                 <div className="py-1" role="none">
                                     <button onClick={handleclick}
-                                     className="flex gap-2 px-4 py-2 text-sm text-[#FF1B1B] hover:text-[#0367F7]"
-                                      role="menuitem" tabindex="-1" id="menu-item-6">
+                                        className="flex gap-2 px-4 py-2 text-sm text-[#FF1B1B] hover:text-[#0367F7]"
+                                        role="menuitem" tabindex="-1" id="menu-item-6">
                                         <MdLogout size={22} />
                                         Logout</button>
                                 </div>
@@ -119,9 +95,6 @@ const navigate = useNavigate();
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="block lg:hidden">
-                {sideOpen && <PhoneSideBar sideOpen={sideOpen} toggleSidebar={toggleSidebar} />}
             </div>
         </>);
 };

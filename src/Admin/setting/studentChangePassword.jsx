@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import Listing from "../Apis/Listing";
+import Listing from "../../Apis/Listing";
 
 const StudentChangePassword = () => {
   const [Regs, setRegs] = useState({
