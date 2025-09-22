@@ -1,6 +1,6 @@
 import LOGO from "../img/dashbaord.png"
 import React, { useState, useEffect } from "react";
-import { MdDashboard, MdSupervisedUserCircle, MdContacts, MdLogout, MdSettings } from "react-icons/md";
+import { MdDashboard, MdSupervisedUserCircle,  MdLogout, MdSettings } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FaRegUserCircle } from "react-icons/fa";
