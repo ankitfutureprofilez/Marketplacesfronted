@@ -7,6 +7,8 @@ import List from "./Admin/vendor/List";
 import SalesView from "./Admin/sales/SalesView";
 import CustomerList from "./Admin/Customer/CustomerList";
 import Setting from "./Admin/setting/Setting";
+import Details from "./Admin/vendor/Details";
+import AddVendor from "./Admin/vendor/AddVendor";
 
 function App() {
   return (
@@ -22,7 +24,8 @@ function App() {
         <Route path="/sales" element={<SalesView />} />
         <Route path="/customer" element={<CustomerList />} />
         <Route path="/settings" element={<Setting />} />
-
+        <Route path="/vendor/details" element={<Details />} />
+        <Route path="/vendor/add" element={<AddVendor />} />
       </Routes>
     </Router>
   );

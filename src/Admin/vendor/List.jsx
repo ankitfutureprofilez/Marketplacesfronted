@@ -6,6 +6,7 @@ import SideBarAdmin from "../../common/SideBarAdmin";
 import HeaderAdmin from "../../common/HeaderAdmin";
 import AuthLayout from "../../component/AuthLayout";
 import { IoMdEye } from "react-icons/io";
+import { Link } from "react-router-dom";
 // import AddTeam from "./AddTeam"
 
 function List() {
@@ -57,6 +58,8 @@ function List() {
         { id: 7, businessName: 'Glamour Salon', ownerName: 'Neha Sharma', mobile: '9876543210', category: 'Salon', city: 'Jaipur', sales: 'Select Sales', status: 'Pending' },
         { id: 8, businessName: 'Glamour Salon', ownerName: 'Neha Sharma', mobile: '9876543210', category: 'Salon', city: 'Jaipur', sales: 'Select Sales', status: 'Approved' },
     ];
+
+
     return (
         <AuthLayout>
             <div className="w-full ">
@@ -98,6 +101,12 @@ function List() {
                                     <option>Restaurant</option>
                                     <option>Retail</option>
                                 </select>
+                                <Link to="/vendor/add" className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+                                    </svg>
+                                    <span>Add Vendor</span>
+                                </Link>
                             </div>
                         </div>
                         <div className="overflow-x-auto">
