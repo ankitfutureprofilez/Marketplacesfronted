@@ -7,18 +7,9 @@ import AuthLayout from "../../component/AuthLayout";
 import AddSales from "./AddSales";
 
 function SalesView() {
-    // const [Job, setJob] = useState([]);
+    const [Sales, setSales] = useState([]);
 
-    const Job = [
-        { id: 1, profilePic: 'https://placehold.co/40x40/E5E7EB/4B5563?text=RV', salesName: 'Rahul Verma', email: 'Rahulsharma@gmail.com', phone: '9876543210', merchantsAdded: 12, sales: 'Select Sales', status: 'Active' },
-        { id: 2, profilePic: 'https://placehold.co/40x40/E5E7EB/4B5563?text=NS', salesName: 'Neha Sharma', email: 'Rahulsharma@gmail.com', phone: '9876543210', merchantsAdded: 16, sales: 'Select Sales', status: 'Inactive' },
-        { id: 3, profilePic: 'https://placehold.co/40x40/E5E7EB/4B5563?text=NS', salesName: 'Neha Sharma', email: 'Rahulsharma@gmail.com', phone: '9876543210', merchantsAdded: 36, sales: 'Select Sales', status: 'Inactive' },
-        { id: 4, profilePic: 'https://placehold.co/40x40/E5E7EB/4B5563?text=NS', salesName: 'Neha Sharma', email: 'Rahulsharma@gmail.com', phone: '9876543210', merchantsAdded: 12, sales: 'Select Sales', status: 'Active' },
-        { id: 5, profilePic: 'https://placehold.co/40x40/E5E7EB/4B5563?text=NS', salesName: 'Neha Sharma', email: 'Rahulsharma@gmail.com', phone: '9876543210', merchantsAdded: 36, sales: 'Select Sales', status: 'Active' },
-        { id: 6, profilePic: 'https://placehold.co/40x40/E5E7EB/4B5563?text=NS', salesName: 'Neha Sharma', email: 'Rahulsharma@gmail.com', phone: '9876543210', merchantsAdded: 36, sales: 'Select Sales', status: 'Inactive' },
-        { id: 7, profilePic: 'https://placehold.co/40x40/E5E7EB/4B5563?text=NS', salesName: 'Neha Sharma', email: 'Rahulsharma@gmail.com', phone: '9876543210', merchantsAdded: 16, sales: 'Select Sales', status: 'Active' },
-        { id: 8, profilePic: 'https://placehold.co/40x40/E5E7EB/4B5563?text=NS', salesName: 'Neha Sharma', email: 'Rahulsharma@gmail.com', phone: '9876543210', merchantsAdded: 12, sales: 'Select Sales', status: 'Inactive' },
-    ];
+   
 
     const [loading, setLoading] = useState(false);
 
@@ -28,33 +19,33 @@ function SalesView() {
 
     const getStatusClasses = (status) => {
         switch (status) {
-            case 'Active':
-                return 'bg-green-100 text-green-700';
-            case 'Inactive':
-                return 'bg-gray-200 text-gray-700';
+            case 'active':
+                return 'bg-green-100 text-green-700 capitalize';
+            case 'inactive':
+                return 'bg-gray-200 text-gray-700 capitalize';
             default:
                 return '';
         }
     };
 
-    // const fecthJobList = async () => {
-    //     try {
-    //         setLoading(true);
-    //         const main = new Listing();
-    //         const response = await main.CareeruserList();
-    //         console.log("response", response);
-    //         setJob(response?.data?.data?.contactget || []);
-    //     } catch (error) {
-    //         console.error("Error fetching team list:", error);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
+    const fecthSalesList = async () => {
+        try {
+            setLoading(true);
+            const main = new Listing();
+            const response = await main.showsales();
+            console.log("response", response);
+            setSales(response?.data?.data?.userData || []);
+        } catch (error) {
+            console.error("Error fetching team list:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
 
-    // useEffect(() => {
-    //     fecthJobList();
-    // }, []);
+    useEffect(() => {
+        fecthSalesList();
+    }, []);
 
     return (
         <AuthLayout>
@@ -86,18 +77,20 @@ function SalesView() {
                                     <option>Active</option>
                                     <option>Inactive</option>
                                 </select>
-                               <AddSales/>
+                               <AddSales fecthSalesList={fecthSalesList}/>
                             </div>
                         </div>
                         <div className="overflow-x-auto">
                             {loading ? (
                                 <LoadingSpinner />
-                            ) : Job.length === 0 ? (
+                            ) : Sales.length === 0 ? (
                                 <Nodata />
                             ) : (
                                 <table className="min-w-full ">
                                     <thead className="bg-gray-50">
                                         <tr>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">S. No.</th>
+
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">SALES NAME</th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">EMAIL</th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">PHONE</th>
@@ -106,12 +99,14 @@ function SalesView() {
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {Job.map((member) => (
+                                        {Sales.map((member ,index) => (
                                             <tr key={member.id}>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{index+1}</td>
+
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                     <div className="flex items-center space-x-3">
-                                                        <img className="h-10 w-10 rounded-full" src={member.profilePic} alt="" />
-                                                        <span>{member.salesName}</span>
+                                                        <img className="h-10 w-10 rounded-full" src={member.avatar} alt="" />
+                                                        <span>{member.name}</span>
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{member.email}</td>

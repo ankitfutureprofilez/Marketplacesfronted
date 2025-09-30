@@ -1,13 +1,11 @@
 import React from 'react'
 import AuthLayout from '../../component/AuthLayout'
 import HeaderAdmin from '../../common/HeaderAdmin'
-
 export default function Details() {
     return (
         <AuthLayout>
             <HeaderAdmin title={"Vendor Details"} back={1} />
             <div className="px-4 py-2 lg:px-10 lg:py-2.5">
-
                 <div className="flex flex-col sm:flex-row justify-between items-center p-4 bg-white rounded-lg shadow mb-6">
                     <div className="flex items-center space-x-3 mb-4 sm:mb-0">
                         <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
@@ -37,7 +35,6 @@ export default function Details() {
                         </div>
                     </div>
                 </div>
-
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                     <div className="p-4 rounded-lg shadow-lg text-white bg-gradient-to-r from-blue-700 to-blue-500">
                         <p className="text-sm opacity-80">TOTAL COUPONS</p>
@@ -56,9 +53,7 @@ export default function Details() {
                         <p className="text-4xl font-bold text-yellow-600">80</p>
                     </div>
                 </div>
-
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-
                     <div className="bg-white p-6 rounded-lg shadow lg:col-span-2">
                         <h2 className="text-xl font-semibold text-gray-800 mb-4">Business Information</h2>
                         <div className="grid grid-cols-3 gap-y-4 text-sm">
@@ -117,7 +112,6 @@ export default function Details() {
                     </div>
 
                 </div>
-
                 <div className="bg-white p-6 rounded-lg shadow overflow-x-auto">
                     <h2 className="text-xl font-semibold text-gray-800 mb-4">Coupon Listing</h2>
                     <table className="min-w-full divide-y divide-gray-200">

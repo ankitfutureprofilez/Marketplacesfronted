@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import PhoneSideBar from "./PhoneSideBar";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdLogout, MdSettings } from "react-icons/md";
 import toast from "react-hot-toast";
@@ -44,8 +43,7 @@ function HeaderAdmin({ title, back }) {
             <div className=" px-4 py-2 lg:px-10 lg:py-2.5">
                 <div className="flex  justify-between items-center">
                     <div className="flex items-center" >
-                        {back === 1 && <IoMdArrowRoundBack size={24} className="mr-2 cursor-pointer" />}
-
+                        {back === 1 && <IoMdArrowRoundBack size={24} className="mr-2 cursor-pointer" onClick={()=>{navigate(-1)}} />}
                         <div className="flex items-center" >
                             <h2 className="flex items-center lg:block text-[#1E1E1E] font-semibold text-[26px]">
                                 {title || "Dashboard"}

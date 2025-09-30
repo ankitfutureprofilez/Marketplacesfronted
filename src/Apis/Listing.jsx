@@ -10,26 +10,24 @@ class Listing extends Component {
         return Api.get("/profile-token")
     }
 
-    async resetpassword(data) {
-        return Api.post("/reset-password", data)
+    async salephoneverify(data) {
+        return Api.post("/user/send-otp", data)
     }
     
-    async contact(data) {
-        return Api.post("/contact-add", data)
+    async SalesAdd(data) {
+        return Api.post("/sales/sales_add", data)
     }
 
     async JobOpening(data) {
         return Api.post("/job-add", data)
     }
 
-    async ContactGet(data) {
-        return Api.get("/contact-get", data)
+    async showsales() {
+        return Api.get("/admin/sales_list", )
     }
-
-    async CareeruserList(data) {
-        return Api.get("/job-get", data)
+    async Vendorget() {
+        return Api.get("/admin/vendor_list", )
     }
-
 
 
     async ProjectAdds(data) {

@@ -1,32 +1,31 @@
-import React, { useState } from "react";
-// import Listing from "../Apis/Listing"; 
-// import toast from "react-hot-toast"; 
-import { MdDelete } from "react-icons/md";
-import { HiOutlineUserAdd } from "react-icons/hi"; 
-import defaultimage from "../../img/userdefault.webp"
+import  { useState } from "react";
+import { HiOutlineUserAdd } from "react-icons/hi";
+import defaultimage from "../../img/userdefault.webp";
+import Listing from "../../Apis/Listing";
+import toast from "react-hot-toast";
 
-const AddSales = ({ item, fetchTeamList, step = 1 }) => {
+const AddSales = ({ item, fecthSalesList, step = 1 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    
-    // State to hold form data
+
     const [formData, setFormData] = useState({
-        name: 'Rahul Verma', 
-        phone: '9876543210', 
+        name: '',
+        phone: '',
         otp: '',
-        email: 'Rahulsharma@gmail.com', 
+        email: '',
+        avatar: null, // File object
+        role: "sales"
     });
 
+    const [previewImage, setPreviewImage] = useState(defaultimage);
     const [isPhoneVerified, setIsPhoneVerified] = useState(false);
 
-    const openModal = () => {
-        setIsOpen(true);
-    };
-
-    // Close the modal
+    const openModal = () => setIsOpen(true);
     const closeModal = () => {
         setIsOpen(false);
         setLoading(false);
+        setFormData({ name: '', phone: '', otp: '', email: '', avatar: null, role: "sales" });
+        setPreviewImage(defaultimage);
     };
 
     const handleChange = (e) => {
@@ -34,21 +33,51 @@ const AddSales = ({ item, fetchTeamList, step = 1 }) => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        await new Promise(resolve => setTimeout(resolve, 1500)); 
-        // fetchTeamList(); 
-        closeModal();
-    };
-
-    const handleVerifyOtp = () => {
-        if (formData.otp.length === 6) { 
-            setIsPhoneVerified(true);
-        } else {
+    // Handle file input change
+    const handleAvatarChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setFormData(prev => ({ ...prev, avatar: file }));
+            setPreviewImage(URL.createObjectURL(file)); // preview
         }
     };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            const main = new Listing();
+            const Data = new FormData();
+            Data.append("name", formData.name);
+            Data.append("phone", formData.phone);
+            Data.append("otp", formData.otp);
+            Data.append("email", formData.email);
+            Data.append("role", formData.role);
+            if (formData.avatar) {
+                Data.append("avatar", formData.avatar);
+            }
+
+            const response = await main.SalesAdd(Data); // Send FormData
+            if (response) toast.success(response.data.message);
+
+            setLoading(false);
+            closeModal();
+            fecthSalesList();
+        } catch (error) {
+            console.error("Error submitting sales:", error);
+            setLoading(false);
+        }
+    };
+
+    const handleVerifyOtp = async () => {
+        try {
+            const main = new Listing();
+            const response = await main.salephoneverify({ phone: formData.phone });
+            if (response) toast.success(response.data.message);
+        } catch (error) {
+            console.error("Error verifying phone:", error);
+        }
+    };
 
     return (
         <div className="inline-block">
@@ -62,78 +91,65 @@ const AddSales = ({ item, fetchTeamList, step = 1 }) => {
 
             {isOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-xl shadow-2xl w-full max-w-sm relative">
-                        
-                        {/* Modal Header */}
+                    <div className="bg-white rounded-xl shadow-2xl w-full max-w-md relative">
+
+                        {/* Header */}
                         <div className="flex justify-between items-center p-4 border-b">
                             <h2 className="text-xl font-semibold text-gray-800">Add Sales Person</h2>
-                            <button
-                                onClick={closeModal}
-                                className="text-gray-500 hover:text-black text-2xl"
-                            >
-                                &times;
-                            </button>
+                            <button onClick={closeModal} className="text-gray-500 hover:text-black text-2xl">&times;</button>
                         </div>
 
-                        {/* Modal Body (Form) */}
+                        {/* Form */}
                         <form className="p-6 space-y-5" onSubmit={handleSubmit}>
-                            
+                            {/* Avatar Upload */}
                             <div className="flex flex-col items-center mb-4">
                                 <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-300">
-                                    <img 
-                                        src={defaultimage}
-                                        alt="Profile" 
-                                        className="w-full h-full object-cover" 
-                                    />
+                                    <img src={previewImage} alt="Profile" className="w-full h-full object-cover" />
                                 </div>
-                                <a href="#" className="text-red-500 text-sm mt-1 hover:underline">
-                                    Remove
-                                </a>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleAvatarChange}
+                                    className="mt-2"
+                                />
+                                {previewImage !== defaultimage && (
+                                    <button
+                                        type="button"
+                                        onClick={() => { setPreviewImage(defaultimage); setFormData(prev => ({ ...prev, avatar: null })); }}
+                                        className="text-red-500 text-sm mt-1 hover:underline"
+                                    >
+                                        Remove
+                                    </button>
+                                )}
                             </div>
 
-                            {/* Name Input */}
+                            {/* Name */}
                             <div className="space-y-1">
-                                <label htmlFor="name" className="text-sm font-medium text-gray-700">Name</label>
+                                <label className="text-sm font-medium text-gray-700">Name</label>
                                 <input
-                                    id="name"
                                     name="name"
                                     type="text"
                                     value={formData.name}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400"
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="Enter full name"
                                     required
                                 />
                             </div>
 
-                            {/* Phone Input */}
+                            {/* Phone + OTP Verification */}
                             <div className="space-y-1">
-                                <label htmlFor="phone" className="text-sm font-medium text-gray-700">Phone</label>
-                                <input
-                                    id="phone"
-                                    name="phone"
-                                    type="tel"
-                                    value={formData.phone}
-                                    onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400"
-                                    placeholder="Enter phone number"
-                                    required
-                                />
-                            </div>
-
-                            {/* OTP Input with Verify Button */}
-                            <div className="space-y-1">
-                                <label htmlFor="otp" className="text-sm font-medium text-gray-700">Enter OTP</label>
+                                <label className="text-sm font-medium text-gray-700">Phone</label>
                                 <div className="flex items-center space-x-2">
                                     <input
-                                        id="otp"
-                                        name="otp"
-                                        type="text"
-                                        value={formData.otp}
+                                        name="phone"
+                                        type="tel"
+                                        value={formData.phone}
                                         onChange={handleChange}
-                                        className="flex-grow px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                                        placeholder="Enter 6-digit OTP"
                                         disabled={isPhoneVerified}
+                                        className="flex-grow px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                                        placeholder="Enter phone number"
+                                        required
                                     />
                                     <button
                                         type="button"
@@ -145,23 +161,35 @@ const AddSales = ({ item, fetchTeamList, step = 1 }) => {
                                     </button>
                                 </div>
                             </div>
-                            
-                            {/* Email Input */}
+
+                            {/* OTP */}
                             <div className="space-y-1">
-                                <label htmlFor="email" className="text-sm font-medium text-gray-700">Email</label>
+                                <label className="text-sm font-medium text-gray-700">OTP</label>
                                 <input
-                                    id="email"
+                                    name="otp"
+                                    value={formData.otp}
+                                    onChange={handleChange}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Enter OTP"
+                                    required
+                                />
+                            </div>
+
+                            {/* Email */}
+                            <div className="space-y-1">
+                                <label className="text-sm font-medium text-gray-700">Email</label>
+                                <input
                                     name="email"
                                     type="email"
                                     value={formData.email}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400"
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="Enter email address"
                                     required
                                 />
                             </div>
-                            
-                            {/* Submit Button */}
+
+                            {/* Submit */}
                             <button
                                 type="submit"
                                 disabled={loading}
