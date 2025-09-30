@@ -9,7 +9,7 @@ import AddSales from "./AddSales";
 function SalesView() {
     const [Sales, setSales] = useState([]);
 
-   
+
 
     const [loading, setLoading] = useState(false);
 
@@ -20,9 +20,9 @@ function SalesView() {
     const getStatusClasses = (status) => {
         switch (status) {
             case 'active':
-                return 'bg-green-100 text-green-700 capitalize';
+                return 'bg-green-100 text-green-700 uppercase';
             case 'inactive':
-                return 'bg-gray-200 text-gray-700 capitalize';
+                return 'bg-red-200 text-gray-700 uppercase';
             default:
                 return '';
         }
@@ -46,6 +46,25 @@ function SalesView() {
     useEffect(() => {
         fecthSalesList();
     }, []);
+
+
+    const handlestatus = async (id, status) => {
+        const Statusdata = status === "active" ? "inactive" : "active"
+        try {
+            setLoading(true);
+            const main = new Listing();
+            const response = await main.StatusSales(id, Statusdata);
+            if (response) {
+                fecthSalesList();
+            }
+        } catch (error) {
+            console.error("Error fetching team list:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
 
     return (
         <AuthLayout>
@@ -77,7 +96,7 @@ function SalesView() {
                                     <option>Active</option>
                                     <option>Inactive</option>
                                 </select>
-                               <AddSales fecthSalesList={fecthSalesList}/>
+                                <AddSales fecthSalesList={fecthSalesList} />
                             </div>
                         </div>
                         <div className="overflow-x-auto">
@@ -90,7 +109,6 @@ function SalesView() {
                                     <thead className="bg-gray-50">
                                         <tr>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">S. No.</th>
-
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">SALES NAME</th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">EMAIL</th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">PHONE</th>
@@ -99,9 +117,9 @@ function SalesView() {
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {Sales.map((member ,index) => (
+                                        {Sales.map((member, index) => (
                                             <tr key={member.id}>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{index+1}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{index + 1}</td>
 
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                     <div className="flex items-center space-x-3">
@@ -112,11 +130,16 @@ function SalesView() {
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{member.email}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{member.phone}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{member.merchantsAdded}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClasses(member.status)}`}>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                                    <span
+                                                        className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClasses(member.status)} cursor-pointer`}
+                                                        onClick={() => handlestatus(member._id, member.status)}
+                                                    >
                                                         {member.status}
                                                     </span>
                                                 </td>
+
+
                                             </tr>
                                         ))}
                                     </tbody>

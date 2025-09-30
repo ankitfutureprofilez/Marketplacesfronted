@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { BiCalendar } from 'react-icons/bi';
 const BusinessHourRow = ({ day, initialOpen, initialClose, initialActive, onToggleChange, onTimeChange }) => {
     const [isActive, setIsActive] = useState(initialActive);
@@ -22,7 +22,7 @@ const BusinessHourRow = ({ day, initialOpen, initialClose, initialActive, onTogg
     };
 
     const timeOptions = Array.from({ length: 14 }, (_, i) => {
-        const hour = 9 + i; 
+        const hour = 9 + i;
         const displayHour = hour > 12 ? hour - 12 : hour;
         const period = hour >= 12 ? 'Pm' : 'Am';
         return `${displayHour.toString().padStart(2, '0')}:00 ${period}`;
@@ -74,7 +74,7 @@ const BusinessHourRow = ({ day, initialOpen, initialClose, initialActive, onTogg
     );
 };
 
-const BusinessHoursAndHolidays = ({setHours ,  hours,  setExtraHoliday , extraHoliday}) => {
+const BusinessHoursAndHolidays = ({ setHours, hours, setExtraHoliday, extraHoliday }) => {
 
     const handleToggle = (day, isActive) => {
         setHours(prevHours => ({
@@ -88,12 +88,6 @@ const BusinessHoursAndHolidays = ({setHours ,  hours,  setExtraHoliday , extraHo
             ...prevHours,
             [day]: { ...prevHours[day], open: openTime, close: closeTime }
         }));
-    };
-
-    const handleSave = () => {
-        console.log("Saving Business Hours and Holidays:", { hours, extraHoliday });
-        // Add your API call or persistence logic here
-        alert("Settings Saved! Check console for data.");
     };
 
     return (
@@ -119,9 +113,9 @@ const BusinessHoursAndHolidays = ({setHours ,  hours,  setExtraHoliday , extraHo
 
             <div className="relative">
                 <input
-                    type="date" 
-                    value={extraHoliday.split('-').reverse().join('-')} 
-                    onChange={(e) => setExtraHoliday(e.target.value.split('-').reverse().join('-'))} 
+                    type="date"
+                    value={extraHoliday.split('-').reverse().join('-')}
+                    onChange={(e) => setExtraHoliday(e.target.value.split('-').reverse().join('-'))}
                     className="w-full p-3 border border-gray-300 rounded-lg text-gray-900 focus:ring-blue-500 focus:border-blue-500 pr-12 appearance-none"
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 pointer-events-none">

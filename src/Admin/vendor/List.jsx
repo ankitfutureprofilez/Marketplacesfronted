@@ -17,11 +17,11 @@ function List() {
 
     const getStatusClasses = (status) => {
         switch (status) {
-            case 'active':
+            case 'verify':
                 return 'bg-green-100 text-green-700 capitalize';
             case 'pending':
                 return 'bg-yellow-100 text-yellow-700 capitalize';
-            case 'inactive':
+            case 'unverify':
                 return 'bg-red-100 text-red-700 capitalize';
             default:
                 return '';
@@ -45,7 +45,22 @@ function List() {
         fetchTeamList();
     }, []);
 
-    console.log("team", team)
+
+    const handlestatus = async (id, status) => {
+        const Statusdata = status === "verify" ? "unverify" : "verify"
+        try {
+            setLoading(true);
+            const main = new Listing();
+            const response = await main.vendorStatus(id, Statusdata);
+            if (response) {
+                fetchTeamList();
+            }
+        } catch (error) {
+            console.error("Error fetching team list:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <AuthLayout>
@@ -120,9 +135,9 @@ function List() {
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {team && team.map((vendor ,index) => (
+                                        {team && team.map((vendor, index) => (
                                             <tr key={vendor.id}>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index+1}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{vendor.business_name}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor?.vendor?.name}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor.vendor?.phone}</td>
@@ -137,12 +152,20 @@ function List() {
                                                     </select>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
-                                                    <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClasses(vendor.status)}`}>
-                                                        {vendor.status}
+                                                    <span
+                                                        className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClasses(vendor?.Verify_status
+
+                                                        )} cursor-pointer`}
+                                                        onClick={() => handlestatus(vendor._id, vendor?.Verify_status)}
+                                                    >
+                                                        {vendor?.Verify_status}
                                                     </span>
+
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm ">
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                                    <Link to="">
                                                     <IoMdEye size={24} className="text-blue-600 hover:text-blue-900 focus:outline-none" />
+                                                    </Link>
                                                 </td>
                                             </tr>
                                         ))}

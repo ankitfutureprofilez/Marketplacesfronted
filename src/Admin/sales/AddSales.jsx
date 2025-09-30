@@ -13,7 +13,7 @@ const AddSales = ({ item, fecthSalesList, step = 1 }) => {
         phone: '',
         otp: '',
         email: '',
-        avatar: null, // File object
+        avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyCbJoUCRscGfzySEtqoR5HtHnEOE0ux4r-A&s", // File object
         role: "sales"
     });
 
@@ -47,17 +47,7 @@ const AddSales = ({ item, fecthSalesList, step = 1 }) => {
         setLoading(true);
         try {
             const main = new Listing();
-            const Data = new FormData();
-            Data.append("name", formData.name);
-            Data.append("phone", formData.phone);
-            Data.append("otp", formData.otp);
-            Data.append("email", formData.email);
-            Data.append("role", formData.role);
-            if (formData.avatar) {
-                Data.append("avatar", formData.avatar);
-            }
-
-            const response = await main.SalesAdd(Data); // Send FormData
+            const response = await main.SalesAdd(formData); // Send FormData
             if (response) toast.success(response.data.message);
 
             setLoading(false);

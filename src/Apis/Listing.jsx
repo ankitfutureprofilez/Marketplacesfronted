@@ -15,7 +15,7 @@ class Listing extends Component {
     }
     
     async SalesAdd(data) {
-        return Api.post("/sales/sales_add", data)
+        return Api.post("/admin/sales_add", data)
     }
 
     async JobOpening(data) {
@@ -25,10 +25,16 @@ class Listing extends Component {
     async showsales() {
         return Api.get("/admin/sales_list", )
     }
+
+     async StatusSales(id,status) {
+        return Api.get(`/sales/sales_status/${id}/${status}`, )
+    }
     async Vendorget() {
         return Api.get("/admin/vendor_list", )
     }
-
+  async vendorStatus(id,status) {
+        return Api.get(`/admin/vendor_status/${id}/${status}`, )
+    }
 
     async ProjectAdds(data) {
         return Api.post("/project-add", data)
