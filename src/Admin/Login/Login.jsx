@@ -27,34 +27,36 @@ function Login() {
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+    const main = new Listing();
+    const response = main.adminlogin({
+      email: formData?.email,
+      password: formData.password,
+      role: "admin",
+    });
+    response
+      .then((res) => {
+        if (res && res?.data && res?.data?.status) {
+          toast.success(res.data.message);
+          localStorage && localStorage.setItem("token", res?.data?.data?.token);
+          setLoading(false);
+        } else {
+          toast.error(res.data.message);
+          setLoading(false);
+        }
+        setFormData({
+          email: "",
+          password: "",
+        });
+        setLoading(false);
     navigate("/dashboard")
-    // setLoading(true);
-    // const main = new Listing();
-    // const response = main.adminlogin({
-    //   email: formData?.email,
-    //   password: formData.password,
-    // });
-    // response
-    //   .then((res) => {
-    //     if (res && res?.data && res?.data?.status) {
-    //       toast.success(res.data.message);
-    //       localStorage && localStorage.setItem("token", res?.data?.token);
-    //       setLoading(false);
-    //     } else {
-    //       toast.error(res.data.message);
-    //       setLoading(false);
-    //     }
-    //     setFormData({
-    //       email: "",
-    //       password: "",
-    //     });
-    //     setLoading(false);
-    //   })
-    //   .catch((error) => {
-    //     toast.error(error?.response?.data?.message);
-    //     console.log("error", error);
-    //     setLoading(false);
-    //   });
+
+      })
+      .catch((error) => {
+        toast.error(error?.response?.data?.message);
+        console.log("error", error);
+        setLoading(false);
+      });
   };
 
   return (

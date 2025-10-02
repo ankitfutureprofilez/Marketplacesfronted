@@ -19,7 +19,7 @@ function HeaderAdmin({ title, back }) {
             && localStorage
                 .removeItem("token")
         toast.success("Logout successfully!");
-        navigate("/admin/login")
+        navigate("/")
     };
     const [listing, setListing] = useState("");
 
@@ -28,22 +28,24 @@ function HeaderAdmin({ title, back }) {
             const main = new Listing();
             const response = await main.profileVerify({ signal });
             setListing(response?.data?.data)
-            console.log("response", response)
         } catch (error) {
-            localStorage && localStorage.removeItem("AdminToken");
-            //   toast.error("Please log in first.");
+            localStorage && localStorage.removeItem("token");
+            toast.error("Please log in first.");
+            navigate("/")
+
         }
     }
 
     useEffect(() => {
         fetchData();
     }, []);
+
     return (
         <>
             <div className=" px-4 py-2 lg:px-10 lg:py-2.5">
                 <div className="flex  justify-between items-center">
                     <div className="flex items-center" >
-                        {back === 1 && <IoMdArrowRoundBack size={24} className="mr-2 cursor-pointer" onClick={()=>{navigate(-1)}} />}
+                        {back === 1 && <IoMdArrowRoundBack size={24} className="mr-2 cursor-pointer" onClick={() => { navigate(-1) }} />}
                         <div className="flex items-center" >
                             <h2 className="flex items-center lg:block text-[#1E1E1E] font-semibold text-[26px]">
                                 {title || "Dashboard"}
@@ -53,7 +55,7 @@ function HeaderAdmin({ title, back }) {
                     <div className="flex justify-end items-center space-x-3">
                         <div className="p-[6px] lg:p-[11px] pr-5 lg:pr-8 flex items-center bg-white rounded-xl relative">
                             <button onClick={toggleMenu} className="h-[38px] lg:h-[44px]  flex rounded-full  text-sm text-black focus:outline-none focus:ring-0 focus:ring-white">
-                                <img className="h-[38px] w-[38px] lg:h-[44px] lg:w-[44px] rounded-full lg:mr-2.5" src={listing?.profileImage} alt="admin" />
+                                <img className="h-[38px] w-[38px] lg:h-[44px] lg:w-[44px] rounded-full lg:mr-2.5" src={listing?.avatar} alt="admin" />
 
                                 <div className=" hidden lg:block text-left ">
                                     <div className="text-[#3A3C40] font-medium lg:text-base tracking-[-0.03em] capitalize">{listing?.name} </div>

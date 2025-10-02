@@ -33,7 +33,6 @@ function SalesView() {
             setLoading(true);
             const main = new Listing();
             const response = await main.showsales();
-            console.log("response", response);
             setSales(response?.data?.data?.userData || []);
         } catch (error) {
             console.error("Error fetching team list:", error);

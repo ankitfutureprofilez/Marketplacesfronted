@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AuthLayout from '../../component/AuthLayout';
 import HeaderAdmin from '../../common/HeaderAdmin';
 import BusinessHoursAndHolidays from './BusinessHoursAndHolidays';
+import Listing from '../../Apis/Listing';
+import toast from 'react-hot-toast';
 
 const InputField = ({ label, id, type = 'text', value, onChange, placeholder, isRequired = false }) => (
   <div className="mb-4">
@@ -45,20 +47,21 @@ const FileUploadField = ({ label, id, onChange, isRequired = false }) => (
 
 export default function AddVendor() {
   const initialHours = {
-    Mon: { open: '9:00 Am', close: '10:00 Pm', active: true },
-    Tue: { open: '9:00 Am', close: '10:00 Pm', active: true },
-    Wed: { open: '9:00 Am', close: '10:00 Pm', active: true },
-    Thu: { open: '9:00 Am', close: '10:00 Pm', active: true },
-    Fri: { open: '9:00 Am', close: '10:00 Pm', active: true },
-    Sat: { open: '9:00 Am', close: '10:00 Pm', active: true },
-    Sun: { open: 'Open', close: 'Close', active: false },
+    Mon: { open: '09:00', close: '22:00', active: true },
+    Tue: { open: '09:00', close: '22:00', active: true },
+    Wed: { open: '09:00', close: '22:00', active: true },
+    Thu: { open: '09:00', close: '22:00', active: true },
+    Fri: { open: '09:00', close: '22:00', active: true },
+    Sat: { open: '09:00', close: '22:00', active: true },
+    Sun: { open: '', close: '', active: false }, // Closed day
   };
+
   const [hours, setHours] = useState(initialHours);
   const [extraHoliday, setExtraHoliday] = useState('09-09-2025');
   const initialState = {
     business_name: '',
-    owner_name: '',
-    phone_number: "",
+    name: '',
+    phone: "",
     email: "",
     business_register: '',
     pan_card: false,
@@ -70,7 +73,7 @@ export default function AddVendor() {
     city: '',
     area: '',
     pincode: '',
-    category: '',
+    categroy: '',
     subcategory: '',
     adhar_front: null,
     adhar_back: null,
@@ -78,11 +81,18 @@ export default function AddVendor() {
     gst_certificate: null,
     shop_license: null,
     business_logo: null,
+    weekly_off_day: extraHoliday,
+    opening_hours: hours,
+    state: "rajasthan"
   };
+  console.log("hours", hours)
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState(initialState);
-  const [isPanRequired, setIsPanRequired] = useState(false);
+  console.log("formData", formData)
+  const [subcategories, setSubcategories] = useState([]);
 
+  console.log("initialState", initialState)
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
@@ -90,9 +100,7 @@ export default function AddVendor() {
       [name]: type === 'checkbox' ? checked : value
     }));
 
-    if (name === 'pan_card') {
-      setIsPanRequired(checked);
-    }
+
   };
 
   const handleFileChange = (e) => {
@@ -102,12 +110,47 @@ export default function AddVendor() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitting Vendor Data:", formData);
-    // Add API call logic here to send data to the backend
-    // For files, you typically use FormData to handle multi-part form data.
+    setLoading(true);
+    try {
+      const main = new Listing();
+      const response = await main.VendorAdds(formData); // Send FormData
+      if (response) toast.success(response.data.message);
+
+      setLoading(false);
+    } catch (error) {
+      console.error("Error submitting sales:", error);
+      setLoading(false);
+    }
   };
+  const [categroies, setcategroy] = useState([])
+
+  useEffect(() => {
+    const main = new Listing();
+    const response = main.category();
+    response.then((res) => {
+      setcategroy(res.data.data)
+    }).catch((error) => {
+      console.log("eror", error)
+    })
+  }, [])
+
+  const fetchSubcategories = async (id) => {
+    console.log("id", id)
+    try {
+      const main = new Listing();
+      const response = await main.subcategory(id);
+      setSubcategories(response.data.data);
+    } catch (err) {
+      console.log("Error fetching subcategories:", err);
+    }
+  };
+  useEffect(() => {
+    if (formData.categroy) {
+      fetchSubcategories(formData.categroy);
+    }
+  }, [formData.categroy]);
   return (
     <AuthLayout>
       <HeaderAdmin title={"Add New Vendor"} back={1} />
@@ -118,8 +161,8 @@ export default function AddVendor() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 ">
             <InputField
               label="Owner Name"
-              id="owner_name"
-              value={formData.owner_name}
+              id="name"
+              value={formData.name}
               onChange={handleChange}
               placeholder="e.g., Ravi "
               isRequired
@@ -158,42 +201,47 @@ export default function AddVendor() {
               placeholder="Enter registration number"
               isRequired
             />
-            {isPanRequired ? (
-              <InputField
-                label="GST Number"
-                id="GST_no"
-                value={formData.GST_no}
+            <InputField
+              label="GST Number"
+              id="GST_no"
+              value={formData.GST_no}
+              onChange={handleChange}
+              placeholder="Enter GST number (optional)"
+            />
+            <div className="flex flex-col">
+              <label htmlFor="category" className="mb-1 font-semibold text-gray-700">Category</label>
+              <select
+                id="categroy"
+                value={formData.categroy}
+                name='categroy'
                 onChange={handleChange}
-                placeholder="Enter GST number (optional)"
-              />
-            ) : (<div className="mb-4">
-              <label className="flex items-center text-sm font-medium text-gray-700">
-                <input
-                  type="checkbox"
-                  name="pan_card"
-                  checked={formData.pan_card}
-                  onChange={handleChange}
-                  className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 mr-2"
-                />
-                Does the business have a PAN Card?
-              </label>
-            </div>)}
-            <InputField
-              label="Category ID (for demo)"
-              id="category"
-              value={formData.category}
-              onChange={handleChange}
-              placeholder="Select Category"
-              isRequired
-            />
-            <InputField
-              label="SubCategory ID (for demo)"
-              id="subcategory"
-              value={formData.subcategory}
-              onChange={handleChange}
-              placeholder="Select Subcategory"
-              isRequired
-            />
+                required
+                className="border rounded-md p-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+              >
+                <option value="">Select Category</option>
+                {categroies?.map(cat => (
+                  <option key={cat._id} value={cat._id}>{cat.name}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="flex flex-col">
+              <label htmlFor="category" className="mb-1 font-semibold text-gray-700">Sub Category</label>
+              <select
+                id="subcategory"
+                value={formData.subcategory}
+                name='subcategory'
+                onChange={handleChange}
+                required
+                className="border rounded-md p-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
+              >
+                <option value="">Select Sub Category</option>
+                {subcategories?.map(cat => (
+                  <option key={cat._id} value={cat._id}>{cat.name}</option>
+                ))}
+              </select>
+            </div>
+
           </div>
 
 
@@ -208,7 +256,16 @@ export default function AddVendor() {
             placeholder="Street, Building Name"
             isRequired
           />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <InputField
+              label="State"
+              id="state"
+              type="text"
+              value={formData.state}
+              onChange={handleChange}
+              placeholder="rajasthan"
+              readonly
+            />
             <InputField
               label="Latitude"
               id="lat"
@@ -262,45 +319,104 @@ export default function AddVendor() {
           </div>
 
           <h3 className="text-xl font-bold text-indigo-700 mb-4 border-b pb-2">Documents & Files 📂</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <FileUploadField
-              label="Aadhar Card (Front)"
-              id="adhar_front"
-              onChange={handleFileChange}
-              isRequired
-            />
-            <FileUploadField
-              label="Aadhar Card (Back)"
-              id="adhar_back"
-              onChange={handleFileChange}
-              isRequired
-            />
-            {isPanRequired && (
-              <>
-                <FileUploadField
-                  label="PAN Card Image"
-                  id="pan_card_image"
-                  onChange={handleFileChange}
-                  isRequired
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Aadhaar Front */}
+            <div className="flex flex-col items-start">
+              <FileUploadField
+                label="Aadhar Card (Front)"
+                id="adhar_front"
+                onChange={handleFileChange}
+              />
+              {formData?.adhar_front && (
+                <img
+                  src={formData.adhar_front}
+                  alt="adhar_front"
+                  className="mt-2 w-40 rounded-lg border border-gray-300 shadow-sm"
                 />
-                <FileUploadField
-                  label="GST Certificate"
-                  id="gst_certificate"
-                  onChange={handleFileChange}
+              )}
+            </div>
+
+            {/* Aadhaar Back */}
+            <div className="flex flex-col items-start">
+              <FileUploadField
+                label="Aadhar Card (Back)"
+                id="adhar_back"
+                onChange={handleFileChange}
+              />
+              {formData?.adhar_back && (
+                <img
+                  src={formData.adhar_back}
+                  alt="adhar_back"
+                  className="mt-2 w-40 rounded-lg border border-gray-300 shadow-sm"
                 />
-              </>
-            )}
-            <FileUploadField
-              label="Shop License"
-              id="shop_license"
-              onChange={handleFileChange}
-            />
-            <FileUploadField
-              label="Business Logo"
-              id="business_logo"
-              onChange={handleFileChange}
-            />
+              )}
+            </div>
+
+            {/* PAN Card */}
+            <div className="flex flex-col items-start">
+              <FileUploadField
+                label="PAN Card Image"
+                id="pan_card_image"
+                onChange={handleFileChange}
+              />
+              {formData?.pan_card_image && (
+                <img
+                  src={formData.pan_card_image}
+                  alt="pan_card_image"
+                  className="mt-2 w-40 rounded-lg border border-gray-300 shadow-sm"
+                />
+              )}
+            </div>
+
+            {/* GST Certificate */}
+            <div className="flex flex-col items-start">
+              <FileUploadField
+                label="GST Certificate"
+                id="gst_certificate"
+                onChange={handleFileChange}
+              />
+              {formData?.gst_certificate && (
+                <img
+                  src={formData.gst_certificate}
+                  alt="gst_certificate"
+                  className="mt-2 w-40 rounded-lg border border-gray-300 shadow-sm"
+                />
+              )}
+            </div>
+
+            {/* Shop License */}
+            <div className="flex flex-col items-start">
+              <FileUploadField
+                label="Shop License"
+                id="shop_license"
+                onChange={handleFileChange}
+              />
+              {formData?.shop_license && (
+                <img
+                  src={formData.shop_license}
+                  alt="shop_license"
+                  className="mt-2 w-40 rounded-lg border border-gray-300 shadow-sm"
+                />
+              )}
+            </div>
+
+            {/* Business Logo */}
+            <div className="flex flex-col items-start">
+              <FileUploadField
+                label="Business Logo"
+                id="business_logo"
+                onChange={handleFileChange}
+              />
+              {formData?.business_logo && (
+                <img
+                  src={formData.business_logo}
+                  alt="business_logo"
+                  className="mt-2 w-40 rounded-lg border border-gray-300 shadow-sm"
+                />
+              )}
+            </div>
           </div>
+
 
 
           <h3 className="text-xl font-bold text-indigo-700 mb-4 border-b pb-2">Business Hours & Holidays 🏢</h3>
@@ -310,9 +426,10 @@ export default function AddVendor() {
           <div className="pt-6 border-t border-gray-200">
             <button
               type="submit"
+              disabled={loading}
               className="w-full inline-flex justify-center py-3 px-4 border border-transparent shadow-sm text-lg font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
             >
-              Add New Vendor 🎉
+              {loading ? "Sending.." : " Add New Vendor"}
             </button>
           </div>
         </form>

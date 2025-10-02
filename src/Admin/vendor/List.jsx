@@ -32,7 +32,6 @@ function List() {
             setLoading(true);
             const main = new Listing();
             const response = await main.Vendorget();
-            console.log("response", response);
             setTeams(response?.data?.vendor || []);
         } catch (error) {
             console.error("Error fetching team list:", error);

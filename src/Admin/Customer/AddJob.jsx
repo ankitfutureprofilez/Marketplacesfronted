@@ -45,7 +45,6 @@ function AddJob({ item, fetchTeamList }) {
                 });
             }
 
-            console.log("Success:", response);
             toast.success(response.data.message);
             setShowModal(false); // Close modal after submit
             setFormData({ name: "", position: "", imageUrl: "" });

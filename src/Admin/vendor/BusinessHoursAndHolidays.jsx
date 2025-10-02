@@ -5,6 +5,13 @@ const BusinessHourRow = ({ day, initialOpen, initialClose, initialActive, onTogg
     const [openTime, setOpenTime] = useState(initialOpen);
     const [closeTime, setCloseTime] = useState(initialClose);
 
+    const timeOptions = Array.from({ length: 24 }, (_, i) => `${i.toString().padStart(2, '0')}:00`);
+
+    // Close times that are AFTER the selected open time
+    // Close times that are AFTER the selected open time
+const closeTimeOptions = timeOptions.filter(time => parseInt(time.split(':')[0]) > parseInt(openTime.split(':')[0]));
+
+
     const handleToggle = () => {
         const newState = !isActive;
         setIsActive(newState);
@@ -12,21 +19,23 @@ const BusinessHourRow = ({ day, initialOpen, initialClose, initialActive, onTogg
     };
 
     const handleOpenChange = (e) => {
-        setOpenTime(e.target.value);
-        onTimeChange(day, e.target.value, closeTime);
+        const newOpen = e.target.value;
+        setOpenTime(newOpen);
+
+        // Automatically adjust closeTime if it is before newOpen
+        if (parseInt(closeTime.split(':')[0]) <= parseInt(newOpen.split(':')[0])) {
+            const firstValidClose = closeTimeOptions[0] || newOpen; // fallback to open if no later option
+            setCloseTime(firstValidClose);
+            onTimeChange(day, newOpen, firstValidClose);
+        } else {
+            onTimeChange(day, newOpen, closeTime);
+        }
     };
 
     const handleCloseChange = (e) => {
         setCloseTime(e.target.value);
         onTimeChange(day, openTime, e.target.value);
     };
-
-    const timeOptions = Array.from({ length: 14 }, (_, i) => {
-        const hour = 9 + i;
-        const displayHour = hour > 12 ? hour - 12 : hour;
-        const period = hour >= 12 ? 'Pm' : 'Am';
-        return `${displayHour.toString().padStart(2, '0')}:00 ${period}`;
-    });
 
     return (
         <div className={`flex items-center justify-between border-b ${day !== 'Sun' ? 'pb-4 mb-4 border-gray-100' : 'pb-0 border-none'}`}>
@@ -47,7 +56,7 @@ const BusinessHourRow = ({ day, initialOpen, initialClose, initialActive, onTogg
                             onChange={handleCloseChange}
                             className="p-2 border border-gray-300 rounded-lg text-sm appearance-none focus:ring-blue-500 focus:border-blue-500 w-full"
                         >
-                            {timeOptions.map(time => <option key={time} value={time}>{time}</option>)}
+                            {closeTimeOptions.map(time => <option key={time} value={time}>{time}</option>)}
                         </select>
                     </>
                 ) : (
@@ -58,14 +67,8 @@ const BusinessHourRow = ({ day, initialOpen, initialClose, initialActive, onTogg
                     </>
                 )}
             </div>
-            {/* Toggle Switch */}
             <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                    type="checkbox"
-                    checked={isActive}
-                    onChange={handleToggle}
-                    className="sr-only peer"
-                />
+                <input type="checkbox" checked={isActive} onChange={handleToggle} className="sr-only peer" />
                 <div className={`w-11 h-6 rounded-full peer transition-colors ${isActive ? 'bg-blue-600' : 'bg-gray-200'}`}>
                     <div className={`absolute top-0.5 left-[2px] bg-white border border-gray-300 rounded-full h-5 w-5 transition-transform ${isActive ? 'translate-x-full border-white' : ''}`}></div>
                 </div>
@@ -73,6 +76,7 @@ const BusinessHourRow = ({ day, initialOpen, initialClose, initialActive, onTogg
         </div>
     );
 };
+
 
 const BusinessHoursAndHolidays = ({ setHours, hours, setExtraHoliday, extraHoliday }) => {
 

@@ -1,6 +1,6 @@
 import LOGO from "../img/dashbaord.png"
 import React, { useState, useEffect } from "react";
-import { MdDashboard, MdSupervisedUserCircle,  MdLogout, MdSettings } from "react-icons/md";
+import { MdDashboard, MdSupervisedUserCircle, MdLogout, MdSettings } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -47,9 +47,10 @@ function AuthLayout({ children }) {
 
       {/* Sidebar */}
       <div
-        className={`z-50 w-[260px] md:w-[280px] lg:w-[300px] fixed md:sticky left-0 top-0 bottom-0 overflow-y-auto bg-white border-r border-gray-200 transition-transform duration-300 ease-in-out 
-      ${isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+        className={`z-50 w-[260px] md:w-[280px] lg:w-[300px] fixed top-0 left-0 bottom-0 overflow-y-auto bg-white border-r border-gray-200 transition-transform duration-300 ease-in-out 
+  ${isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
+
         <div className="px-5 py-6">
           {/* Logo */}
           <div className="mb-8 text-center">
@@ -113,7 +114,7 @@ function AuthLayout({ children }) {
       )}
 
       {/* Main Content */}
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 md:ml-[280px] lg:ml-[300px]">{children}</main>
     </div>
 
   );
