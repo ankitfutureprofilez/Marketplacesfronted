@@ -24,7 +24,7 @@ function App() {
         <Route path="/sales" element={<SalesView />} />
         <Route path="/customer" element={<CustomerList />} />
         <Route path="/settings" element={<Setting />} />
-        <Route path="/vendor/details" element={<Details />} />
+        <Route path="/vendor/:id" element={<Details />} />
         <Route path="/vendor/add" element={<AddVendor />} />
       </Routes>
     </Router>

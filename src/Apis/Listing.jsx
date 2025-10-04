@@ -40,6 +40,9 @@ class Listing extends Component {
         return Api.get(`/admin/vendor_status/${id}/${status}`,)
     }
 
+     async vendor_details(id) {
+        return Api.get(`/admin/vendor_details/${id}`,)
+    }
     async category() {
         return Api.get("/vendor/categroy",)
     }

@@ -162,7 +162,7 @@ function List() {
 
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                                    <Link to="">
+                                                    <Link to={`/vendor/${vendor._id}`}>
                                                     <IoMdEye size={24} className="text-blue-600 hover:text-blue-900 focus:outline-none" />
                                                     </Link>
                                                 </td>
