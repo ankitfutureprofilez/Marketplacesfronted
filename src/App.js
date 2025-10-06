@@ -9,6 +9,7 @@ import CustomerList from "./Admin/Customer/CustomerList";
 import Setting from "./Admin/setting/Setting";
 import Details from "./Admin/vendor/Details";
 import AddVendor from "./Admin/vendor/AddVendor";
+import PaymentPage from "./Payment";
 
 function App() {
   return (
@@ -26,6 +27,8 @@ function App() {
         <Route path="/settings" element={<Setting />} />
         <Route path="/vendor/:id" element={<Details />} />
         <Route path="/vendor/add" element={<AddVendor />} />
+        <Route path="/payment" element={<PaymentPage />} />
+
       </Routes>
     </Router>
   );
