@@ -25,7 +25,13 @@ class Listing extends Component {
     async showsales() {
         return Api.get("/admin/sales_list",)
     }
+    async customer() {
+        return Api.get("/admin/user_list",)
+    }
 
+    async PaymentGet() {
+        return Api.get("/admin/payment_get",)
+    }
     async StatusSales(id, status) {
         return Api.get(`/admin/sales_status/${id}/${status}`,)
     }
@@ -40,7 +46,7 @@ class Listing extends Component {
         return Api.get(`/admin/vendor_status/${id}/${status}`,)
     }
 
-     async vendor_details(id) {
+    async vendor_details(id) {
         return Api.get(`/admin/vendor_details/${id}`,)
     }
     async category() {

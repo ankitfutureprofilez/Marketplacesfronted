@@ -10,6 +10,7 @@ import Setting from "./Admin/setting/Setting";
 import Details from "./Admin/vendor/Details";
 import AddVendor from "./Admin/vendor/AddVendor";
 import PaymentPage from "./Payment";
+import Payment from "./Admin/payment/Payment";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         {/* Admin Chnagement */}
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/payment" element={<Payment />} />
         <Route path="/vendor" element={<List />} />
         <Route path="/sales" element={<SalesView />} />
         <Route path="/customer" element={<CustomerList />} />

@@ -17,7 +17,7 @@ const PaymentPage = () => {
   const handlePayment = async () => {
     try {
       const response = await fetch(
-        "https://b38cb36fbfe9.ngrok-free.app/create-order",
+        "https://d2074a53a156.ngrok-free.app/create-order",
         { method: "POST" }
       );
       const orderData = await response.json();
@@ -34,7 +34,7 @@ const PaymentPage = () => {
           alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
         },
         prefill: { name: "John Doe", email: "john@example.com" },
-        theme: { color: "#3399cc" },
+        theme: { color: "#000000" },
       };
 
       const rzp = new window.Razorpay(options); // ✅ Use window.Razorpay

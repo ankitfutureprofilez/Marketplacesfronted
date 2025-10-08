@@ -5,21 +5,18 @@ import HeaderAdmin from "../../common/HeaderAdmin";
 import Nodata from "../../common/Nodata";
 import LoadingSpinner from "../../common/LoadingSpinner";
 
-function CustomerList() {
-    const [team, setTeams] = useState([]);
+function Payment() {
+    const [payments, setPayments] = useState([]);
     const [loading, setLoading] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-
-
-
 
     const fetchTeamList = async () => {
         setLoading(true)
         try {
             const main = new Listing();
-            const response = await main.customer();
+            const response = await main.PaymentGet();
             console.log("response", response)
-            setTeams(response?.data?.data || []);
+            setPayments(response?.data?.data || []);
             setLoading(false)
 
         } catch (error) {
@@ -32,15 +29,15 @@ function CustomerList() {
 
         fetchTeamList();
     }, []);
-    console.log("teams", team)
+    console.log("teams", payments)
     return (
         <AuthLayout>
             <div className="w-full ">
-                <HeaderAdmin title={"Customer "} />
+                <HeaderAdmin title={"Payment "} />
                 <div className="px-4 py-2 lg:px-10 lg:py-2.5">
                     <div className="bg-white rounded-[20px] mb-[30px] p-6">
                         <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
-                            <h1 className="text-2xl font-semibold text-gray-800">Customer Listing</h1>
+                            <h1 className="text-2xl font-semibold text-gray-800">Payment Listing</h1>
                             <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 w-full md:w-auto">
                                 <div className="relative w-full md:w-auto">
                                     <input
@@ -59,30 +56,34 @@ function CustomerList() {
                         <div className="overflow-x-auto">
                             {loading ? (
                                 <LoadingSpinner />
-                            ) : team.length === 0 ? (
+                            ) : payments.length === 0 ? (
                                 <Nodata />
                             ) : (
                                 <table className="min-w-full ">
                                     <thead className="bg-gray-50">
                                         <tr>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider"> NAME</th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">EMAIL</th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">PHONE</th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">Total coupons</th>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider"> Payment Id</th>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">Order_id</th>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">payment_date</th>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider"> amount</th>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider"> currency</th>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider"> Status</th>
+
+
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {team.map((member) => (
+                                        {payments.map((member) => (
                                             <tr key={member.id}>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                    <div className="flex items-center space-x-3">
-                                                        {/* <img className="h-10 w-10 rounded-full" src={member.profilePic} alt="" /> */}
-                                                        <span>{member.name}</span>
-                                                    </div>
+                                                    {member.payment_id}
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{member.email}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{member.phone}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{member.merchantsAdded}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{member.order_id}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{member.payment_date}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{member.amount}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{member.currency}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{member.payment_status}</td>
+
                                             </tr>
                                         ))}
                                     </tbody>
@@ -97,4 +98,4 @@ function CustomerList() {
     );
 }
 
-export default CustomerList;
+export default Payment;
