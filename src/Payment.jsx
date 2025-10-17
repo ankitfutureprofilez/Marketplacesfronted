@@ -17,7 +17,7 @@ const PaymentPage = () => {
   const handlePayment = async () => {
     try {
       const response = await fetch(
-        "https://d2074a53a156.ngrok-free.app/create-order",
+        "https://d2074a53a156.ngrok-free.app/api/customer/add_payment",
         { method: "POST" }
       );
       const orderData = await response.json();

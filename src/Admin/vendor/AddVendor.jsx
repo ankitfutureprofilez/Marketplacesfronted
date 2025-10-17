@@ -4,6 +4,7 @@ import HeaderAdmin from '../../common/HeaderAdmin';
 import BusinessHoursAndHolidays from './BusinessHoursAndHolidays';
 import Listing from '../../Apis/Listing';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const InputField = ({ label, id, type = 'text', value, onChange, placeholder, isRequired = false }) => (
   <div className="mb-4">
@@ -85,14 +86,13 @@ export default function AddVendor() {
     opening_hours: hours,
     state: "rajasthan"
   };
-  console.log("hours", hours)
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState(initialState);
-  console.log("formData", formData)
+
+  console.log("formData" ,formData)
   const [subcategories, setSubcategories] = useState([]);
 
-  console.log("initialState", initialState)
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
@@ -109,6 +109,7 @@ export default function AddVendor() {
       [e.target.name]: e.target.files[0] // Store the actual file object
     }));
   };
+  const navigate =  useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -116,7 +117,9 @@ export default function AddVendor() {
     try {
       const main = new Listing();
       const response = await main.VendorAdds(formData); // Send FormData
-      if (response) toast.success(response.data.message);
+      if (response) 
+        navigate("/vendor")
+        toast.success(response.data.message);
 
       setLoading(false);
     } catch (error) {
@@ -136,8 +139,9 @@ export default function AddVendor() {
     })
   }, [])
 
+
+
   const fetchSubcategories = async (id) => {
-    console.log("id", id)
     try {
       const main = new Listing();
       const response = await main.subcategory(id);

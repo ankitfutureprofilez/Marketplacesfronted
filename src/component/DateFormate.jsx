@@ -1,8 +1,13 @@
 import PropTypes from "prop-types";
 
-function DateFormate({ data }) {
-  const formatDate = (inputDate) => {
-    const date = new Date(inputDate);
+function DateFormat({ data }) {
+  const formatDate = (data) => {
+    if (!data) return "N/A";
+
+    // Convert string or Date to Date object
+    const date = typeof data === "string" ? new Date(data) : data;
+
+    if (isNaN(date)) return "Invalid Date";
 
     const options = {
       day: "2-digit",
@@ -19,8 +24,8 @@ function DateFormate({ data }) {
   return <div>{formatDate(data)}</div>;
 }
 
-DateFormate.propTypes = {
-  data: PropTypes.string.isRequired,
+DateFormat.propTypes = {
+  data: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]).isRequired,
 };
 
-export default DateFormate;
+export default DateFormat;

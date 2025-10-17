@@ -22,14 +22,13 @@ function App() {
         {/* Admin Chnagement */}
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/payment" element={<Payment />} />
         <Route path="/vendor" element={<List />} />
         <Route path="/sales" element={<SalesView />} />
         <Route path="/customer" element={<CustomerList />} />
         <Route path="/settings" element={<Setting />} />
         <Route path="/vendor/:id" element={<Details />} />
         <Route path="/vendor/add" element={<AddVendor />} />
-        <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/payment-ra" element={<PaymentPage />} />
 
       </Routes>
     </Router>

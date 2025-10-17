@@ -1,3 +1,5 @@
+import DateFormate from "../../component/DateFormate";
+
 export default function OfferListing({ Offer }) {
     return (
         <div className="bg-white p-6 rounded-lg shadow overflow-x-auto mt-3">
@@ -59,7 +61,7 @@ export default function OfferListing({ Offer }) {
 
                                 {/* Amount */}
                                 <td className="px-6 py-4 whitespace-nowrap">₹{record?.amount || 0}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">{record?.expiryDate || 0}</td>
+                                <td className="px-6 py-4 whitespace-nowrap"><DateFormate data={record.expiryDate} /></td>
                                 {/* Status */}
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <span

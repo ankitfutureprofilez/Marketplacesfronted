@@ -60,7 +60,7 @@ function List() {
             setLoading(false);
         }
     };
-
+console.log("team" ,team)
     return (
         <AuthLayout>
             <div className="w-full ">
@@ -138,8 +138,8 @@ function List() {
                                             <tr key={vendor.id}>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{vendor.business_name}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor?.vendor?.name}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor.vendor?.phone}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor?.user?.name}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor.user?.phone}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor.category?.name}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor.subcategory?.name}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor.city}</td>
