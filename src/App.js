@@ -29,7 +29,6 @@ function App() {
         <Route path="/vendor/:id" element={<Details />} />
         <Route path="/vendor/add" element={<AddVendor />} />
         <Route path="/payment-ra" element={<PaymentPage />} />
-
       </Routes>
     </Router>
   );

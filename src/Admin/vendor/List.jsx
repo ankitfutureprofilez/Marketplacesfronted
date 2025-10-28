@@ -128,7 +128,7 @@ console.log("team" ,team)
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">SUB CATEGORY</th>
 
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">CITY</th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">SALES</th>
+                                            {/* <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">SALES</th> */}
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">STATUS</th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">ACTION</th>
                                         </tr>
@@ -143,13 +143,13 @@ console.log("team" ,team)
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor.category?.name}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor.subcategory?.name}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor.city}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">
+                                                {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">
                                                     <select className="py-1 px-2 border border-gray-300 rounded-lg bg-white text-[#46494D] text-sm focus:outline-none">
                                                         <option>Select Sales</option>
                                                         <option>100</option>
                                                         <option>200</option>
                                                     </select>
-                                                </td>
+                                                </td> */}
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <span
                                                         className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClasses(vendor?.Verify_status

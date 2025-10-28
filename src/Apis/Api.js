@@ -1,5 +1,5 @@
 import axios from 'axios';
-const APP_URL = process.env.REACT_APP_URL || "http://localhost:5000/api/"
+const APP_URL = process.env.REACT_APP_URL || "https://marketpleacesbackend.vercel.app/api/"
 function getToken() {
   const data = localStorage && localStorage.getItem('token');
   return data; 
