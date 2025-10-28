@@ -103,26 +103,26 @@ function Dashboard() {
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">MOBILE</th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">CATEGORY</th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">CITY</th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">SALES</th>
+                                            {/* <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">SALES</th> */}
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">STATUS</th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">ACTION</th>
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {team.map((vendor) => (
+                                        {team?.map((vendor) => (
                                             <tr key={vendor.id}>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{vendor.businessName}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor.ownerName}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor.mobile}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor.category}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor.city}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">
+                                                {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">
                                                     <select className="py-1 px-2 border border-gray-300 rounded-lg bg-white text-[#46494D] text-sm focus:outline-none">
                                                         <option>Select Sales</option>
                                                         <option>100</option>
                                                         <option>200</option>
                                                     </select>
-                                                </td>
+                                                </td> */}
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClasses(vendor.status)}`}>
                                                         {vendor.status}
