@@ -6,8 +6,9 @@ import HeaderAdmin from "../../common/HeaderAdmin";
 import AuthLayout from "../../component/AuthLayout";
 import { IoMdEye } from "react-icons/io";
 import { Link } from "react-router-dom";
-// import AddTeam from "./AddTeam"
-
+import Delete from "./Delete";
+import { MdEdit } from "react-icons/md";
+import AssignStaff from "./AssignStaff";
 function List() {
     const [team, setTeams] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -22,6 +23,8 @@ function List() {
             case 'pending':
                 return 'bg-yellow-100 text-yellow-700 capitalize';
             case 'unverify':
+                return 'bg-red-100 text-red-700 capitalize';
+            case 'deleted':
                 return 'bg-red-100 text-red-700 capitalize';
             default:
                 return '';
@@ -60,7 +63,17 @@ function List() {
             setLoading(false);
         }
     };
-console.log("team" ,team)
+    console.log("team", team)
+    const [categories, setCategories] = useState([]);
+
+
+    useEffect(() => {
+        const main = new Listing();
+        main
+            .category()
+            .then((res) => setCategories(res.data.data))
+            .catch((err) => console.log("Error fetching categories:", err));
+    }, []);
     return (
         <AuthLayout>
             <div className="w-full ">
@@ -88,19 +101,18 @@ console.log("team" ,team)
                                     onChange={(e) => setStatusFilter(e.target.value)}
                                 >
                                     <option>All Status</option>
-                                    <option>Approved</option>
-                                    <option>Pending</option>
-                                    <option>Rejected</option>
+                                    <option className="verify">Verify</option>
+                                    <option className="unverify">UnVerify</option>
                                 </select>
                                 <select
                                     className="w-full md:w-40 py-2 px-3 border border-gray-300 rounded-lg bg-white text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     value={categoryFilter}
                                     onChange={(e) => setCategoryFilter(e.target.value)}
                                 >
-                                    <option>All Categories</option>
-                                    <option>Salon</option>
-                                    <option>Restaurant</option>
-                                    <option>Retail</option>
+                                    <option value="">Select Category</option>
+                                    {categories.map((cat) => (
+                                        <option key={cat._id} value={cat._id}>{cat.name}</option>
+                                    ))}
                                 </select>
                                 <Link to="/vendor/add" className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -128,47 +140,87 @@ console.log("team" ,team)
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">SUB CATEGORY</th>
 
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">CITY</th>
-                                            {/* <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">SALES</th> */}
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">SALES</th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">STATUS</th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">ACTION</th>
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {team && team.map((vendor, index) => (
-                                            <tr key={vendor.id}>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{vendor.business_name}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor?.user?.name}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor.user?.phone}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor.category?.name}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor.subcategory?.name}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{vendor.city}</td>
-                                                {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">
-                                                    <select className="py-1 px-2 border border-gray-300 rounded-lg bg-white text-[#46494D] text-sm focus:outline-none">
-                                                        <option>Select Sales</option>
-                                                        <option>100</option>
-                                                        <option>200</option>
-                                                    </select>
-                                                </td> */}
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <span
-                                                        className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClasses(vendor?.Verify_status
+                                        {team && team.map((vendor, index) => {
+                                            const isDeleted = !!vendor.delete_At; // true if deleted
+                                            return (
+                                                <tr
+                                                    key={vendor._id}
+                                                    className={`${isDeleted ? "bg-gray-200 opacity-60 pointer-events-none" : "bg-white"} transition-all`}
+                                                >
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                        {index + 1}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                        {vendor.business_name}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">
+                                                        {vendor?.user?.name}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">
+                                                        {vendor.user?.phone}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">
+                                                        {vendor.category?.name}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">
+                                                        {vendor.subcategory?.name}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">
+                                                        {vendor.city}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">
+                                                        <AssignStaff id={vendor?._id} fetchTeamList={fetchTeamList} assign_staff={vendor?.assign_staff} />
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap">
+                                                        <span
+                                                            className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${isDeleted
+                                                                ? "bg-gray-400 text-white"
+                                                                : getStatusClasses(vendor?.Verify_status)
+                                                                } cursor-pointer`}
+                                                            onClick={() =>
+                                                                !isDeleted &&
+                                                                handlestatus(vendor._id, vendor?.Verify_status)
+                                                            }
+                                                        >
+                                                            {isDeleted ? "Deleted" : vendor?.Verify_status}
+                                                        </span>
+                                                    </td>
 
-                                                        )} cursor-pointer`}
-                                                        onClick={() => handlestatus(vendor._id, vendor?.Verify_status)}
-                                                    >
-                                                        {vendor?.Verify_status}
-                                                    </span>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm flex justify-center gap-3">
+                                                        {!isDeleted && (
+                                                            <>
+                                                                <Link to={`/vendor/${vendor?._id}`}>
+                                                                    <IoMdEye
+                                                                        size={24}
+                                                                        className="text-blue-600 hover:text-blue-900 focus:outline-none"
+                                                                    />
+                                                                </Link>
 
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm">
-                                                    <Link to={`/vendor/${vendor._id}`}>
-                                                    <IoMdEye size={24} className="text-blue-600 hover:text-blue-900 focus:outline-none" />
-                                                    </Link>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                                                <Link to={`/vendor/add/${vendor?._id}`}>
+                                                                    <MdEdit
+                                                                        size={24}
+                                                                        className="text-green-600 hover:text-green-900 focus:outline-none"
+                                                                    />
+                                                                </Link>
+                                                                <Delete
+                                                                    Id={vendor?._id}
+                                                                    step={1}
+                                                                    fetchTeamList={fetchTeamList}
+                                                                />
+                                                            </>
+                                                        )}
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
                                     </tbody>
+
                                 </table>
                             )}
                         </div>

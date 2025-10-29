@@ -41,6 +41,17 @@ class Listing extends Component {
     async VendorAdds(data) {
         return Api.post("/admin/vendor-add", data)
     }
+  async VendorEdit(data) {
+        return Api.post("/admin/vendor-edit", data)
+    }
+    
+     async AdminDashbaord() {
+        return Api.get("/admin/dashboard",)
+    }
+
+     async assignStaff(data) {
+        return Api.post("/admin/assign-staff", data)
+    }
 
     async vendorStatus(id, status) {
         return Api.get(`/admin/vendor_status/${id}/${status}`,)
@@ -57,6 +68,9 @@ class Listing extends Component {
         return Api.get(`/admin/subcatgroy/${id}`)
     }
 
+     async VendorDelete(id) {
+        return Api.get(`/admin/vendor/delete/${id}`)
+    }
     render() {
         return (
             <div>

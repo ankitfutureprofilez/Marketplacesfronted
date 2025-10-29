@@ -1,9 +1,10 @@
-import  { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import AuthLayout from '../../component/AuthLayout'
 import HeaderAdmin from '../../common/HeaderAdmin'
 import { useParams } from 'react-router-dom'
 import Listing from '../../Apis/Listing';
 import OfferLisitng from './OfferLisitng';
+import BusinessImageGallery from './BusinessImageGallery';
 export default function Details() {
     const { id } = useParams();
 
@@ -196,6 +197,10 @@ export default function Details() {
                             )}
                         </div>
                     </div>
+                </div>
+                <div className="bg-white p-6 rounded-lg shadow mt-2">
+
+                    <BusinessImageGallery images={record?.record?.business_image} />
                 </div>
                 <OfferLisitng Offer={record?.offer} />
             </div>

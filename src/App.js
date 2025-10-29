@@ -28,6 +28,8 @@ function App() {
         <Route path="/settings" element={<Setting />} />
         <Route path="/vendor/:id" element={<Details />} />
         <Route path="/vendor/add" element={<AddVendor />} />
+        <Route path="/vendor/add/:id" element={<AddVendor />} />
+
         <Route path="/payment-ra" element={<PaymentPage />} />
       </Routes>
     </Router>
