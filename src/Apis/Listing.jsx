@@ -35,8 +35,8 @@ class Listing extends Component {
     async StatusSales(id, status) {
         return Api.get(`/admin/sales_status/${id}/${status}`,)
     }
-    async Vendorget() {
-        return Api.get("/admin/vendor_list",)
+    async Vendorget(data , status , categroy ) {
+        return Api.get(`/admin/vendor_list?search=${data}&status=${status}&category=${categroy}`,)
     }
     async VendorAdds(data) {
         return Api.post("/admin/vendor-add", data)

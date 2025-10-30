@@ -74,7 +74,7 @@ function AuthLayout({ children }) {
                 <span className="ml-2">Vendor</span>
               </Link>
             </li>
-            {/* <li>
+       <li>
               <Link to="/sales" className={linkClasses("/sales")}>
                 <FaRegUserCircle size={22} />
                 <span className="ml-2">Sales</span>
@@ -85,13 +85,13 @@ function AuthLayout({ children }) {
                 <PiUserCheckFill size={22} />
                 <span className="ml-2">Customer List</span>
               </Link>
-            </li> */}
-            {/* <li>
+            </li> 
+          <li>
               <Link to="/settings" className={linkClasses("/settings")}>
                 <MdSettings size={22} />
                 <span className="ml-2">Settings</span>
               </Link>
-            </li> */}
+            </li> 
           </ul>
 
           {/* Logout */}
