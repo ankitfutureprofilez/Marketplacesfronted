@@ -5,3 +5,19 @@
  .font-poppins {
   font-family: "Poppins", sans-serif;
 }
+
+.calendly-inline-widget{
+  background-color: black !important;
+}
+
+.calendly-inline-widget iframe, .calendly-badge-widget iframe, .calendly-overlay iframe{
+   background-color: black !important;
+}
+
+.calendly-inline-widget iframe, .calendly-badge-widget iframe, .calendly-overlay iframe {
+    display: inline;
+    width: 100%;
+    height: 100%;
+   background-color: black !important;
+
+}

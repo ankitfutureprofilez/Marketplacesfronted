@@ -16,39 +16,52 @@ const PaymentPage = () => {
 
   const handlePayment = async () => {
     try {
-      // 👇 Send payment data to backend
+      // 👇 Send payment data to backend - CORRECT ENDPOINT
       const response = await fetch(
-        "https://marketplacesbackend.onrender.com/api/customer/add_payment",
+        "https://30eb4bad8ff4.ngrok-free.app/api/customer/add_payment",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            "amount": 50000,
+            "amount": 500, // ✅ ₹500 (backend *100 karega)
             "currency": "INR",
-            "receipt": "receipt#1",
             "offer_id": "68edff002c5753929286bfac",
-            "vendor_id": "68edfeb22c5753929286bfa1",
-            "payment_status": "PENDING"
+            "vendor_id": "68edfeb22c5753929286bfa1"
           }),
         }
       );
 
-      const orderData = await response.json();
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to create order");
+      }
+
+      const orderData = result.data; // ✅ Backend se order data
+      console.log("✅ Order created:", orderData);
 
       const options = {
-        key: RAZORPAY_KEY, // ⚠️ Use test key for test mode
-        amount: orderData.amount,
+        key: RAZORPAY_KEY,
+        amount: orderData.amount, // ✅ Order ka amount use karen
         currency: orderData.currency,
-        order_id: orderData.id,
+        order_id: orderData.id, // ✅ Order ID use karen
         name: "My Test Store",
         description: "Test Payment",
         handler: function (response) {
           console.log("✅ Payment Success:", response);
           alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+          
+          // ✅ Payment verify karne ke liye backend call karen
+          // verifyPayment(response);
         },
-        prefill: { name: "John Doe", email: "john@example.com" },
+        prefill: { 
+          name: "John Doe", 
+          email: "john@example.com",
+          contact: "+918306615173" 
+        },
+        notes: orderData.notes, // ✅ Order notes pass karen
         theme: { color: "#000000" },
       };
 
@@ -56,10 +69,38 @@ const PaymentPage = () => {
       rzp.open();
     } catch (err) {
       console.error("❌ Payment error:", err);
-      alert("Payment failed! Check console.");
+      alert("Payment failed! " + err.message);
     }
   };
 
+  // ✅ Payment verify function
+  const verifyPayment = async (paymentResponse) => {
+    try {
+      const verifyResponse = await fetch(
+        "https://30eb4bad8ff4.ngrok-free.app/api/verify-payment",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            razorpay_payment_id: paymentResponse.razorpay_payment_id,
+            razorpay_order_id: paymentResponse.razorpay_order_id,
+            razorpay_signature: paymentResponse.razorpay_signature
+          }),
+        }
+      );
+      
+      const result = await verifyResponse.json();
+      if (result.success) {
+        console.log("✅ Payment verified successfully");
+      } else {
+        console.log("❌ Payment verification failed");
+      }
+    } catch (error) {
+      console.error("❌ Verification error:", error);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">

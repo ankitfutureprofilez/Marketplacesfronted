@@ -107,25 +107,25 @@ function List() {
   }, []);
 
   const [staffList, setStaffList] = useState([]);
-const [loadingStaff, setLoadingStaff] = useState(false);
+  const [loadingStaff, setLoadingStaff] = useState(false);
 
-const fetchSalesList = async () => {
-  try {
-    setLoadingStaff(true);
-    const main = new Listing();
-    const response = await main.showsales();
-    setStaffList(response?.data?.data?.userData || []);
-  } catch (error) {
-    console.error("Error fetching staff list:", error);
-  } finally {
-    setLoadingStaff(false);
-  }
-};
+  const fetchSalesList = async () => {
+    try {
+      setLoadingStaff(true);
+      const main = new Listing();
+      const response = await main.showsales();
+      setStaffList(response?.data?.data?.userData || []);
+    } catch (error) {
+      console.error("Error fetching staff list:", error);
+    } finally {
+      setLoadingStaff(false);
+    }
+  };
 
-// Fetch once on mount
-useEffect(() => {
-  fetchSalesList();
-}, []);
+  // Fetch once on mount
+  useEffect(() => {
+    fetchSalesList();
+  }, []);
 
 
   return (
@@ -250,13 +250,13 @@ useEffect(() => {
                           <td className="px-6 py-4 text-[#46494D]">{vendor.subcategory?.name}</td>
                           <td className="px-6 py-4 text-[#46494D]">{vendor.city}</td>
                           <td className="px-6 py-4 text-[#46494D]">
-                             <AssignStaff
-        id={vendor._id}
-        fetchTeamList={fetchTeamList}
-        assign_staff={vendor?.assign_staff}
-        staffList={staffList}
-        loadingStaff={loadingStaff}
-      />
+                            <AssignStaff
+                              id={vendor._id}
+                              fetchTeamList={fetchTeamList}
+                              assign_staff={vendor?.assign_staff}
+                              staffList={staffList}
+                              loadingStaff={loadingStaff}
+                            />
                           </td>
                           <td className="px-6 py-4">
                             <span

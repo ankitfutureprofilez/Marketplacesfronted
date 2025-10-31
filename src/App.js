@@ -11,6 +11,8 @@ import Details from "./Admin/vendor/Details";
 import AddVendor from "./Admin/vendor/AddVendor";
 import PaymentPage from "./Payment";
 import Payment from "./Admin/payment/Payment";
+import CalendlyWidget from "./CalendlyWidget";
+import "./App.css"
 
 function App() {
   return (
@@ -31,6 +33,8 @@ function App() {
         <Route path="/vendor/add/:id" element={<AddVendor />} />
 
         <Route path="/payment-ra" element={<PaymentPage />} />
+        <Route path="/cal-ra" element={<CalendlyWidget />} />
+
       </Routes>
     </Router>
   );
