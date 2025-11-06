@@ -34,8 +34,8 @@ function Payment() {
         <AuthLayout>
             <div className="w-full ">
                 <HeaderAdmin title={"Payment "} />
-                <div className="px-4 py-2 lg:px-10 lg:py-2.5">
-                    <div className="bg-white rounded-[20px] mb-[30px] p-6">
+                <div className="px-4 py-2 lg:px-4 lg:py-2.5">
+                 <div className="bg-white rounded-[20px] mb-[10px] p-2">
                         <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
                             <h1 className="text-2xl font-semibold text-gray-800">Payment Listing</h1>
                             <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 w-full md:w-auto">

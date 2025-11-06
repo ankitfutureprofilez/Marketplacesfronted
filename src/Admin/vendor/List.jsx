@@ -133,11 +133,11 @@ function List() {
       <div className="w-full">
         <HeaderAdmin title="Vendor Listing" />
 
-        <div className="px-4 py-2 lg:px-10 lg:py-2.5">
-          <div className="bg-white rounded-[20px] mb-[30px] p-6">
+        <div className="px-4 py-2 lg:px-4 lg:py-2.5">
+       <div className="bg-white rounded-[20px] mb-[10px] p-2">
             {/* 🔹 Header + Filters */}
-            <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
-              <h1 className="text-2xl font-semibold text-gray-800">Vendors Listing</h1>
+            <div className="px-4 py-4 flex flex-wrap justify-between items-center border-b border-black  border-opacity-10">
+              <h2 className=" text-[16px] lg:text-[18px] font-bold font-[Poppins] font-[400] text-[#1E1E1E] m-0 tracking-[-0.03em]">Vendor Team Listing</h2>
 
               <div className="flex flex-col md:flex-row items-center w-full md:w-auto space-y-4 md:space-y-0 md:space-x-4">
                 {/* Search */}
@@ -187,7 +187,7 @@ function List() {
 
                 {/* Add Vendor */}
                 <Link
-                  to="/vendor/add"
+                  to="/access-admin/vendor/add"
                   className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 focus:ring-2 focus:ring-blue-500"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -209,8 +209,8 @@ function List() {
               ) : team.length === 0 ? (
                 <Nodata />
               ) : (
-                <table className="min-w-full text-sm">
-                  <thead className="bg-gray-50">
+                <table className="w-full table-auto whitespace-nowrap">
+                  <thead className="mb-[15px] border-b border-[#000000] border-opacity-10">
                     <tr>
                       {[
                         "S. No.",
@@ -224,10 +224,7 @@ function List() {
                         "Status",
                         "Action",
                       ].map((header) => (
-                        <th
-                          key={header}
-                          className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider"
-                        >
+                        <th className=" font-[Poppins] text-[14px] text-[#8C9199] font-[600] uppercase text-left p-[10px] mb-[10px]">
                           {header}
                         </th>
                       ))}
@@ -242,14 +239,14 @@ function List() {
                           key={vendor._id}
                           className={`${isDeleted ? "bg-gray-200 opacity-60 pointer-events-none" : "bg-white"}`}
                         >
-                          <td className="px-6 py-4">{index + 1}</td>
-                          <td className="px-6 py-4 font-medium text-gray-900">{vendor.business_name}</td>
-                          <td className="px-6 py-4 text-[#46494D]">{vendor?.user?.name}</td>
-                          <td className="px-6 py-4 text-[#46494D]">{vendor.user?.phone}</td>
-                          <td className="px-6 py-4 text-[#46494D]">{vendor.category?.name}</td>
-                          <td className="px-6 py-4 text-[#46494D]">{vendor.subcategory?.name}</td>
-                          <td className="px-6 py-4 text-[#46494D]">{vendor.city}</td>
-                          <td className="px-6 py-4 text-[#46494D]">
+                         <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">{index + 1}</td>
+                         <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">{vendor.business_name}</td>
+                         <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">{vendor?.user?.name}</td>
+                         <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">{vendor.user?.phone}</td>
+                         <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">{vendor.category?.name}</td>
+                         <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">{vendor.subcategory?.name}</td>
+                         <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">{vendor.city}</td>
+                         <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
                             <AssignStaff
                               id={vendor._id}
                               fetchTeamList={fetchTeamList}
@@ -258,9 +255,9 @@ function List() {
                               loadingStaff={loadingStaff}
                             />
                           </td>
-                          <td className="px-6 py-4">
+                         <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
                             <span
-                              className={`px-2 py-1 inline-flex text-xs font-semibold rounded-full cursor-pointer ${isDeleted
+                              className={`px-2 py-1 inline-flex font-[Poppins] uppercase text-xs font-semibold rounded-full cursor-pointer ${isDeleted
                                 ? "bg-gray-400 text-white"
                                 : getStatusClasses(vendor?.Verify_status)
                                 }`}
@@ -271,17 +268,17 @@ function List() {
                               {isDeleted ? "Deleted" : vendor?.Verify_status}
                             </span>
                           </td>
-                          <td className="px-6 py-4 flex justify-center gap-3">
+                          <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
                             {!isDeleted && (
-                              <>
-                                <Link to={`/vendor/${vendor._id}`}>
+                              <div className="flex gap-1">
+                                <Link to={`/access-admin/vendor/${vendor?._id}`}>
                                   <IoMdEye size={22} className="text-blue-600 hover:text-blue-900" />
                                 </Link>
-                                <Link to={`/vendor/add/${vendor._id}`}>
+                                <Link to={`/access-admin/vendor/add/${vendor._id}`}>
                                   <MdEdit size={22} className="text-green-600 hover:text-green-900" />
                                 </Link>
                                 <Delete Id={vendor._id} step={1} fetchTeamList={fetchTeamList} />
-                              </>
+                              </div>
                             )}
                           </td>
                         </tr>

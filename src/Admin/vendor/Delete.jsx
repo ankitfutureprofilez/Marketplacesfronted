@@ -70,25 +70,25 @@ export default function Delete({ step, Id, fetchTeamList, users }) {
         <div className=" ">
             <button
                 onClick={toggleModal}
-                className=' gap-[10px] m-auto font-[manrope] font-[600] text-white '
+                className=' gap-[10px] m-auto font-[Poppins] font-[600] text-white '
             >
                 <MdDelete size={24} className='text-red-600 hover:text-red-700' />
             </button>
             {/* Modal */}
             {isOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50 z-[9]">
-                    <div className="relative bg-[#1B1B1B] rounded-lg p-[15px] lg:p-[20px] w-[96%] max-w-[500px]">
+                    <div className="relative bg-[#ffffff] rounded-lg p-[15px] lg:p-[20px] w-[96%] max-w-[500px]">
                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-[30px] font-semibold text-white">Delete</h3>
+                            <h3 className="text-[30px] font-semibold text-black">Delete</h3>
                             <IoCloseSharp
                                 size={30}
-                                className="cursor-pointer text-white"
+                                className="cursor-pointer text-black"
                                 onClick={toggleModal}
                             />
                         </div>
 
                         {/* Responsive Paragraph */}
-                        <p className="text-white mb-[6px] text-[12px] sm:text-[14px] md:text-[17px] font-[400] text-left">
+                        <p className="text-black mb-[6px] text-[12px] sm:text-[14px] md:text-[17px] font-[400] text-left">
                             Are you sure you want to delete this {step === 1 ? "package" : "user"} ?
                         </p>
                         <p className="mb-[40px] text-[12px] sm:text-[12px] md:text-[15px] font-[400] text-left text-[#f00000]">
@@ -99,14 +99,14 @@ export default function Delete({ step, Id, fetchTeamList, users }) {
                             <button
                                 type="button"
                                 onClick={toggleModal}
-                                className="text-white mr-2 px-4 py-2 border border-gray-300 rounded-md"
+                                className="text-black mr-2 px-4 py-2 border border-gray-300 rounded-md"
                             >
                                 Cancel
                             </button>
                             <button
                                 type="button"
                                 onClick={handleClick}
-                                className="bg-[#f00000] hover:bg-[#f00000] font-manrope font-[700] text-[14px] px-[20px] py-[10px] text-white rounded-[5px] text-center"
+                                className="bg-[#f00000] hover:bg-[#f00000] font-[Poppins] font-[700] text-[14px] px-[20px] py-[10px] text-white rounded-[5px] text-center"
                             >
                                 {loading ? "Loading..." : "Delete"}
                             </button>

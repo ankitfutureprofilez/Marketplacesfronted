@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Listing from "../../Apis/Listing";
 
-const Profileupdate = () => {
-  const [listing, setListing] = useState("");
+const Profileupdate = ({fetchData ,listing ,  setListing}) => {
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [Regs, setRegs] = useState({
     name: "",
@@ -56,20 +55,6 @@ const Profileupdate = () => {
   }
 
   // Fetch Profile Data
-  const fetchData = async (signal) => {
-    try {
-      const main = new Listing();
-      const response = await main.profileVerify({ signal });
-      setListing(response?.data?.data)
-    } catch (error) {
-      localStorage && localStorage.removeItem("AdminToken");
-      // toast.error("Please log in first.");
-    }
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   useEffect(() => {
     setRegs((prevState) => ({

@@ -4,8 +4,7 @@ import Listing from "../../Apis/Listing";
 import HeaderAdmin from "../../common/HeaderAdmin";
 import Nodata from "../../common/Nodata";
 import LoadingSpinner from "../../common/LoadingSpinner";
-import { MdDelete } from "react-icons/md";
-import toast from "react-hot-toast";
+import Delete from "./Delete";
 
 function CustomerList() {
     const [team, setTeams] = useState([]);
@@ -17,9 +16,7 @@ function CustomerList() {
     const handleSearchChange = (e) => {
         const val = e.target.value;
         setSearchQuery(val);
-
         if (timerRef.current) clearTimeout(timerRef.current);
-
         timerRef.current = setTimeout(() => {
             fetchCustomerList(val);
         }, 600);
@@ -30,34 +27,40 @@ function CustomerList() {
         try {
             const main = new Listing();
             const response = await main.customer(search);
-            console.log("response", response)
             setTeams(response?.data?.data || []);
             setLoading(false)
-
         } catch (error) {
             console.error("Error fetching team list:", error);
             setLoading(false)
-
         }
     };
     useEffect(() => {
-
         fetchCustomerList();
     }, []);
-    console.log("teams", team)
 
 
-    const handleDeletestatus = async (id) => {
+    const handlestatus = async (id, status) => {
+        const Statusdata = status === "active" ? "inactive" : "active";
         try {
+            setLoading(true);
             const main = new Listing();
-            const response = await main.AdminDeleteSales(id);
-            if (response) {
-                toast.success("person deleted successfully");
-                await fetchCustomerList();
-            }
+            const response = await main.StatusSales(id, Statusdata);
+            if (response) fetchCustomerList();
         } catch (error) {
-            console.error("Error deleting person:", error);
-            toast.error("Delete failed!");
+            console.error("Error updating status:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const getStatusClasses = (status) => {
+        switch (status) {
+            case "active":
+                return "bg-green-100 text-green-700 uppercase";
+            case "inactive":
+                return "bg-red-200 text-gray-700 uppercase";
+            default:
+                return "";
         }
     };
 
@@ -65,10 +68,10 @@ function CustomerList() {
         <AuthLayout>
             <div className="w-full ">
                 <HeaderAdmin title={"Customer "} />
-                <div className="px-4 py-2 lg:px-10 lg:py-2.5">
-                    <div className="bg-white rounded-[20px] mb-[30px] p-6">
-                        <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
-                            <h1 className="text-2xl font-semibold text-gray-800">Customer Listing</h1>
+                <div className="px-4 py-2 lg:px-4 lg:py-2.5">
+                    <div className="bg-white rounded-[20px] mb-[10px] p-2">
+                        <div className="px-2 py-2 flex flex-wrap justify-between items-center border-b border-black  border-opacity-10">
+                            <h2 className=" text-base lg:text-lg font-bold font-[Poppins] font-[400] text-[#1E1E1E] m-0 tracking-[-0.03em]">Customer Listing</h2>
                             <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 w-full md:w-auto">
                                 <div className="relative w-full md:w-auto">
                                     <input
@@ -90,15 +93,16 @@ function CustomerList() {
                             ) : team.length === 0 ? (
                                 <Nodata />
                             ) : (
-                                <table className="min-w-full ">
-                                    <thead className="bg-gray-50">
+                                <table className="w-full table-auto whitespace-nowrap">
+                                    <thead className="mb-[15px] border-b border-[#000000] border-opacity-10">
                                         <tr>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider"> NAME</th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">EMAIL</th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">PHONE</th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">Total coupons</th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#8C9199] uppercase tracking-wider">Action</th>
-
+                                            <th scope="col" className="px-6 font-[Poppins] font-[600] py-3 text-left text-[16px] font-medium text-[#8C9199] uppercase tracking-wider"> S.No.</th>
+                                            <th scope="col" className="px-6 font-[Poppins] font-[600] py-3 text-left text-[16px] font-medium text-[#8C9199] uppercase tracking-wider"> NAME</th>
+                                            <th scope="col" className="px-6 font-[Poppins] font-[600] py-3 text-left text-[16px] font-medium text-[#8C9199] uppercase tracking-wider">EMAIL</th>
+                                            <th scope="col" className="px-6 font-[Poppins] font-[600] py-3 text-left text-[16px] font-medium text-[#8C9199] uppercase tracking-wider">PHONE</th>
+                                            <th scope="col" className="px-6 font-[Poppins] font-[600] py-3 text-left text-[16px] font-medium text-[#8C9199] uppercase tracking-wider">Total coupons</th>
+                                            <th scope="col" className="px-6 font-[Poppins] font-[600] py-3 text-left text-[16px] font-medium text-[#8C9199] uppercase tracking-wider">Status</th>
+                                            <th scope="col" className="px-6 font-[Poppins] font-[600] py-3 text-left text-[16px] font-medium text-[#8C9199] uppercase tracking-wider">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
@@ -110,23 +114,27 @@ function CustomerList() {
                                                     className={`${isDeleted ? "bg-gray-200 opacity-60 pointer-events-none" : "bg-white"}`}
 
                                                 >
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                        <div className="flex items-center space-x-3">
-                                                            {/* <img className="h-10 w-10 rounded-full" src={member.profilePic} alt="" /> */}
-                                                            <span>{member.name}</span>
-                                                        </div>
+                                                    <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D]">{index + 1}</td>
+                                                    <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm  text-gray-900">
+                                                        {member.name}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{member.email}</td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{member.phone}</td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">{member.merchantsAdded}</td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-[#46494D]">
-                                                        <button
-                                                            onClick={() => handleDeletestatus(member._id)}
-                                                            className="bg-red-600 text-white px-3 py-2 rounded-lg flex items-center hover:bg-red-700 transition duration-150"
+
+                                                    <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D]">{member.email}</td>
+                                                    <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D]">{member.phone}</td>
+                                                    <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D]">{member.merchantsAdded || 1}</td>
+                                                    <td className="font-[Poppins] uppercase  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                                                        <span
+                                                            onClick={() =>
+                                                                handlestatus(member._id, member.status)
+                                                            }
+                                                            className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full cursor-pointer font-[Poppins] ${getStatusClasses(
+                                                                member.status
+                                                            )}`}
                                                         >
-                                                            <MdDelete size={20} />
-                                                        </button>
+                                                            {member.status}
+                                                        </span>
                                                     </td>
+                                                    <Delete member={member} fetchCustomerList={fetchCustomerList} />
                                                 </tr>
                                             )
                                         })}

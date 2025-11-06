@@ -1,18 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HeaderAdmin from "../../common/HeaderAdmin";
 import StudentChangePassword from "./studentChangePassword";
 import Profileupdate from "./Profileupdate";
 import AuthLayout from "../../component/AuthLayout";
+import Listing from "../../Apis/Listing";
 
 function Setting() {
     const [activeTab, setActiveTab] = useState("profile");
+  const [listing, setListing] = useState("");
+
+
+      const fetchData = async (signal) => {
+        try {
+          const main = new Listing();
+          const response = await main.profileVerify({ signal });
+          setListing(response?.data?.data)
+        } catch (error) {
+          localStorage && localStorage.removeItem("token");
+          // toast.error("Please log in first.");
+        }
+      }
+    
+      useEffect(() => {
+        fetchData();
+      }, []);
+    
 
     return (
 
         <AuthLayout>
             <div className="w-full">
                 <HeaderAdmin title={"Admin Settings"} />
-                <div className="px-4 py-2 lg:px-10 lg:py-2.5">
+                <div className="px-4 py-2 lg:px-4 lg:py-2.5">
                     <div className="bg-white rounded-[20px] p-5 shadow-md">
 
                         {/* Tabs */}
@@ -39,11 +58,11 @@ function Setting() {
 
                         {/* Tab Content */}
                         {activeTab === "profile" && (
-                            <Profileupdate />
+                            <Profileupdate  listing={listing} setListing={setListing} fetchData={fetchData}/>
                         )}
 
                         {activeTab === "password" && (
-                            <StudentChangePassword />
+                            <StudentChangePassword listing={listing}/>
                         )}
                     </div>
                 </div>

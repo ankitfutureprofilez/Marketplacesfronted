@@ -1,20 +1,17 @@
-import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Toaster, toast } from "react-hot-toast";
-import image from "../../img/login.png";
-import Login_page from "../../img/login-page.png";
-
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import logo from "../../img/login.png";
+import loginbanner from "../../img/login-page.png";
 import Listing from "../../Apis/Listing";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 
 function Login() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,122 +21,118 @@ function Login() {
     }));
   };
 
-  const navigate = useNavigate();
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const main = new Listing();
-    const response = main.adminlogin({
-      email: formData?.email,
-      password: formData.password,
-      role: "admin",
-    });
-    response
-      .then((res) => {
-        if (res && res?.data && res?.data?.status) {
-          toast.success(res.data.message);
-          localStorage && localStorage.setItem("token", res?.data?.data?.token);
-          setLoading(false);
-        } else {
-          toast.error(res.data.message);
-          setLoading(false);
-        }
-        setFormData({
-          email: "",
-          password: "",
-        });
-        setLoading(false);
-    navigate("/dashboard")
 
-      })
-      .catch((error) => {
-        toast.error(error?.response?.data?.message);
-        console.log("error", error);
-        setLoading(false);
+    const main = new Listing();
+    try {
+      const res = await main.adminlogin({
+        email: formData.email,
+        password: formData.password,
+        role: "admin",
       });
+
+      if (res?.data?.status) {
+        toast.success(res.data.message);
+        localStorage.setItem("token", res.data.data.token);
+        navigate("/access-admin");
+      } else {
+        toast.error(res.data.message || "Login failed");
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong!");
+      console.log("Login error:", error);
+    } finally {
+      setLoading(false);
+      setFormData({ email: "", password: "" });
+    }
   };
 
   return (
-    <>
-      <div className="flex h-screen">
-        <div className="hidden md:flex md:w-1/2 items-center justify-center ">
+    <div className="bg-white min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-6xl flex flex-col-reverse lg:flex-row items-center justify-center bg-white overflow-hidden">
+        {/* Left Image Section */}
+        <div className="w-full lg:w-1/2">
           <img
-            src={image}
-            alt="Market Places Illustration"
-            className="object-cover rounded-lg"
+            src={logo}
+            alt="Login Illustration"
+            className="w-full h-64 sm:h-80 md:h-[500px] lg:h-full object-cover"
           />
         </div>
 
-        <div className="flex flex-col justify-center w-full md:w-1/2 py-8 px-6 md:px-12 lg:px-[76px] bg-white">
-            <img
-              src={Login_page}
-              alt="Market Places Illustration"
-              className="object-cover w-[300px] md:w-[450px] h-[85px] rounded-lg object-center mb-[25px]"
-            />
-          <h2 className="text-[25px] lg:text-[30px] tracking-[-0.03em] text-left font-semibold text-[#262626] font-poppins mb-[50px] md:mb-[90px] lg:mb-[100px]  ">Login to Your Account</h2>
-          <form onSubmit={handleSubmit} className="">
-            <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-sm lg:text-base font-[500] font-poppins text-[#7A7A7A] tracking-[-0.06em] mb-2"
-              >
-                Your Email
-              </label>
+        {/* Right Form Section */}
+        <div className="w-full lg:w-1/2 p-6 sm:p-10 flex flex-col items-center text-center">
+          <img
+            src={loginbanner}
+            alt="Logo"
+            className="w-24 sm:w-28 md:w-32 mb-6"
+          />
+
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-900 mb-2">
+            Login to your account
+          </h2>
+          <p className="text-gray-500 mb-6 text-sm sm:text-base">
+            Welcome back! Please enter your details.
+          </p>
+
+          <form onSubmit={handleSubmit} className="w-full max-w-md space-y-5">
+            {/* Email Input */}
+            <div>
               <input
                 type="email"
-                id="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="block w-full h-12 lg:h-[65px] px-3 py-3 !bg-white text-[#727272] border border-[#0000001A] rounded-lg lg:rounded-[15px] sm:text-sm"
+                placeholder="Enter your email"
+                className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 outline-none"
                 required
               />
             </div>
-            <div className="mb-5">
-              <label
-                htmlFor="password"
-                className="block text-sm lg:text-base font-[500] font-poppins text-[#7A7A7A] tracking-[-0.06em] mb-2"
+
+            {/* Password Input */}
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter your password"
+                className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 outline-none"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute top-1/2 right-5 transform -translate-y-1/2 text-gray-600 hover:text-gray-800"
               >
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  type={showNewPassword ? "text" : "password"}
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="block w-full h-12 lg:h-[65px] px-3 py-3 !bg-white text-[#727272] border border-[#0000001A] rounded-lg lg:rounded-[15px] sm:text-sm"
-                  required
-                />
-
-                <button
-                  type="button"
-                  onClick={() => setShowNewPassword(!showNewPassword)}
-                  className="absolute top-6 right-5"
-                >
-                  {showNewPassword ? (
-                    <IoEyeOff size={24} className="text-gray-600" />
-                  ) : (
-                    <IoEye size={24} className="text-gray-600" />
-                  )}
-                </button>
-              </div>
-
+                {showPassword ? (
+                  <IoEyeOff size={22} />
+                ) : (
+                  <IoEye size={22} />
+                )}
+              </button>
             </div>
-            {/* <div className="mb-4 text-right">
-            <ForgetPassword />
-          </div> */}
+
+            {/* Submit Button */}
             <button
               type="submit"
-              className="w-full py-3.5 px-4 bg-[#004AAD] text-white font-medium rounded-full"
+              disabled={loading}
+              className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition disabled:opacity-50"
             >
-              {loading ? "Signing In..." : "Login"}
+              {loading ? "Signing in..." : "Login"}
             </button>
           </form>
+
+          {/* Optional Forgot Password */}
+          {/* <div className="mt-4 text-sm text-gray-500">
+            <a href="/forget-password" className="text-blue-600 hover:underline">
+              Forgot your password?
+            </a>
+          </div> */}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

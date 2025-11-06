@@ -22,16 +22,16 @@ function App() {
         reverseOrder={false} />
       <Routes>
         {/* Admin Chnagement */}
+          <Route path="/access-admin/login" element={<Login />} />
         <Route path="/" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/vendor" element={<List />} />
-        <Route path="/sales" element={<SalesView />} />
-        <Route path="/customer" element={<CustomerList />} />
-        <Route path="/settings" element={<Setting />} />
-        <Route path="/vendor/:id" element={<Details />} />
-        <Route path="/vendor/add" element={<AddVendor />} />
-        <Route path="/vendor/add/:id" element={<AddVendor />} />
-
+        <Route path="/access-admin" element={<Dashboard />} />
+        <Route path="/access-admin/vendor" element={<List />} />
+        <Route path="/access-admin/sales" element={<SalesView />} />
+        <Route path="/access-admin/user" element={<CustomerList />} />
+        <Route path="/access-admin/setting" element={<Setting />} />
+        <Route path="/access-admin/vendor/:id" element={<Details />} />
+        <Route path="/access-admin/vendor/add" element={<AddVendor />} />
+        <Route path="/access-admin/vendor/add/:id" element={<AddVendor />} />
         <Route path="/payment-ra" element={<PaymentPage />} />
         <Route path="/cal-ra" element={<CalendlyWidget />} />
 

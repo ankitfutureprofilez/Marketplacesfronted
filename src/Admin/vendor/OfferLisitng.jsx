@@ -2,8 +2,7 @@ import DateFormate from "../../component/DateFormate";
 
 export default function OfferListing({ Offer }) {
     return (
-        <div className="bg-white p-6 rounded-lg shadow overflow-x-auto mt-3">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">Offer Listing</h2>
+        <div className="bg-white     rounded-lg  overflow-x-auto mt-3">
             <table className="min-w-full divide-y divide-gray-200">
                 <thead>
                     <tr className="text-xs font-medium tracking-wider text-gray-500 uppercase bg-gray-50">

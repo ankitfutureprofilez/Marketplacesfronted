@@ -10,6 +10,14 @@ class Listing extends Component {
         return Api.get("/admin/profile-token")
     }
 
+     async ProfileUpdate(data) {
+        return Api.post("/admin/edit", data)
+    }
+
+    async resetpassword(data){
+        return  Api.post("/admin/reset/password" , data)
+    }
+
     async salephoneverify(data) {
         return Api.post("/user/send-otp", data)
     }
@@ -21,9 +29,8 @@ class Listing extends Component {
     async JobOpening(data) {
         return Api.post("/job-add", data)
     }
-
-    async showsales() {
-        return Api.get("/admin/sales_list",)
+    async showsales(data) {
+        return Api.get(`/admin/sales_list?search=${data}`,)
     }
     async customer(data) {
         return Api.get(`/admin/user_list?search=${data}`,)
@@ -43,9 +50,6 @@ class Listing extends Component {
       async AdminDeleteSales(id) {
         return Api.post(`/admin/sales/delete/${id}`)
     }
-
-
-    
 
     async Vendorget(data , status , categroy ) {
         return Api.get(`/admin/vendor_list?search=${data}&status=${status}&category=${categroy}`,)
