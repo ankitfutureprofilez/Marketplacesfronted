@@ -13,6 +13,8 @@ import PaymentPage from "./Payment";
 import Payment from "./Admin/payment/Payment";
 import CalendlyWidget from "./CalendlyWidget";
 import "./App.css"
+import TermsConditions from "./common/TermsConditions";
+import PrivacyPolicy from "./common/PrivacyPolicy";
 
 function App() {
   return (
@@ -32,6 +34,10 @@ function App() {
         <Route path="/access-admin/vendor/:id" element={<Details />} />
         <Route path="/access-admin/vendor/add" element={<AddVendor />} />
         <Route path="/access-admin/vendor/add/:id" element={<AddVendor />} />
+        <Route path="/term" element={<TermsConditions />} />
+        <Route path="/policy" element={<PrivacyPolicy />} />
+
+
         <Route path="/payment-ra" element={<PaymentPage />} />
         <Route path="/cal-ra" element={<CalendlyWidget />} />
 
