@@ -5,7 +5,7 @@ function Nodata() {
             <h3>Nothing to see !!</h3>
         </div>
     </div>
-     );
+     ); 
 }
 
 export default Nodata;
