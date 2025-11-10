@@ -15,6 +15,7 @@ import CalendlyWidget from "./CalendlyWidget";
 import "./App.css"
 import TermsConditions from "./common/TermsConditions";
 import PrivacyPolicy from "./common/PrivacyPolicy";
+import Support from "./common/Support";
 
 function App() {
   return (
@@ -34,8 +35,9 @@ function App() {
         <Route path="/access-admin/vendor/:id" element={<Details />} />
         <Route path="/access-admin/vendor/add" element={<AddVendor />} />
         <Route path="/access-admin/vendor/add/:id" element={<AddVendor />} />
-        <Route path="/term" element={<TermsConditions />} />
-        <Route path="/policy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<TermsConditions />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/support" element={<Support />} />
 
 
         <Route path="/payment-ra" element={<PaymentPage />} />
