@@ -177,7 +177,7 @@ function CustomerList() {
                               {member?.name}
                             </td>
 
-                            <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] capitalize">
+                            <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D]">
                               {member?.email}
                             </td>
                             <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] capitalize">

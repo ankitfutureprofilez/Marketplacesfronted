@@ -13,10 +13,13 @@ export default function DeletePopup({
     try {
       const main = new Listing();
       const response = await main.AdminDeleteSales(id);
-      if (response) {
-        toast.success("person deleted successfully");
+      if (response?.data?.status) {
+        toast.success(response?.data?.message);
         onClose();
         fetchCustomerList();
+      }
+      else{
+        toast.error(response?.data?.message);
       }
     } catch (error) {
       console.error("Error deleting person:", error);
@@ -28,7 +31,7 @@ export default function DeletePopup({
     <Popup isOpen={isOpen} onClose={onClose} size={"max-w-[540px]"}>
       <h3 className="text-lg font-semibold text-gray-800 mb-3">
         {`Are you sure you want to 
-              ${member?.deleted_at ? "block" : "Unblock"} 
+              ${member?.deleted_at ? "Unblock" : "block"} 
               this account?`}
       </h3>
       <div className="flex justify-center gap-3">
