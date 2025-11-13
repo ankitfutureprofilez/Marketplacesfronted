@@ -24,27 +24,28 @@ const Delete = ({ member, fetchCustomerList }) => {
       toast.error("Delete failed!");
     }
   };
+  
   const closeModal = () => setShowConfirm(false);
-
-
 
   return (
     <>
       <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D]">
         <button
           onClick={() => setShowConfirm(true)}
-          className="bg-red-600 text-white px-3 py-2 rounded-lg flex items-center hover:bg-red-700 transition duration-150"
+          className="border border-red-500 text-red-500 px-4 py-1.5 rounded-md hover:bg-red-500 hover:text-white transition duration-200"
         >
-          <MdDelete size={20} />
+          Block
         </button>
       </td>
 
       {/* Confirmation Popup */}
       {showConfirm && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
           onClick={closeModal}
         >
-          <div className="bg-white rounded-xl shadow-xl p-6 w-[90%] max-w-sm text-center"
+          <div
+            className="bg-white rounded-xl shadow-xl p-6 w-[90%] max-w-sm text-center"
             onClick={(e) => e.stopPropagation()}
           >
             <h3 className="text-lg font-semibold text-gray-800 mb-3">

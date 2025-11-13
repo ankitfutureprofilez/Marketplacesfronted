@@ -36,7 +36,7 @@ function Login() {
       if (res?.data?.status) {
         toast.success(res.data.message);
         localStorage.setItem("token", res.data.data.token);
-        navigate("/access-admin");
+        navigate("/");
       } else {
         toast.error(res.data.message || "Login failed");
       }

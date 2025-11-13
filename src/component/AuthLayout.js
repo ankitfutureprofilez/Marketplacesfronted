@@ -24,8 +24,8 @@ export default function AdminLayout({ children }) {
       console.error("Fetch error:", error);
       if (error.response?.status === 401 || error.message === "No token found") {
         localStorage.removeItem("token");
-        toast.error("Session expired. Please log in again.");
-        navigate("/");
+        toast.error("Please log in again");
+        navigate("/login");
       }
     } finally {
       setLoading(false);

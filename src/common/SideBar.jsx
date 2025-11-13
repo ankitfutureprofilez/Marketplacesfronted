@@ -41,13 +41,13 @@ function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
                 <ul>
                     <li className="flex mb-[5px]">
                         <Link
-                            to="/access-admin"
+                            to=""
 
-                            className={`flex font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/access-admin") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
+                            className={`flex font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
                         >
                             <i
                                 onClick={handleLinkClick} // Toggle sidebar on click
-                                className={`pr-[10px] ${isActive("/access-admin") ? "text-blue-600" : "text-black"}`}>
+                                className={`pr-[10px] ${isActive("") ? "text-blue-600" : "text-black"}`}>
                                 <MdDashboard />
                             </i>
                             Dashboard
@@ -56,12 +56,12 @@ function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
 
                     <li className="flex mb-[5px]">
                         <Link
-                            to="/access-admin/user"
-                            className={`flex font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/access-admin/user") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
+                            to="/user"
+                            className={`flex font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/user") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
                         >
                             <i
                                 onClick={toggleSidebar}
-                                className={`pr-[10px] ${isActive("/access-admin/user") ? "text-blue-600" : "text-black"}`}>
+                                className={`pr-[10px] ${isActive("/user") ? "text-blue-600" : "text-black"}`}>
                                 <FaUser />
                             </i>
                             User Management
@@ -70,12 +70,12 @@ function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
 
                     <li className="flex mb-[5px]">
                         <Link
-                            to="/access-admin/sales"
-                            className={`flex font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/access-admin/sales") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
+                            to="/sales"
+                            className={`flex font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/sales") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
                         >
                             <i
                                 onClick={toggleSidebar}
-                                className={`pr-[10px] ${isActive("/access-admin/sales") ? "text-blue-600" : "text-black"}`} >
+                                className={`pr-[10px] ${isActive("/sales") ? "text-blue-600" : "text-black"}`} >
                                 <FaUserAlt />
                             </i>
                             Sales Management
@@ -84,12 +84,12 @@ function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
 
                     <li className="flex mb-[5px]">
                         <Link
-                            to="/access-admin/vendor"
-                            className={`flex  font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/access-admin/vendor") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
+                            to="/vendor"
+                            className={`flex  font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/vendor") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
                         >
                             <i
                                 onClick={toggleSidebar}
-                                className={`pr-[10px] ${isActive("/access-admin/vendor") ? "text-blue-600" : "text-black"}`}>
+                                className={`pr-[10px] ${isActive("/vendor") ? "text-blue-600" : "text-black"}`}>
                                 <FaUser />
                             </i>
                             Vendor Management
@@ -98,12 +98,12 @@ function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
 
                     <li className="flex mb-[5px]">
                         <Link
-                            to="/access-admin/setting"
-                            className={`flex  font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/access-admin/setting") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
+                            to="/setting"
+                            className={`flex  font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/setting") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
                         >
                             <i
                                 onClick={toggleSidebar}
-                                className={`pr-[10px] ${isActive("/access-admin/setting") ? "text-blue-600" : "text-black"}`}>
+                                className={`pr-[10px] ${isActive("/setting") ? "text-blue-600" : "text-black"}`}>
                                 <MdSettings />
                             </i>
                             Settings
