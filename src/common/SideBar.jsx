@@ -8,6 +8,7 @@ import { FaListAlt } from "react-icons/fa";
 import { IoCloseSharp, IoLogOutSharp } from "react-icons/io5";
 import { MdEvent } from "react-icons/md";
 import { MdContacts } from "react-icons/md";
+import toast from "react-hot-toast";
 
 function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
     const location = useLocation();
@@ -18,9 +19,11 @@ function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
         }
     };
     const navigate = useNavigate();
+
     const handleLogout = () => {
         localStorage && localStorage.removeItem('AdminToken');
-        navigate('/');
+        toast.success("Logout Successful");
+        navigate('/login');
     };
     return (
         <div
@@ -111,12 +114,12 @@ function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
                     </li>
                 </ul>
                 <div className="absolute bottom-[40px] left-[35px]">
-                    <Link to="/" className="flex font-[Poppins] items-center text-[18px] text-black" onClick={handleLogout}>
+                    <button className="flex font-[Poppins] items-center text-[18px] text-black" onClick={handleLogout}>
                         <i onClick={toggleSidebar} className="text-red-600 pr-[8px]">
                             <IoLogOutSharp size={25} />
                         </i>
                         Log out
-                    </Link>
+                    </button>
                 </div>
             </div>
         </div>
