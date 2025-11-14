@@ -2,44 +2,56 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Listing from "../../Apis/Listing";
 
-const Profileupdate = ({fetchData ,listing ,  setListing}) => {
+const Profileupdate = ({ fetchData, listing, setListing }) => {
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [Regs, setRegs] = useState({
     name: "",
     email: "",
     phone: "",
-    profileImage: "",
+    avatar: "", // image file
+    role: "",
+    status: "",
     _id: "",
   });
   const [loading, setLoading] = useState(false);
 
   const handleInputs = (e) => {
     const { name, value } = e.target;
-    setRegs((prevState) => ({ ...prevState, [name]: value }));
+    setRegs((prev) => ({ ...prev, [name]: value }));
   };
 
-  // File Upload Handler (Preview only for now, you can integrate S3/Cloudinary)
   const handleFileInput = (e) => {
     const file = e.target.files[0];
     if (file) {
       const url = URL.createObjectURL(file);
       setUploadedImageUrl(url);
-      setRegs((prev) => ({ ...prev, profileImage: file }));
+      setRegs((prev) => ({ ...prev, avatar: file })); // avatar file
     }
   };
 
-  // Submit Form
   async function handleForms(e) {
     e.preventDefault();
     if (loading) return;
     setLoading(true);
 
     const main = new Listing();
+
     try {
-      let response;
-      if (Regs._id) {
-        response = await main.ProfileUpdate(Regs);
+      const formData = new FormData();
+      formData.append("_id", Regs._id);
+      formData.append("name", Regs.name);
+      formData.append("email", Regs.email);
+      formData.append("phone", Regs.phone);
+      formData.append("role", Regs.role || "");
+      formData.append("status", Regs.status || "");
+
+      // append avatar only if file uploaded
+      if (Regs.avatar && Regs.avatar instanceof File) {
+        formData.append("avatar", Regs.avatar);
       }
+
+      let response = await main.ProfileUpdate(formData);
+
       if (response?.data) {
         toast.success(response.data.message);
         fetchData();
@@ -54,40 +66,34 @@ const Profileupdate = ({fetchData ,listing ,  setListing}) => {
     }
   }
 
-  // Fetch Profile Data
-
   useEffect(() => {
-    setRegs((prevState) => ({
-      ...prevState,
+    setRegs({
       name: listing?.name || "",
       email: listing?.email || "",
       phone: listing?.phone || "",
-      profileImage: listing?.profileImage || "",
+      avatar: listing?.avatar || "",
+      role: listing?.role || "",
+      status: listing?.status || "",
       _id: listing?._id || "",
-    }));
-    setUploadedImageUrl(listing?.profileImage || "");
+    });
+
+    setUploadedImageUrl(listing?.avatar || "");
   }, [listing]);
 
   return (
-    <div className="w-full ">
-      {/* Heading */}
-      <div className="mb-6 ">
+    <div className="w-full">
+      <div className="mb-6">
         <h3 className="text-2xl font-semibold text-gray-800">Update Profile</h3>
-        <p className="text-gray-500 text-sm">
-          Manage your personal information
-        </p>
+        <p className="text-gray-500 text-sm">Manage your personal information</p>
       </div>
 
-      {/* Form */}
       <form onSubmit={handleForms} className="space-y-6">
-        {/* Profile Image Upload */}
+
+        {/* Profile Image */}
         <div className="flex flex-col items-left space-y-3">
           <div className="relative w-28 h-28">
             <img
-              src={
-                uploadedImageUrl ||
-                "https://via.placeholder.com/150?text=Profile"
-              }
+              src={uploadedImageUrl || "https://via.placeholder.com/150?text=Profile"}
               alt="Profile Preview"
               className="w-28 h-28 rounded-full object-cover border border-gray-300"
             />
@@ -106,69 +112,56 @@ const Profileupdate = ({fetchData ,listing ,  setListing}) => {
 
         {/* Name */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Full Name
-          </label>
+          <label className="block text-sm font-medium mb-1">Full Name</label>
           <input
             type="text"
-            value={Regs?.name}
+            value={Regs.name}
             onChange={handleInputs}
             name="name"
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg 
-                       focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-            placeholder="Enter your full name"
+            className="w-full px-4 py-2 border rounded-lg"
+            placeholder="Enter full name"
           />
         </div>
 
         {/* Email */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Email
-          </label>
+          <label className="block text-sm font-medium mb-1">Email</label>
           <input
             type="email"
-            value={Regs?.email}
+            value={Regs.email}
             onChange={handleInputs}
             name="email"
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg 
-                       focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-            placeholder="Enter your email"
+            className="w-full px-4 py-2 border rounded-lg"
+            placeholder="Enter email"
           />
         </div>
 
         {/* Phone */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Phone
-          </label>
+          <label className="block text-sm font-medium mb-1">Phone</label>
           <input
             type="tel"
-            value={Regs?.phone}
+            value={Regs.phone}
             onChange={handleInputs}
             name="phone"
-            pattern="[0-9]{10}"
             maxLength="10"
+            pattern="[0-9]{10}"
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg 
-                       focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-            placeholder="Enter 10 digit phone number"
+            className="w-full px-4 py-2 border rounded-lg"
+            placeholder="Enter phone number"
           />
         </div>
 
-        {/* Submit Button */}
-        <div className="pt-2">
-          <button
-            type="submit"
-            disabled={loading}
-            className=" bg-blue-600 text-white p-2.5 rounded-lg font-medium 
-                       hover:bg-blue-700 transition duration-200 
-                       disabled:opacity-60 disabled:cursor-not-allowed"
-          >
-            {loading ? "Updating..." : "Update Profile"}
-          </button>
-        </div>
+        <button
+          type="submit"
+          disabled={loading}
+          className="bg-blue-600 text-white py-2 px-4 rounded-lg disabled:opacity-60"
+        >
+          {loading ? "Updating..." : "Update Profile"}
+        </button>
+
       </form>
     </div>
   );

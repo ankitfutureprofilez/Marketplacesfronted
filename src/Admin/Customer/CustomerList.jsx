@@ -115,45 +115,45 @@ function CustomerList() {
                     <tr>
                       <th
                         scope="col"
-                        className="px-6 font-[Poppins] font-[600] py-3 text-left text-[16px] font-medium text-[#8C9199] uppercase tracking-wider"
+                        className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
                       >
                         {" "}
                         S.No.
                       </th>
                       <th
                         scope="col"
-                        className="px-6 font-[Poppins] font-[600] py-3 text-left text-[16px] font-medium text-[#8C9199] uppercase tracking-wider"
+                        className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
                       >
                         {" "}
                         NAME
                       </th>
                       <th
                         scope="col"
-                        className="px-6 font-[Poppins] font-[600] py-3 text-left text-[16px] font-medium text-[#8C9199] uppercase tracking-wider"
+                        className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
                       >
                         EMAIL
                       </th>
                       <th
                         scope="col"
-                        className="px-6 font-[Poppins] font-[600] py-3 text-left text-[16px] font-medium text-[#8C9199] uppercase tracking-wider"
+                        className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
                       >
                         PHONE
                       </th>
-                      {/* <th
-                        scope="col"
-                        className="px-6 font-[Poppins] font-[600] py-3 text-left text-[16px] font-medium text-[#8C9199] uppercase tracking-wider"
-                      >
-                        Total coupons
-                      </th> */}
                       <th
                         scope="col"
-                        className="px-6 font-[Poppins] font-[600] py-3 text-left text-[16px] font-medium text-[#8C9199] uppercase tracking-wider"
+                        className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
+                      >
+                        Total Purchases
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
                       >
                         Status
                       </th>
                       <th
                         scope="col"
-                        className="px-6 font-[Poppins] font-[600] py-3 text-left text-[16px] font-medium text-[#8C9199] uppercase tracking-wider"
+                        className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
                       >
                         Action
                       </th>
@@ -170,20 +170,23 @@ function CustomerList() {
                               isDeleted ? "opacity-50" : ""
                             }`}
                           >
-                            <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D]">
+                            <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] text-center">
                               {index + 1}
                             </td>
-                            <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm  text-gray-900 capitalize">
+                            <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm  text-gray-900 capitalize text-center">
                               {member?.name}
                             </td>
 
-                            <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D]">
+                            <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] text-center">
                               {member?.email}
                             </td>
-                            <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] capitalize">
+                            <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] capitalize text-center">
                               {member?.phone}
                             </td>
-                            <td className="font-[Poppins] uppercase text-black text-[16px] text-left px-[10px] py-[16px]">
+                            <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] capitalize text-center">
+                              {member?.purchases_count}
+                            </td>
+                            <td className="font-[Poppins] uppercase text-black text-[16px] px-[10px] py-[16px] text-center">
                               <span
                                 onClick={() =>
                                   handlestatus(member?._id, member?.status)
@@ -195,7 +198,7 @@ function CustomerList() {
                                 {member?.status}
                               </span>
                             </td>
-                            <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D]">
+                            <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] text-center">
                               <button
                                 onClick={() => {
                                   setIsOpen(true);

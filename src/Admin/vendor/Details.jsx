@@ -41,12 +41,6 @@ export default function Details() {
   const vendorRecord = record?.record || {};
   const userInfo = vendorRecord.user || {};
   const openingHours = vendorRecord.opening_hours || {};
-  const stats = {
-    coupon: record?.coupon || 0,
-    redeem: record?.redeem || 0,
-    purchased: record?.purchased || 0,
-    pending: record?.pending || 0,
-  };
   const offers = record?.offer || [];
 
   if (isLoading) {
@@ -79,6 +73,7 @@ export default function Details() {
     );
   }
 
+  // console.log("record", record);
   return (
     <AuthLayout>
       {/* <HeaderAdmin title={"Vendor Details"} back={1} /> */}
@@ -183,25 +178,25 @@ export default function Details() {
           {/* Stats/Metrics Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div className="p-4 rounded-xl shadow-lg text-white bg-gradient-to-br from-blue-600 to-blue-400">
-              <p className="text-sm opacity-80">TOTAL COUPONS</p>
-              <p className="text-4xl font-extrabold mt-1">{stats.coupon}</p>
+              <p className="text-sm opacity-80">Total Offers</p>
+              <p className="text-4xl font-extrabold mt-1">{record?.stats?.total_offers}</p>
             </div>
             <div className="p-4 rounded-xl shadow-lg text-gray-800 bg-white border border-gray-200">
-              <p className="text-sm font-medium text-gray-500">TOTAL REDEEM</p>
-              <p className="text-4xl font-extrabold mt-1">{stats.redeem}</p>
+              <p className="text-sm font-medium text-gray-500">Total Customers</p>
+              <p className="text-4xl font-extrabold mt-1">{record?.stats?.unique_customers}</p>
             </div>
             <div className="p-4 rounded-xl shadow-lg text-gray-800 bg-green-50 border border-green-200">
               <p className="text-sm font-medium text-green-700">
-                TOTAL PURCHASE
+                Total Redeemed
               </p>
               <p className="text-4xl font-extrabold text-green-600 mt-1">
-                {stats.purchased}
+                {record?.stats?.vendor_bill_true}
               </p>
             </div>
             <div className="p-4 rounded-xl shadow-lg text-gray-800 bg-yellow-50 border border-yellow-200">
-              <p className="text-sm font-medium text-yellow-700">PENDING</p>
+              <p className="text-sm font-medium text-yellow-700">Pending Offers</p>
               <p className="text-4xl font-extrabold text-yellow-600 mt-1">
-                {stats.pending}
+                {record?.stats?.vendor_bill_false}
               </p>
             </div>
           </div>

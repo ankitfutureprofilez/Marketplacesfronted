@@ -3,7 +3,7 @@ import { FaTrashAlt } from "react-icons/fa";
 import { MdOutlineImage } from "react-icons/md";
 
 const BusinessImageGallery = ({ images = [], onDelete }) => {
-  console.log("images" ,images)
+  // console.log("images", images);
   if (!images?.length) {
     return (
       <div className="flex flex-col items-center justify-center py-8 border border-dashed border-gray-300 rounded-xl bg-gray-50">
@@ -16,35 +16,32 @@ const BusinessImageGallery = ({ images = [], onDelete }) => {
   return (
     <div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        {images.map((img, i) => (
-          <div
-            key={i}
-            className="relative group rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white hover:shadow-md transition-all duration-200"
-          >
-            <img
-              src={img.url}
-              alt={img.filename}
-              className="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105"
-            />
+        {images &&
+          images?.map((img, i) => (
+            <div
+              key={i}
+              className="relative group rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white hover:shadow-md transition-all duration-200"
+            >
+              <img
+                src={img}
+                alt={"Gallery Image"}
+                className="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105"
+              />
 
-            {/* Hover Overlay */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-              {onDelete && (
-                <button
-                  onClick={() => onDelete(i)}
-                  className="p-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition"
-                  title="Remove image"
-                >
-                  <FaTrashAlt size={14} />
-                </button>
-              )}
+              {/* Hover Overlay */}
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                {onDelete && (
+                  <button
+                    onClick={() => onDelete(i)}
+                    className="p-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition"
+                    title="Remove image"
+                  >
+                    <FaTrashAlt size={14} />
+                  </button>
+                )}
+              </div>
             </div>
-
-            <div className="absolute bottom-0 bg-black/50 text-white text-xs px-2 py-1 w-full text-center truncate">
-              {img.filename}
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

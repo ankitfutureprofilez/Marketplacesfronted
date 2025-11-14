@@ -44,13 +44,13 @@ function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
                 <ul>
                     <li className="flex mb-[5px]">
                         <Link
-                            to=""
+                            to="/"
 
-                            className={`flex font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
+                            className={`flex font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
                         >
                             <i
                                 onClick={handleLinkClick} // Toggle sidebar on click
-                                className={`pr-[10px] ${isActive("") ? "text-blue-600" : "text-black"}`}>
+                                className={`pr-[10px] ${isActive("/") ? "text-blue-600" : "text-black"}`}>
                                 <MdDashboard />
                             </i>
                             Dashboard

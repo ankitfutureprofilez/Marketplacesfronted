@@ -19,7 +19,7 @@ export default function OfferListing({ Offer }) {
                 </thead>
 
                 <tbody className="divide-y divide-gray-200">
-                    {Offer?.map((item, index) => {
+                    {Offer && Offer?.map((item, index) => {
                         const record = item?.type === 'flat' ? item?.flat : item?.percentage;
                         return (
                             <tr key={item?.createdAt || index} className="text-sm">
@@ -27,8 +27,8 @@ export default function OfferListing({ Offer }) {
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     {record?.offer_image ? (
                                         <img
-                                            src={record.offer_image}
-                                            alt={record.title}
+                                            src={record?.offer_image}
+                                            alt={record?.title}
                                             className="w-16 h-16 object-cover rounded"
                                         />
                                     ) : (
@@ -37,7 +37,7 @@ export default function OfferListing({ Offer }) {
                                 </td>
 
                                 {/* Title */}
-                                <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
+                                <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900 capitalize">
                                     {record?.title || 'No Title'}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
@@ -47,6 +47,9 @@ export default function OfferListing({ Offer }) {
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     {item?.type === 'flat' ? 'Flat' : 'Percentage'}
                                 </td>
+
+
+                                
 
                                 {/* Min Bill Amount */}
                                 <td className="px-6 py-4 whitespace-nowrap">
