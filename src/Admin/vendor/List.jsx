@@ -6,28 +6,28 @@ import HeaderAdmin from "../../common/HeaderAdmin";
 import AuthLayout from "../../component/AuthLayout";
 import { IoMdEye } from "react-icons/io";
 import { Link } from "react-router-dom";
-import Delete from "./Delete";
 import { MdEdit } from "react-icons/md";
 import AssignStaff from "./AssignStaff";
+import DeleteVendor from "./DeleteVendor";
+import { MdBlock } from "react-icons/md";
+import { CgUnblock } from "react-icons/cg";
 
 function List() {
   const [team, setTeams] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  // Filters
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("All Status");
   const [categoryFilter, setCategoryFilter] = useState("");
-
   const [categories, setCategories] = useState([]);
   const timerRef = useRef(null);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const closePopup = () => setIsOpen(false);
+
+  const [selected, setSelected] = useState(null);
+
   // ✅ Fetch Vendor List
-  const fetchTeamList = async (
-    search = "",
-    status = "",
-    category = ""
-  ) => {
+  const fetchTeamList = async (search = "", status = "", category = "") => {
     try {
       setLoading(true);
       const main = new Listing();
@@ -48,7 +48,11 @@ function List() {
     if (timerRef.current) clearTimeout(timerRef.current);
 
     timerRef.current = setTimeout(() => {
-      fetchTeamList(val, statusFilter === "All Status" ? "" : statusFilter, categoryFilter);
+      fetchTeamList(
+        val,
+        statusFilter === "All Status" ? "" : statusFilter,
+        categoryFilter
+      );
     }, 600);
   };
 
@@ -63,7 +67,11 @@ function List() {
   const handleCategoryChange = (e) => {
     const val = e.target.value;
     setCategoryFilter(val);
-    fetchTeamList(searchQuery, statusFilter === "All Status" ? "" : statusFilter, val);
+    fetchTeamList(
+      searchQuery,
+      statusFilter === "All Status" ? "" : statusFilter,
+      val
+    );
   };
 
   // ✅ Status Label Classes
@@ -113,8 +121,8 @@ function List() {
     try {
       setLoadingStaff(true);
       const main = new Listing();
-      const response = await main.showsales();
-      setStaffList(response?.data?.data?.userData || []);
+      const response = await main.getsales();
+      setStaffList(response?.data?.data || []);
     } catch (error) {
       console.error("Error fetching staff list:", error);
     } finally {
@@ -127,17 +135,18 @@ function List() {
     fetchSalesList();
   }, []);
 
-
   return (
     <AuthLayout>
       <div className="w-full">
         <HeaderAdmin title="Vendor Listing" />
 
         <div className="px-4 py-2 lg:px-4 lg:py-2.5">
-       <div className="bg-white rounded-[20px] mb-[10px] p-2">
+          <div className="bg-white rounded-[20px] mb-[10px] p-2">
             {/* 🔹 Header + Filters */}
             <div className="px-4 py-4 flex flex-wrap justify-between items-center border-b border-black  border-opacity-10">
-              <h2 className=" text-[16px] lg:text-[18px] font-bold font-[Poppins] font-[400] text-[#1E1E1E] m-0 tracking-[-0.03em]">Vendor Team Listing</h2>
+              <h2 className=" text-[16px] lg:text-[18px] font-bold font-[Poppins] font-[400] text-[#1E1E1E] m-0 tracking-[-0.03em]">
+                Vendor Team Listing
+              </h2>
 
               <div className="flex flex-col md:flex-row items-center w-full md:w-auto space-y-4 md:space-y-0 md:space-x-4">
                 {/* Search */}
@@ -156,7 +165,12 @@ function List() {
                     viewBox="0 0 24 24"
                     stroke="currentColor"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
                   </svg>
                 </div>
 
@@ -187,10 +201,15 @@ function List() {
 
                 {/* Add Vendor */}
                 <Link
-                  to="/access-admin/vendor/add"
+                  to="/vendor/add"
                   className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 focus:ring-2 focus:ring-blue-500"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
                     <path
                       fillRule="evenodd"
                       d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
@@ -232,58 +251,100 @@ function List() {
                   </thead>
 
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {team.map((vendor, index) => {
-                      const isDeleted = !!vendor.delete_At;
-                      return (
-                        <tr
-                          key={vendor._id}
-                          className={`${isDeleted ? "bg-gray-200 opacity-60 pointer-events-none" : "bg-white"}`}
-                        >
-                         <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">{index + 1}</td>
-                         <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">{vendor.business_name}</td>
-                         <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">{vendor?.user?.name}</td>
-                         <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">{vendor.user?.phone}</td>
-                         <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">{vendor.category?.name}</td>
-                         <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">{vendor.subcategory?.name}</td>
-                         <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">{vendor.city}</td>
-                         <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
-                            <AssignStaff
-                              id={vendor._id}
-                              fetchTeamList={fetchTeamList}
-                              assign_staff={vendor?.assign_staff}
-                              staffList={staffList}
-                              loadingStaff={loadingStaff}
-                            />
-                          </td>
-                         <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
-                            <span
-                              className={`px-2 py-1 inline-flex font-[Poppins] uppercase text-xs font-semibold rounded-full cursor-pointer ${isDeleted
-                                ? "bg-gray-400 text-white"
-                                : getStatusClasses(vendor?.Verify_status)
+                    {team &&
+                      team?.map((vendor, index) => {
+                        const isDeleted = !!vendor?.user?.deleted_at;
+                        return (
+                          <tr
+                            key={vendor._id}
+                            className={`bg-white ${
+                              isDeleted ? "opacity-50" : ""
+                            }`}
+                          >
+                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                              {index + 1}
+                            </td>
+                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                              {vendor.business_name}
+                            </td>
+                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                              {vendor?.user?.name}
+                            </td>
+                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                              {vendor.user?.phone}
+                            </td>
+                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                              {vendor.category?.name}
+                            </td>
+                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                              {vendor.subcategory?.name}
+                            </td>
+                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                              {vendor.city}
+                            </td>
+                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                              <AssignStaff
+                                id={vendor._id}
+                                fetchTeamList={fetchTeamList}
+                                assign_staff={vendor?.assign_staff}
+                                staffList={staffList}
+                                loadingStaff={loadingStaff}
+                              />
+                            </td>
+                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                              <span
+                                className={`px-2 py-1 inline-flex font-[Poppins] uppercase text-xs font-semibold rounded-full cursor-pointer ${
+                                  isDeleted
+                                    ? "bg-gray-400 text-white"
+                                    : getStatusClasses(vendor?.Verify_status)
                                 }`}
-                              onClick={() =>
-                                !isDeleted && handleStatusToggle(vendor._id, vendor?.Verify_status)
-                              }
-                            >
-                              {isDeleted ? "Deleted" : vendor?.Verify_status}
-                            </span>
-                          </td>
-                          <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
-                            {!isDeleted && (
+                                onClick={() =>
+                                  !isDeleted &&
+                                  handleStatusToggle(
+                                    vendor._id,
+                                    vendor?.Verify_status
+                                  )
+                                }
+                              >
+                                {isDeleted ? "Deleted" : vendor?.Verify_status}
+                              </span>
+                            </td>
+                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
                               <div className="flex gap-1">
-                                <Link to={`/access-admin/vendor/${vendor?._id}`}>
-                                  <IoMdEye size={22} className="text-blue-600 hover:text-blue-900" />
+                                <Link to={`/vendor/${vendor?._id}`} title="View">
+                                  <IoMdEye
+                                    size={22}
+                                    className="text-blue-600 hover:text-blue-900"
+                                  />
                                 </Link>
-                                <Link to={`/access-admin/vendor/add/${vendor._id}`}>
+                                {/* <Link to={`/vendor/add/${vendor._id}`}>
                                   <MdEdit size={22} className="text-green-600 hover:text-green-900" />
-                                </Link>
-                                <Delete Id={vendor._id} step={1} fetchTeamList={fetchTeamList} />
+                                  </Link> */}
+                                {/* <Delete Id={vendor._id} step={1} fetchTeamList={fetchTeamList} /> */}
+                                <button
+                                  onClick={() => {
+                                    setSelected(vendor);
+                                    setIsOpen(true);
+                                  }}
+                                  title="Block"
+                                >
+                                  {isDeleted ? 
+                                  <CgUnblock
+                                    size={24}
+                                    className="text-red-600 hover:text-red-700"
+                                  />
+                                  :
+                                  <MdBlock
+                                    size={24}
+                                    className="text-red-600 hover:text-red-700"
+                                  />
+                                  }
+                                </button>
                               </div>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
+                            </td>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                 </table>
               )}
@@ -291,6 +352,12 @@ function List() {
           </div>
         </div>
       </div>
+      <DeleteVendor
+        isOpen={isOpen}
+        onClose={closePopup}
+        member={selected}
+        fetchTeamList={fetchTeamList}
+      />
     </AuthLayout>
   );
 }

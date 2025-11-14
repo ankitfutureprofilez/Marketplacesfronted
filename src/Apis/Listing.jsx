@@ -29,9 +29,15 @@ class Listing extends Component {
     async JobOpening(data) {
         return Api.post("/job-add", data)
     }
+
     async showsales(data) {
         return Api.get(`/admin/sales_list?search=${data}`,)
     }
+
+    async getsales() {
+        return Api.get(`/admin/sales-get`);
+    }
+
     async customer(data) {
         return Api.get(`/admin/user_list?search=${data}`,)
     }
@@ -84,9 +90,6 @@ class Listing extends Component {
         return Api.get(`/admin/subcatgroy/${id}`)
     }
 
-     async VendorDelete(id) {
-        return Api.get(`/admin/vendor/delete/${id}`)
-    }
     render() {
         return (
             <div>

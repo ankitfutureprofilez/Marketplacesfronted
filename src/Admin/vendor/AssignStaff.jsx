@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 export default function AssignStaff({ id, fetchTeamList, assign_staff, staffList = [], loadingStaff }) {
   const [assigning, setAssigning] = useState(false);
 
+  console.log("staffList", staffList);
+
   const handleAssignStaff = async (staffId) => {
     if (!staffId) return;
     try {
@@ -30,7 +32,7 @@ export default function AssignStaff({ id, fetchTeamList, assign_staff, staffList
 
   if (assign_staff?._id) {
     return (
-      <div className="text-sm font-medium text-gray-800 text-center py-1">
+      <div className="text-sm font-medium text-gray-800 py-1">
         {assign_staff?.name || "—"}
       </div>
     );
@@ -41,8 +43,7 @@ export default function AssignStaff({ id, fetchTeamList, assign_staff, staffList
       disabled={loadingStaff || assigning}
       defaultValue=""
       onChange={(e) => handleAssignStaff(e.target.value)}
-      className="rounded-md border border-[#D9D9D9] text-sm text-center py-1 px-2 
-           focus:outline-none focus:ring-0 tracking-[-0.03em]"
+      className="rounded-md border border-[#D9D9D9] text-sm focus:outline-none focus:ring-0 tracking-[-0.03em] capitalize px-2 py-1"
     >
       <option value="">Select Staff</option>
       {staffList.map((s) => (

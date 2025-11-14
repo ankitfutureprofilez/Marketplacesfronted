@@ -147,7 +147,7 @@ const BusinessHoursAndHolidays = ({ setHours, hours, setExtraHoliday, extraHolid
   };
 
   return (
-    <div className="p-4 mb-24">
+    <div className="p-4">
       <h2 className="text-md font-medium text-gray-700 mb-4">Opening Hours</h2>
       <div className="space-y-2">
         {Object.keys(hours).map((day) => (
