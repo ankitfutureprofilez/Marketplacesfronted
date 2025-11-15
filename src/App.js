@@ -16,6 +16,7 @@ import "./App.css"
 import TermsConditions from "./common/TermsConditions";
 import PrivacyPolicy from "./common/PrivacyPolicy";
 import Support from "./common/Support";
+import Category from "./Admin/Categories/Category";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/vendor" element={<List />} />
         <Route path="/sales" element={<SalesView />} />
+        {/* <Route path="/category" element={<Category />} /> */}
         <Route path="/user" element={<CustomerList />} />
         <Route path="/setting" element={<Setting />} />
         <Route path="/vendor/:id" element={<Details />} />
@@ -39,7 +41,7 @@ function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/support" element={<Support />} />
         <Route path="/payment-ra" element={<PaymentPage />} />
-        <Route path="/cal-ra" element={<CalendlyWidget />} />
+        {/* <Route path="/cal-ra" element={<CalendlyWidget />} /> */}
       </Routes>
     </Router>
   );

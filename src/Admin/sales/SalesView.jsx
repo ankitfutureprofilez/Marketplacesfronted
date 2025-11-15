@@ -154,8 +154,8 @@ function SalesView() {
                       <th className=" font-[Poppins] text-[14px] text-[#8C9199] font-[600] uppercase text-left p-[10px] mb-[10px]">
                         PHONE
                       </th>
-                      <th className=" font-[Poppins] text-[14px] text-[#8C9199] font-[600] uppercase text-left p-[10px] mb-[10px]">
-                        MERCHANTS ADDED
+                      <th className=" font-[Poppins] text-[14px] text-[#8C9199] font-[600] uppercase p-[10px] mb-[10px] text-center">
+                        MERCHANTS Assigned
                       </th>
                       <th className=" font-[Poppins] text-[14px] text-[#8C9199] font-[600] uppercase text-left p-[10px] mb-[10px]">
                         STATUS
@@ -198,10 +198,9 @@ function SalesView() {
                             <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
                               {member?.phone}
                             </td>
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
-                              {member?.merchantsAdded}
+                            <td className="font-[Poppins] text-black text-[16px] px-[10px] py-[16px] text-center">
+                              {member?.assigned_vendors}
                             </td>
-
                             <td className="font-[Poppins] uppercase  text-black text-[16px] text-left px-[10px] py-[16px]">
                               <span
                                 onClick={() =>

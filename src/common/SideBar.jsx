@@ -101,6 +101,20 @@ function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
 
                     <li className="flex mb-[5px]">
                         <Link
+                            to="/category"
+                            className={`flex  font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/category") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
+                        >
+                            <i
+                                onClick={toggleSidebar}
+                                className={`pr-[10px] ${isActive("/category") ? "text-blue-600" : "text-black"}`}>
+                                <FaUser />
+                            </i>
+                            Categories
+                        </Link>
+                    </li>
+
+                    <li className="flex mb-[5px]">
+                        <Link
                             to="/setting"
                             className={`flex  font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/setting") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
                         >

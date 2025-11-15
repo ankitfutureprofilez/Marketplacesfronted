@@ -227,7 +227,7 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
                       : "bg-blue-100 text-blue-600 hover:bg-blue-200"
                   }`}
                 >
-                  {isPhoneVerified ? "Verified" : "Verify"}
+                  {isPhoneVerified ? "OTP Sent" : "Verify"}
                 </button>
               </div>
             </div>
