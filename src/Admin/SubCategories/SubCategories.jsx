@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import AuthLayout from "../../component/AuthLayout";
 import Listing from "../../Apis/Listing";
-import AddCategory from "./AddCategory";
+import AddCategory from "./AddSubCategory";
 import HeaderAdmin from "../../common/HeaderAdmin";
 import Delete from "./Delete";
-export default function Category() {
+export default function SubCategories() {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -15,14 +15,14 @@ export default function Category() {
     setIsOpen(false);
   }
 
- const closeDeletePopup = () => {
+  const closeDeletePopup = () => {
     setDeleteIsOpen(false);
   }
   const fetchData = async () => {
     try {
       //   setLoading(true);
       const main = new Listing();
-      const response = await main.category();
+      const response = await main.Subcategory();
       if (response?.data?.status) {
         console.log("response", response);
         setData(response?.data?.data || []);
@@ -45,19 +45,19 @@ export default function Category() {
   return (
     <AuthLayout>
       <div className="w-full">
-        <HeaderAdmin title={"Customer "} />
+        <HeaderAdmin title={"Sub Categories "} />
         <div className="px-4 py-2 lg:px-4 lg:py-2.5">
           <div className="bg-white rounded-[20px] mb-[10px] p-2">
             <div className="px-2 py-2 flex flex-wrap justify-between items-center border-b border-black  border-opacity-10">
               <h2 className=" text-base lg:text-lg font-bold font-[Poppins] font-[400] text-[#1E1E1E] m-0 tracking-[-0.03em]">
-                Category Listing
+                Sub Categories Listing
               </h2>
               <button className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-blue-700 transition duration-150"
                 onClick={() => {
                   setIsOpen(true);
                 }}
               >
-                Add Category
+                Add SubCategories 
               </button>
             </div>
             <div className="overflow-x-auto">
@@ -67,9 +67,11 @@ export default function Category() {
                     <th className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
                     >Sr. No.</th>
                     <th className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
-                    >Name</th>
+                    >Category Image</th>
                     <th className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
-                    >Image</th>
+                    >Category Name</th>
+                    <th className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
+                    >SUB Category Name</th>
                     <th className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
                     >Actions</th>
                   </tr>
@@ -78,15 +80,18 @@ export default function Category() {
                   {data && data?.map((item, index) => (
                     <tr key={item._id} className="border-b hover:bg-gray-50">
                       <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] text-center">{index + 1}</td>
-                      <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] text-center">{item.name}</td>
                       <td className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
                       >
                         <img
-                          src={item.image}
-                          alt={item.name}
+                          src={item?.category_id?.image}
+                          alt={item?.category_id?.name}
                           className="h-[50px] w-[50px] rounded-xl object-cover"
                         />
                       </td>
+                      <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] text-center">{item?.category_id?.name}</td>
+
+                      <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] text-center">{item.name}</td>
+
                       <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] text-center">
                         <div className="flex justify-center items-center gap-2">
                           <button

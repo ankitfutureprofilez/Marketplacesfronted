@@ -28,6 +28,9 @@ export default function DeletePopup({
     }
   };
 
+
+  
+
   return (
     <Popup isOpen={isOpen} onClose={onClose} size={"max-w-[540px]"}>
       <h3 className="text-lg font-semibold text-gray-800 mb-3">

@@ -17,6 +17,8 @@ import TermsConditions from "./common/TermsConditions";
 import PrivacyPolicy from "./common/PrivacyPolicy";
 import Support from "./common/Support";
 import Category from "./Admin/Categories/Category";
+import SubCategories from "./Admin/SubCategories/SubCategories";
+import SalesDetails from "./Admin/sales/SalesDetails";
 
 function App() {
   return (
@@ -31,7 +33,10 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/vendor" element={<List />} />
         <Route path="/sales" element={<SalesView />} />
-        {/* <Route path="/category" element={<Category />} /> */}
+        <Route path="/sales/:id" element={<SalesDetails />} />
+
+        <Route path="/category" element={<Category />} />
+        <Route path="/subcategory" element={<SubCategories />} />
         <Route path="/user" element={<CustomerList />} />
         <Route path="/setting" element={<Setting />} />
         <Route path="/vendor/:id" element={<Details />} />

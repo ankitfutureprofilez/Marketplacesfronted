@@ -10,12 +10,12 @@ class Listing extends Component {
         return Api.get("/admin/profile-token")
     }
 
-     async ProfileUpdate(data) {
+    async ProfileUpdate(data) {
         return Api.post("/admin/edit", data)
     }
 
-    async resetpassword(data){
-        return  Api.post("/admin/reset/password" , data)
+    async resetpassword(data) {
+        return Api.post("/admin/reset/password", data)
     }
 
     async salephoneverify(data) {
@@ -50,28 +50,28 @@ class Listing extends Component {
     }
 
     async AdminEditSales(id, data) {
-        return Api.post(`/admin/sales/edit/${id}`,data)
+        return Api.post(`/admin/sales/edit/${id}`, data)
     }
 
-      async AdminDeleteSales(id) {
+    async AdminDeleteSales(id) {
         return Api.post(`/admin/sales/delete/${id}`)
     }
 
-    async Vendorget(data , status , categroy ) {
+    async Vendorget(data, status, categroy) {
         return Api.get(`/admin/vendor_list?search=${data}&status=${status}&category=${categroy}`,)
     }
     async VendorAdds(data) {
         return Api.post("/admin/vendor-add", data)
     }
-  async VendorEdit(data) {
+    async VendorEdit(data) {
         return Api.post("/admin/vendor-edit", data)
     }
-    
-     async AdminDashbaord() {
+
+    async AdminDashbaord() {
         return Api.get("/admin/dashboard",)
     }
 
-     async assignStaff(data) {
+    async assignStaff(data) {
         return Api.post("/admin/assign-staff", data)
     }
 
@@ -82,14 +82,45 @@ class Listing extends Component {
     async vendor_details(id) {
         return Api.get(`/admin/vendor_details/${id}`,)
     }
-    async category() {
-        return Api.get("/vendor/categroy",)
-    }
-
     async subcategory(id) {
         return Api.get(`/admin/subcatgroy/${id}`)
     }
 
+    category() {
+        return Api.get("/category/all");
+    }
+
+    addCategory(body) {
+        return Api.post("/category/add", body);
+    }
+
+    updateCategory(id, body) {
+        return Api.post(`/category/update/${id}`, body);
+    }
+
+    deleteCategory(id) {
+        return Api.post(`/category/delete/${id}`);
+    }
+    Subcategory() {
+        return Api.get("/subcategory/all");
+    }
+
+
+    addSubCategory(body) {
+        return Api.post("/subcategory/add", body);
+    }
+
+     subdeleteCategory(id) {
+        return Api.post(`/subcategory/delete/${id}`);
+    }
+
+     updateSubCategory(id, body) {
+        return Api.post(`/subcategory/update/${id}`, body);
+    }
+
+    async sales_details(id) {
+        return Api.get(`/admin/sales_id/${id}`,)
+    }
     render() {
         return (
             <div>

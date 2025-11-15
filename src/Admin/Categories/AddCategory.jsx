@@ -1,92 +1,90 @@
-import { useEffect, useState } from "react";
-import defaultimage from "../../img/userdefault.webp";
+import React, { useState, useEffect } from "react";
 import Listing from "../../Apis/Listing";
 import toast from "react-hot-toast";
-import Popup from "../../common/Popup";
 
-const AddCategory = ({
-  isOpen,
-  onClose,
-  member,
-  fetchList,
-  isEdit = false,
-}) => {
+export default function AddCategory({ isOpen, onClose, member, isEdit, fecthSalesList }) {
+  const [name, setName] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+  const [preview, setPreview] = useState("");
   const [loading, setLoading] = useState(false);
-  const [previewImage, setPreviewImage] = useState(defaultimage);
 
-  const [formData, setFormData] = useState({
-    name: "",
-    image: null,
-  });
-
-  // Prefill edit mode
+  // Load data when editing
   useEffect(() => {
     if (member) {
-      setFormData({
-        name: member?.name || "",
-        image: member?.image || null,
-      });
-      setPreviewImage(member?.image || defaultimage);
+      setName(member?.name || "");
+      setPreview(member?.image || "");
     }
   }, [member]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  if (!isOpen) return null;
 
-  const handleImageChange = (e) => {
+  // Handle file selection
+  const handleFileChange = (e) => {
     const file = e.target.files[0];
+    setImageFile(file);
+
     if (file) {
-      setFormData((prev) => ({ ...prev, image: file }));
-      setPreviewImage(URL.createObjectURL(file));
+      setPreview(URL.createObjectURL(file));
     }
   };
 
-  // ADD
-  const handleAdd = async () => {
-    const main = new Listing();
+  // ADD Category API
+  const handleAddCategory = async () => {
+    const api = new Listing();
     const data = new FormData();
-    data.append("name", formData.name);
-    if (formData.image && formData.image instanceof File) {
-      data.append("image", formData.image);
+
+    data.append("name", name);
+
+    if (imageFile instanceof File) {
+      data.append("image", imageFile);
     }
 
-    const response = await main.CategoryAdd(data, {
+    const response = await api.addCategory(data, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-    if (response?.data?.message) toast.success(response.data.message);
+
+    if (response?.data?.status) {
+      toast.success("Category Added Successfully");
+    }
   };
 
-  // EDIT
-  const handleEdit = async () => {
-    const main = new Listing();
+  // EDIT Category API
+  const handleEditCategory = async () => {
+    const api = new Listing();
     const data = new FormData();
-    data.append("name", formData.name);
-    if (formData.image && formData.image instanceof File) {
-      data.append("image", formData.image);
+
+    data.append("name", name);
+
+    if (imageFile instanceof File) {
+      data.append("image", imageFile);
     }
 
-    const response = await main.CategoryEdit(member?._id, data, {
+    const response = await api.updateCategory(member?._id, data, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-    if (response?.data?.message) toast.success(response.data.message);
+
+    if (response?.data?.status) {
+      toast.success("Category Updated Successfully");
+    }
   };
 
+  // MAIN submit button handler
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      if (isEdit) await handleEdit();
-      else await handleAdd();
+      if (member) {
+        await handleEditCategory();
+      } else {
+        await handleAddCategory();
+      }
 
+      fecthSalesList();
       onClose();
-      fetchList();
-      setPreviewImage(defaultimage);
-      setFormData({ name: "", image: null });
+
     } catch (error) {
-      console.error("Submit error:", error);
+      console.error("Error submitting category:", error);
       toast.error("Something went wrong!");
     } finally {
       setLoading(false);
@@ -94,65 +92,57 @@ const AddCategory = ({
   };
 
   return (
-    <Popup isOpen={isOpen} onClose={onClose} size={"max-w-[400px]"}>
-      <h2 className="text-xl font-semibold text-gray-800 text-center mb-1">
-        {isEdit ? "Edit Category" : "Add Category"}
-      </h2>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50">
+      <div className="bg-white w-full max-w-md rounded-xl p-6 shadow-lg">
 
-      <form onSubmit={handleSubmit} className="space-y-5 mt-4">
-        {/* Image */}
-        <div className="flex flex-col items-center">
-          <div className="w-24 h-24 rounded-full overflow-hidden border shadow">
-            <img src={previewImage} className="w-full h-full object-cover" />
-          </div>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="mt-2 text-sm"
+        <h2 className="text-xl font-bold mb-4">
+          {member ? "Edit Category" : "Add Category"}
+        </h2>
+
+        {/* Category Name */}
+        <label className="block mb-2 text-sm font-medium">Category Name</label>
+        <input
+          type="text"
+          value={name}
+          placeholder="Enter category name"
+          onChange={(e) => setName(e.target.value)}
+          className="w-full border px-3 py-2 rounded-md mb-4"
+        />
+
+        {/* Image Upload */}
+        <label className="block mb-2 text-sm font-medium">Upload Image</label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          className="w-full border px-3 py-2 rounded-md mb-4"
+        />
+
+        {/* Image Preview */}
+        {preview && (
+          <img
+            src={preview}
+            alt="preview"
+            className="w-24 h-24 rounded-md object-cover mb-4"
           />
-          {previewImage !== defaultimage && (
-            <button
-              type="button"
-              onClick={() => {
-                setPreviewImage(defaultimage);
-                setFormData((prev) => ({ ...prev, image: null }));
-              }}
-              className="text-red-500 text-sm mt-1 hover:underline"
-            >
-              Remove
-            </button>
-          )}
-        </div>
+        )}
 
-        {/* Name */}
-        <div>
-          <label className="text-sm font-medium text-gray-700 mb-1 block">
-            Name
-          </label>
-          <input
-            name="name"
-            type="text"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter category name"
-          />
-        </div>
+        {/* Buttons */}
+        <div className="flex justify-end gap-4 mt-4">
+          <button className="px-4 py-2 bg-gray-300 rounded-lg" onClick={onClose}>
+            Cancel
+          </button>
 
-        <div className="flex justify-center">
           <button
-            type="submit"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+            onClick={handleSubmit}
             disabled={loading}
-            className="w-fit py-3 px-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400"
           >
-            {loading ? "Saving..." : isEdit ? "Update" : "Submit"}
+            {loading ? "Saving..." : member ? "Update" : "Add"}
           </button>
         </div>
-      </form>
-    </Popup>
-  );
-};
 
-export default AddCategory;
+      </div>
+    </div>
+  );
+}

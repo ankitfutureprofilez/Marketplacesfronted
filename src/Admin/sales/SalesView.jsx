@@ -7,6 +7,8 @@ import AuthLayout from "../../component/AuthLayout";
 import AddSales from "./AddSales";
 import DeletePopup from "../Customer/DeletePopup";
 import { HiOutlineUserAdd } from "react-icons/hi";
+import { Link } from "react-router-dom";
+import { IoMdEye } from "react-icons/io";
 
 function SalesView() {
   const [Sales, setSales] = useState([]);
@@ -118,17 +120,17 @@ function SalesView() {
                 </div>
                 {/* <AddSales fecthSalesList={fecthSalesList} /> */}
                 <div className="inline-block">
-      <button
-        onClick={() => {
-            setIsAddOpen(true);
-            setSelected(null);
-            }}
-        className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-blue-700 transition duration-150"
-      >        
-            <HiOutlineUserAdd className="w-5 h-5" />
-            <span>Add Salesperson</span>
-      </button>
-      </div>
+                  <button
+                    onClick={() => {
+                      setIsAddOpen(true);
+                      setSelected(null);
+                    }}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-blue-700 transition duration-150"
+                  >
+                    <HiOutlineUserAdd className="w-5 h-5" />
+                    <span>Add Salesperson</span>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -173,9 +175,8 @@ function SalesView() {
                         return (
                           <tr
                             key={member._id}
-                            className={`bg-white ${
-                              isDeleted ? "opacity-50" : ""
-                            }`}
+                            className={`bg-white ${isDeleted ? "opacity-50" : ""
+                              }`}
                           >
                             <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
                               {index + 1}
@@ -216,6 +217,12 @@ function SalesView() {
 
                             <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
                               <div className="flex gap-2">
+                                <Link to={`/sales/${member?._id}`} title="View">
+                                  <IoMdEye
+                                    size={22}
+                                    className="text-blue-600 hover:text-blue-900"
+                                  />
+                                </Link>
                                 <button
                                   onClick={() => {
                                     setIsAddOpen(true);
