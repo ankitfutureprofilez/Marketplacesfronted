@@ -78,7 +78,7 @@ export default function SubCategories() {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {data && data?.map((item, index) => (
-                    <tr key={item._id} className="border-b hover:bg-gray-50">
+                    <tr key={item._id} className={`border-b hover:bg-gray-50 ${item?.deleted_at ? "opacity-50" : ""}`}>
                       <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] text-center">{index + 1}</td>
                       {/* <td className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
                       >
