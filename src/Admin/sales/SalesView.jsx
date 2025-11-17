@@ -218,10 +218,19 @@ function SalesView() {
                             <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
                               <div className="flex gap-2">
                                 <Link to={`/sales/${member?._id}`} title="View">
-                                  <IoMdEye
+                                  {/* <IoMdEye
                                     size={22}
                                     className="text-blue-600 hover:text-blue-900"
-                                  />
+                                  /> */}
+                                  <button
+                                  // onClick={() => {
+                                  //   setIsAddOpen(true);
+                                  //   setSelected(member);
+                                  // }}
+                                  className="border border-red-500 text-red-500 px-4 py-1.5 rounded-md hover:bg-red-500 hover:text-white transition duration-200"
+                                >
+                                  View
+                                </button>
                                 </Link>
                                 <button
                                   onClick={() => {

@@ -66,8 +66,8 @@ export default function SubCategories() {
                   <tr>
                     <th className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
                     >Sr. No.</th>
-                    <th className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
-                    >Category Image</th>
+                    {/* <th className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
+                    >Category Image</th> */}
                     <th className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
                     >Category Name</th>
                     <th className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
@@ -80,14 +80,14 @@ export default function SubCategories() {
                   {data && data?.map((item, index) => (
                     <tr key={item._id} className="border-b hover:bg-gray-50">
                       <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] text-center">{index + 1}</td>
-                      <td className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
+                      {/* <td className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
                       >
                         <img
                           src={item?.category_id?.image}
                           alt={item?.category_id?.name}
                           className="h-[50px] w-[50px] rounded-xl object-cover"
                         />
-                      </td>
+                      </td> */}
                       <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] text-center">{item?.category_id?.name}</td>
 
                       <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] text-center">{item.name}</td>
