@@ -24,7 +24,7 @@ export default function Category() {
       const main = new Listing();
       const response = await main.category();
       if (response?.data?.status) {
-        console.log("response", response);
+        // console.log("response", response);
         setData(response?.data?.data || []);
       } else {
         setData([]);
@@ -76,14 +76,14 @@ export default function Category() {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {data && data?.map((item, index) => (
-                    <tr key={item._id} className="border-b hover:bg-gray-50">
+                    <tr key={item?._id} className="border-b hover:bg-gray-50">
                       <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] text-center">{index + 1}</td>
-                      <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] text-center">{item.name}</td>
-                      <td className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
+                      <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] text-center">{item?.name}</td>
+                      <td className="px-6 font-[Poppins] font-[400] py-3 text-[16px] text-[#8C9199] uppercase tracking-wider text-center flex justify-center items-center"
                       >
                         <img
-                          src={item.image}
-                          alt={item.name}
+                          src={item?.image}
+                          alt={item?.name}
                           className="h-[50px] w-[50px] rounded-xl object-cover"
                         />
                       </td>
