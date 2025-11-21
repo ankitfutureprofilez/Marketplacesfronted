@@ -310,7 +310,15 @@ const handleSubmit = async (e) => {
                   label="Phone Number"
                   id="phone"
                   value={formData.phone}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                  if (
+                    e.target.value.length <= 10 &&
+                    /^[0-9]*$/.test(e.target.value)
+                  ) {
+                    handleChange(e);
+                  }
+                 }}
+                 maxLength="10"
                   isRequired
                 />
                 <InputField
