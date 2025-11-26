@@ -20,7 +20,7 @@ function Dashboard() {
       setLoading(true);
       const main = new Listing();
       const response = await main.AdminDashbaord();
-      console.log("response", response?.data?.data);
+      // console.log("response", response?.data?.data);
       setTeams(response?.data?.data || []);
     } catch (error) {
       console.error("Error fetching team list:", error);

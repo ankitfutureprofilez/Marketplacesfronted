@@ -317,9 +317,9 @@ function List() {
                                     className="text-blue-600 hover:text-blue-900"
                                   />
                                 </Link>
-                                {/* <Link to={`/vendor/add/${vendor._id}`}>
+                                <Link to={`/vendor/add/${vendor._id}`}>
                                   <MdEdit size={22} className="text-green-600 hover:text-green-900" />
-                                  </Link> */}
+                                </Link>
                                 {/* <Delete Id={vendor._id} step={1} fetchTeamList={fetchTeamList} /> */}
                                 <button
                                   onClick={() => {

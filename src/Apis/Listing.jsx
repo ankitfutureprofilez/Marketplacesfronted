@@ -60,15 +60,19 @@ class Listing extends Component {
     async Vendorget(data, status, categroy) {
         return Api.get(`/admin/vendor_list?search=${data}&status=${status}&category=${categroy}`,)
     }
-    async VendorAdds(data) {
+    async AdminVendorAdd(data) {
         return Api.post("/admin/vendor-add", data)
     }
-    async VendorEdit(data) {
-        return Api.post("/admin/vendor-edit", data)
+    async VendorEdit(id, data) {
+        return Api.post(`/admin/vendor-edit/${id}`, data)
     }
 
     async AdminDashbaord() {
         return Api.get("/admin/dashboard",)
+    }
+
+    async PurchasedOfferGet() {
+        return Api.get("/admin/brought-offer",)
     }
 
     async assignStaff(data) {

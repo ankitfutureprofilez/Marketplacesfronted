@@ -31,8 +31,9 @@ function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
                 } z-[9] xl:left-[15px] transition-all duration-300`}
         >
             <div className="flex justify-between items-start mb-[40px]">
-                <div className=" ">
+                <div className="flex items-center gap-3">
                     <img src={logo} alt="Logo" className="max-w-[130px]" />
+                    <h2 className="font-bold text-xl">MarketPlace</h2>
                 </div>
 
                 <button onClick={toggleSidebar} className="text-black">
@@ -113,7 +114,7 @@ function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
                         </Link>
                     </li>
 
- <li className="flex mb-[5px]">
+                    <li className="flex mb-[5px]">
                         <Link
                             to="/subcategory"
                             className={`flex  font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/subcategory") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
@@ -124,6 +125,20 @@ function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
                                 <FaUser />
                             </i>
                           Sub Categories
+                        </Link>
+                    </li>
+
+                    <li className="flex mb-[5px]">
+                        <Link
+                            to="/purchase-history"
+                            className={`flex font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/purchase-history") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
+                        >
+                            <i
+                                onClick={toggleSidebar}
+                                className={`pr-[10px] ${isActive("/purchase-history") ? "text-blue-600" : "text-black"}`}>
+                                <FaUser />
+                            </i>
+                          Purchase History
                         </Link>
                     </li>
 

@@ -153,6 +153,7 @@ export default function AddVendor() {
       .vendor_details(id)
       .then((res) => {
         const records = res?.data?.data?.record;
+        console.log("records", records);
 
         setFormData({
           business_name: records?.business_name || "",
@@ -174,10 +175,11 @@ export default function AddVendor() {
           pan_card_image: records?.pan_card_image || "",
           gst_certificate: records?.gst_certificate || "",
           business_logo: records?.business_logo || "",
+          state: records?.state || "",
           _id: records?.user?._id || "",
         });
 
-        setExtraHoliday(formatDate(records?.weekly_off_day) || "09-09-2025");
+        setExtraHoliday(formatDate(records?.weekly_off_day) || "");
         setHours(records?.opening_hours || initialHours);
 
         if (records?.category?._id) fetchSubcategories(records.category._id);
@@ -192,9 +194,11 @@ export default function AddVendor() {
       const res = await main.subcategory(catId);
       setSubcategories(res.data.data);
     } catch (err) {
+      setSubcategories([]);
       console.log("Error fetching subcategories:", err);
     }
   };
+
   useEffect(() => {
     if (formData.category) fetchSubcategories(formData.category);
   }, [formData.category]);
@@ -210,9 +214,13 @@ export default function AddVendor() {
 
   // 🔹 Handle file input
   const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    const { name } = e.target;
+
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.files[0],
+      [name]: file,
+      [`${name}Preview`]: URL.createObjectURL(file) // preview url
     }));
   };
 
@@ -248,9 +256,13 @@ const handleSubmit = async (e) => {
     if (formData.business_logo instanceof File)
       fd.append("business_logo", formData.business_logo);
     const main = new Listing();
-    const res = await main.VendorAdds(fd);
-    toast.success(res.data.message);
-    navigate("/vendor");
+    const res = await main.AdminVendorAdd(fd);
+    if(res?.data?.status){
+      toast.success(res.data.message);
+      navigate("/vendor");
+    }else{
+      toast.error(res.data.message);
+    }
   } catch (err) {
     toast.error("Error adding vendor");
     console.error(err);
@@ -264,12 +276,43 @@ const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
+      const fd = new FormData();
+      fd.append("name", formData.name);
+      fd.append("email", formData.email);
+      fd.append("phone", formData.phone);
+      fd.append("address", formData.address);
+      fd.append("business_name", formData.business_name);
+      fd.append("business_register", formData.business_register);
+      fd.append("gst_number", formData.gst_number);
+      fd.append("city", formData.city);
+      fd.append("state", formData.state);
+      fd.append("area", formData.area);
+      fd.append("pincode", formData.pincode);
+      fd.append("lat", formData.lat);
+      fd.append("long", formData.long);
+      fd.append("categroy", formData.category);
+      fd.append("subcategory", formData.subcategory);
+      fd.append("opening_hours", JSON.stringify(hours));
+      if (formData.aadhaar_front instanceof File)
+        fd.append("aadhaar_front", formData.aadhaar_front);
+      if (formData.aadhaar_back instanceof File)
+        fd.append("aadhaar_back", formData.aadhaar_back);
+      if (formData.pan_card_image instanceof File)
+        fd.append("pan_card_image", formData.pan_card_image);
+      if (formData.gst_certificate instanceof File)
+        fd.append("gst_certificate", formData.gst_certificate);
+      if (formData.business_logo instanceof File)
+        fd.append("business_logo", formData.business_logo);
       const main = new Listing();
-      const res = await main.VendorEdit(formData);
-      toast.success(res.data.message);
-      navigate("/vendor");
+      const res = await main.VendorEdit(id, fd);
+      if(res?.data?.status){
+        toast.success(res.data.message);
+        navigate("/vendor");
+      }else{
+        toast.error(res.data.message);
+      }
     } catch (err) {
-      toast.error("Error updating vendor");
+      toast.error("Error adding vendor");
       console.error(err);
     } finally {
       setLoading(false);
@@ -415,7 +458,6 @@ const handleSubmit = async (e) => {
                   id="state"
                   value={formData.state}
                   onChange={handleChange}
-                  readOnly
                 />
                 <InputField
                   label="Latitude"
@@ -473,31 +515,31 @@ const handleSubmit = async (e) => {
                   label="Aadhaar Card (Front)"
                   id="aadhaar_front"
                   onChange={handleFileChange}
-                  preview={formData.aadhaar_front}
+                  preview={formData.aadhaar_frontPreview || formData.aadhaar_front || ""}
                 />
                 <FileUploadField
                   label="Aadhaar Card (Back)"
                   id="aadhaar_back"
                   onChange={handleFileChange}
-                  preview={formData.aadhaar_back}
+                  preview={ formData.aadhaar_backPreview || formData.aadhaar_back || ""}
                 />
                 <FileUploadField
                   label="PAN Card Image"
                   id="pan_card_image"
                   onChange={handleFileChange}
-                  preview={formData.pan_card_image}
+                  preview={formData.pan_card_imagePreview || formData.pan_card_image || ""}
                 />
                 <FileUploadField
                   label="GST Certificate"
                   id="gst_certificate"
                   onChange={handleFileChange}
-                  preview={formData.gst_certificate}
+                  preview={formData.gst_certificatePreview ||formData.gst_certificate ||""}
                 />
                 <FileUploadField
                   label="Business Logo"
                   id="business_logo"
                   onChange={handleFileChange}
-                  preview={formData.business_logo}
+                  preview={formData.business_logoPreview || formData.business_logo || ""}
                 />
               </div>
             </div>
