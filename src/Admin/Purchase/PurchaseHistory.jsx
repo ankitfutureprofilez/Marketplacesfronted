@@ -99,15 +99,15 @@ export default function PurchaseHistory() {
                   </td>
 
                   <td className="font-[Poppins] text-[16px] text-left px-[10px] py-[16px]">
-                    ₹{item?.total_amount}
+                    {item?.vendor_bill_status ? `${item?.total_amount}` : "N/A"}
                   </td>
 
                   <td className="font-[Poppins] text-[16px] text-left px-[10px] py-[16px]">
-                    ₹{item?.discount}
+                    {item?.vendor_bill_status ? `${item?.discount}` : "N/A"}
                   </td>
 
                   <td className="font-[Poppins] text-[16px] text-left px-[10px] py-[16px]">
-                    ₹{item?.final_amount}
+                    {item?.vendor_bill_status ? `${item?.final_amount}` : "N/A"}
                   </td>
 
                   <td className="font-[Poppins] text-[16px] text-left px-[10px] py-[16px]">
