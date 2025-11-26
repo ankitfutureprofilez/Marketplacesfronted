@@ -135,12 +135,12 @@ export default function PurchaseHistory() {
                   <td className="font-[Poppins] uppercase text-xs font-semibold px-[10px] py-[16px]">
                     <span
                       className={`px-2 py-1 rounded-full ${
-                        item.status === "active"
+                        item?.vendor_bill_status
                           ? "bg-green-500 text-white"
-                          : "bg-gray-400 text-white"
+                          : "bg-yellow-400 text-white"
                       }`}
                     >
-                      {item.status}
+                      {item?.vendor_bill_status ? "Redeemed" : "Pending"}
                     </span>
                   </td>
                 </tr>
