@@ -276,8 +276,6 @@ const handleSubmit = async (e) => {
     }
   };
 
-  // console.log("hours", hours);
-
   return (
     <AuthLayout>
       <div className="w-full px-4">
