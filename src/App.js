@@ -38,7 +38,7 @@ function App() {
 
         <Route path="/category" element={<Category />} />
         <Route path="/subcategory" element={<SubCategories />} />
-        <Route path="/user" element={<CustomerList />} />
+        <Route path="/customer" element={<CustomerList />} />
         <Route path="/setting" element={<Setting />} />
         <Route path="/vendor/:id" element={<Details />} />
         <Route path="/vendor/add" element={<AddVendor />} />

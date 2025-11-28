@@ -43,30 +43,30 @@ function CustomerList() {
     fetchCustomerList();
   }, []);
 
-  const handlestatus = async (id, status) => {
-    const Statusdata = status === "active" ? "inactive" : "active";
-    try {
-      setLoading(true);
-      const main = new Listing();
-      const response = await main.StatusSales(id, Statusdata);
-      if (response) fetchCustomerList();
-    } catch (error) {
-      console.error("Error updating status:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const handlestatus = async (id, status) => {
+  //   const Statusdata = status === "active" ? "inactive" : "active";
+  //   try {
+  //     setLoading(true);
+  //     const main = new Listing();
+  //     const response = await main.StatusSales(id, Statusdata);
+  //     if (response) fetchCustomerList();
+  //   } catch (error) {
+  //     console.error("Error updating status:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const getStatusClasses = (status) => {
-    switch (status) {
-      case "active":
-        return "bg-green-100 text-green-700 uppercase";
-      case "inactive":
-        return "bg-red-200 text-gray-700 uppercase";
-      default:
-        return "";
-    }
-  };
+  // const getStatusClasses = (status) => {
+  //   switch (status) {
+  //     case "active":
+  //       return "bg-green-100 text-green-700 uppercase";
+  //     case "inactive":
+  //       return "bg-red-200 text-gray-700 uppercase";
+  //     default:
+  //       return "";
+  //   }
+  // };
 
   return (
     <AuthLayout>
@@ -145,12 +145,12 @@ function CustomerList() {
                       >
                         Total Purchases
                       </th>
-                      <th
+                      {/* <th
                         scope="col"
                         className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
                       >
                         Status
-                      </th>
+                      </th> */}
                       <th
                         scope="col"
                         className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
@@ -186,7 +186,7 @@ function CustomerList() {
                             <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] capitalize text-center">
                               {member?.purchases_count}
                             </td>
-                            <td className="font-[Poppins] uppercase text-black text-[16px] px-[10px] py-[16px] text-center">
+                            {/* <td className="font-[Poppins] uppercase text-black text-[16px] px-[10px] py-[16px] text-center">
                               <span
                                 onClick={() =>
                                   handlestatus(member?._id, member?.status)
@@ -197,7 +197,7 @@ function CustomerList() {
                               >
                                 {member?.status}
                               </span>
-                            </td>
+                            </td> */}
                             <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] text-center">
                               <button
                                 onClick={() => {

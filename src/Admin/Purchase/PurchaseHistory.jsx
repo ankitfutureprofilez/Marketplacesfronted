@@ -59,6 +59,7 @@ export default function PurchaseHistory() {
               {[
                 "S. No.",
                 "Offer Name",
+                "Vendor Name",
                 "Customer",
                 "Total Amount",
                 "Discount",
@@ -90,12 +91,30 @@ export default function PurchaseHistory() {
                     {index + 1}
                   </td>
 
-                  <td className="font-[Poppins] text-black text-[16px] px-[10px] py-[16px]">
+                   <td className="font-[Poppins] text-black text-[16px] px-[10px] py-[16px]">
                     {offerTitle}
                   </td>
 
                   <td className="font-[Poppins] text-black text-[16px] px-[10px] py-[16px]">
-                    {item?.user?.name}
+                    <div className="flex flex-col leading-tight">
+                      <span className="font-medium">{item?.vendor?.name}</span>
+                      {item?.vendor?.email && (
+                        <span className="text-[13px] text-gray-500 mt-[2px]">
+                          {item?.vendor?.email}
+                        </span>
+                      )}
+                    </div>
+                  </td>
+
+                  <td className="font-[Poppins] text-black text-[16px] px-[10px] py-[16px]">
+                    <div className="flex flex-col leading-tight">
+                      <span className="font-medium">{item?.user?.name}</span>
+                      {item?.user?.email && (
+                        <span className="text-[13px] text-gray-500 mt-[2px]">
+                          {item?.user?.email}
+                        </span>
+                      )}
+                    </div>
                   </td>
 
                   <td className="font-[Poppins] text-[16px] text-left px-[10px] py-[16px]">

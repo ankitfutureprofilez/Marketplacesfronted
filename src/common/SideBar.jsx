@@ -60,15 +60,15 @@ function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
 
                     <li className="flex mb-[5px]">
                         <Link
-                            to="/user"
-                            className={`flex font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/user") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
+                            to="/customer"
+                            className={`flex font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/customer") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
                         >
                             <i
                                 onClick={toggleSidebar}
-                                className={`pr-[10px] ${isActive("/user") ? "text-blue-600" : "text-black"}`}>
+                                className={`pr-[10px] ${isActive("/customer") ? "text-blue-600" : "text-black"}`}>
                                 <FaUser />
                             </i>
-                            User Management
+                            Customer Management
                         </Link>
                     </li>
 

@@ -94,6 +94,10 @@ class Listing extends Component {
         return Api.get("/category/all");
     }
 
+    GetAllcategory() {
+        return Api.get("/admin/category/get");
+    }
+
     addCategory(body) {
         return Api.post("/category/add", body);
     }

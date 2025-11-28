@@ -26,16 +26,16 @@ function SalesView() {
 
   const timerRef = useRef(null);
 
-  const getStatusClasses = (status) => {
-    switch (status) {
-      case "active":
-        return "bg-green-100 text-green-700 uppercase";
-      case "inactive":
-        return "bg-red-200 text-gray-700 uppercase";
-      default:
-        return "";
-    }
-  };
+  // const getStatusClasses = (status) => {
+  //   switch (status) {
+  //     case "active":
+  //       return "bg-green-100 text-green-700 uppercase";
+  //     case "inactive":
+  //       return "bg-red-200 text-gray-700 uppercase";
+  //     default:
+  //       return "";
+  //   }
+  // };
 
   const fecthSalesList = async (search = "") => {
     try {
@@ -54,19 +54,19 @@ function SalesView() {
     fecthSalesList();
   }, []);
 
-  const handlestatus = async (id, status) => {
-    const Statusdata = status === "active" ? "inactive" : "active";
-    try {
-      setLoading(true);
-      const main = new Listing();
-      const response = await main.StatusSales(id, Statusdata);
-      if (response) fecthSalesList();
-    } catch (error) {
-      console.error("Error updating status:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const handlestatus = async (id, status) => {
+  //   const Statusdata = status === "active" ? "inactive" : "active";
+  //   try {
+  //     setLoading(true);
+  //     const main = new Listing();
+  //     const response = await main.StatusSales(id, Statusdata);
+  //     if (response) fecthSalesList();
+  //   } catch (error) {
+  //     console.error("Error updating status:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleSearchChange = (e) => {
     const val = e.target.value;
@@ -79,7 +79,7 @@ function SalesView() {
     }, 600);
   };
 
-  console.log("Sales", Sales);
+  // console.log("Sales", Sales);
 
   return (
     <AuthLayout>
@@ -159,9 +159,9 @@ function SalesView() {
                       <th className=" font-[Poppins] text-[14px] text-[#8C9199] font-[600] uppercase p-[10px] mb-[10px] text-center">
                         MERCHANTS Assigned
                       </th>
-                      <th className=" font-[Poppins] text-[14px] text-[#8C9199] font-[600] uppercase text-left p-[10px] mb-[10px]">
+                      {/* <th className=" font-[Poppins] text-[14px] text-[#8C9199] font-[600] uppercase text-left p-[10px] mb-[10px]">
                         STATUS
-                      </th>
+                      </th> */}
                       <th className=" font-[Poppins] text-[14px] text-[#8C9199] font-[600] uppercase text-left p-[10px] mb-[10px]">
                         Action
                       </th>
@@ -202,7 +202,7 @@ function SalesView() {
                             <td className="font-[Poppins] text-black text-[16px] px-[10px] py-[16px] text-center">
                               {member?.assigned_vendors}
                             </td>
-                            <td className="font-[Poppins] uppercase  text-black text-[16px] text-left px-[10px] py-[16px]">
+                            {/* <td className="font-[Poppins] uppercase  text-black text-[16px] text-left px-[10px] py-[16px]">
                               <span
                                 onClick={() =>
                                   handlestatus(member?._id, member?.status)
@@ -213,7 +213,7 @@ function SalesView() {
                               >
                                 {member?.status}
                               </span>
-                            </td>
+                            </td> */}
 
                             <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
                               <div className="flex gap-2">
