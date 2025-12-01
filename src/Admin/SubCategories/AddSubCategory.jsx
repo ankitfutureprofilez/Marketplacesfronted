@@ -35,7 +35,7 @@ export default function AddSubCategory({ isOpen, onClose, member, isEdit, fecthS
   useEffect(() => {
     if (member) {
       setName(member?.name || "");
-      setCategoryId(member?.category_id?._id || "");
+      setCategoryId(member?.category_id || "");
     }
   }, [member]);
 
@@ -77,7 +77,7 @@ export default function AddSubCategory({ isOpen, onClose, member, isEdit, fecthS
     setLoading(true);
 
     try {
-      if (member) {
+      if (member?.name) {
         await handleEditSubCategory();
       } else {
         await handleAddSubCategory();

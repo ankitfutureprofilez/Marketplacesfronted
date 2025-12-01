@@ -114,7 +114,7 @@ function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
                         </Link>
                     </li>
 
-                    <li className="flex mb-[5px]">
+                    {/* <li className="flex mb-[5px]">
                         <Link
                             to="/subcategory"
                             className={`flex  font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/subcategory") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
@@ -126,7 +126,7 @@ function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
                             </i>
                           Sub Categories
                         </Link>
-                    </li>
+                    </li> */}
 
                     <li className="flex mb-[5px]">
                         <Link

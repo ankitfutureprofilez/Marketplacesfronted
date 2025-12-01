@@ -3,7 +3,7 @@ import Popup from "../../common/Popup.jsx";
 import Listing from "../../Apis/Listing.jsx";
 import toast from "react-hot-toast";
 
-export default function Delete({
+export default function DeleteSubCategory({
     isOpen,
     onClose,
     member,

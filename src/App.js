@@ -37,7 +37,7 @@ function App() {
         <Route path="/sales/:id" element={<SalesDetails />} />
 
         <Route path="/category" element={<Category />} />
-        <Route path="/subcategory" element={<SubCategories />} />
+        {/* <Route path="/subcategory" element={<SubCategories />} /> */}
         <Route path="/customer" element={<CustomerList />} />
         <Route path="/setting" element={<Setting />} />
         <Route path="/vendor/:id" element={<Details />} />

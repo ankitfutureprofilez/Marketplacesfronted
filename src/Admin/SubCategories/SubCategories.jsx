@@ -3,7 +3,8 @@ import AuthLayout from "../../component/AuthLayout";
 import Listing from "../../Apis/Listing";
 import AddCategory from "./AddSubCategory";
 import HeaderAdmin from "../../common/HeaderAdmin";
-import Delete from "./Delete";
+import DeleteSubCategory from "./Delete";
+
 export default function SubCategories() {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState(null);
@@ -130,7 +131,7 @@ export default function SubCategories() {
           fecthSalesList={fetchData}
         />
 
-        <Delete
+        <DeleteSubCategory
           isOpen={DeleteIsOpen}
           onClose={closeDeletePopup}
           member={selected}

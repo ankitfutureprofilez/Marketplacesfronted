@@ -14,6 +14,7 @@ export default function Details() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if(!id)return;
     setIsLoading(true);
     setError(null);
 
@@ -178,7 +179,7 @@ export default function Details() {
           {/* Stats/Metrics Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div className="p-4 rounded-xl shadow-lg text-white bg-gradient-to-br from-blue-600 to-blue-400">
-              <p className="text-sm opacity-80">Total Offers</p>
+              <p className="text-sm opacity-80">Active Offers</p>
               <p className="text-4xl font-extrabold mt-1">{record?.stats?.total_offers}</p>
             </div>
             <div className="p-4 rounded-xl shadow-lg text-gray-800 bg-white border border-gray-200">
