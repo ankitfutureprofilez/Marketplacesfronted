@@ -5,6 +5,11 @@ import HeaderAdmin from "../../common/HeaderAdmin";
 import Nodata from "../../common/Nodata";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import DeletePopup from "./DeletePopup";
+import { IoMdEye } from "react-icons/io";
+import { MdEdit } from "react-icons/md";
+import { MdBlock } from "react-icons/md";
+import { CgUnblock } from "react-icons/cg";
+import { Link } from "react-router-dom";
 
 function CustomerList() {
   const [team, setTeams] = useState([]);
@@ -198,16 +203,37 @@ function CustomerList() {
                                 {member?.status}
                               </span>
                             </td> */}
-                            <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] text-center">
-                              <button
-                                onClick={() => {
+                            <td className="font-[Poppins] justify-items-center text-black text-[16px] px-[10px] py-[16px]  ">
+                              <div className="flex gap-1">
+                                <Link to={`/customer/${member?._id}`} title="View">
+                                  <IoMdEye
+                                    size={22}
+                                    className="text-blue-600 hover:text-blue-900"
+                                  />
+                                </Link>
+                                <Link to={`/customer/add/${member?._id}`}>
+                                  <MdEdit size={22} className="text-green-600 hover:text-green-900" />
+                                </Link>
+                                <button
+                                 onClick={() => {
                                   setIsOpen(true);
                                   setSelected(member);
                                 }}
-                                className="border border-red-500 text-red-500 px-4 py-1.5 rounded-md hover:bg-red-500 hover:text-white transition duration-200"
-                              >
-                                {member?.deleted_at ? "Unblock" : "Block"}
-                              </button>
+                                  title="Block"
+                                >
+                                  {member?.deleted_at ? 
+                                  <CgUnblock
+                                    size={24}
+                                    className="text-red-600 hover:text-red-700"
+                                  />
+                                  :
+                                  <MdBlock
+                                    size={24}
+                                    className="text-red-600 hover:text-red-700"
+                                  />
+                                  }
+                                </button>
+                              </div>
                             </td>
                           </tr>
                         );

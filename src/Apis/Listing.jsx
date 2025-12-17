@@ -71,6 +71,10 @@ class Listing extends Component {
         return Api.get("/admin/dashboard",)
     }
 
+    async AdminDashbaordSales(start, end) {
+        return Api.get(`/admin/dashboard/sales?start=${start}&end=${end}`,)
+    }
+
     async PurchasedOfferGet() {
         return Api.get("/admin/brought-offer",)
     }

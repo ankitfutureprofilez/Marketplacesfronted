@@ -10,10 +10,15 @@ import { BiSolidOffer } from "react-icons/bi";
 import Listing from "../../Apis/Listing";
 import { FaListAlt, FaUsers } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 function Dashboard() {
+  const [data, setData] = useState([]);
   const [team, setTeams] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const [startDate, setStartDate] = useState(moment().subtract(30, "days").format("YYYY-MM-DD"));
+  const [endDate, setEndDate] = useState(moment().format("YYYY-MM-DD"));
 
   const fetchData = async () => {
     try {
@@ -21,7 +26,21 @@ function Dashboard() {
       const main = new Listing();
       const response = await main.AdminDashbaord();
       // console.log("response", response?.data?.data);
-      setTeams(response?.data?.data || []);
+      setTeams(response?.data?.data || {});
+    } catch (error) {
+      console.error("Error fetching team list:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchSalesData = async (startDate, endDate) => {
+    try {
+      setLoading(true);
+      const main = new Listing();
+      const response = await main.AdminDashbaordSales(startDate, endDate);
+      // console.log("response", response?.data?.data);
+      setData(response?.data?.data || []);
     } catch (error) {
       console.error("Error fetching team list:", error);
     } finally {
@@ -32,6 +51,12 @@ function Dashboard() {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if(startDate && endDate){
+      fetchSalesData(startDate, endDate);
+    }
+  }, [startDate, endDate]);
 
   const getStatusClasses = (status) => {
     switch (status) {
@@ -125,7 +150,7 @@ function Dashboard() {
             </Link>
           </div>
           <div>
-            <MyLineChart data={team?.last7Days} />
+            <MyLineChart data={data} startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} />
           </div>
           <div className="w-full  bg-white p-[10px] md:p-[25px] rounded-[10px] md:rounded-[20px] mt-[15px]">
             <div className="px-4 py-4 flex flex-wrap justify-between items-center border-b border-black  border-opacity-10">

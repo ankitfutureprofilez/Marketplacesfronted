@@ -9,6 +9,9 @@ import DeletePopup from "../Customer/DeletePopup";
 import { HiOutlineUserAdd } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { IoMdEye } from "react-icons/io";
+import { MdEdit } from "react-icons/md";
+import { MdBlock } from "react-icons/md";
+import { CgUnblock } from "react-icons/cg";
 
 function SalesView() {
   const [Sales, setSales] = useState([]);
@@ -216,39 +219,40 @@ function SalesView() {
                             </td> */}
 
                             <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
-                              <div className="flex gap-2">
+                              <div className="flex gap-1">
                                 <Link to={`/sales/${member?._id}`} title="View">
-                                  {/* <IoMdEye
+                                  <IoMdEye
                                     size={22}
                                     className="text-blue-600 hover:text-blue-900"
-                                  /> */}
-                                  <button
-                                  // onClick={() => {
-                                  //   setIsAddOpen(true);
-                                  //   setSelected(member);
-                                  // }}
-                                  className="border border-red-500 text-red-500 px-4 py-1.5 rounded-md hover:bg-red-500 hover:text-white transition duration-200"
-                                >
-                                  View
-                                </button>
+                                  />
                                 </Link>
                                 <button
                                   onClick={() => {
                                     setIsAddOpen(true);
                                     setSelected(member);
                                   }}
-                                  className="border border-red-500 text-red-500 px-4 py-1.5 rounded-md hover:bg-red-500 hover:text-white transition duration-200"
+                                  title="Edit"
                                 >
-                                  Edit
+                                  <MdEdit size={22} className="text-green-600 hover:text-green-900" />
                                 </button>
                                 <button
-                                  onClick={() => {
+                                 onClick={() => {
                                     setIsOpen(true);
                                     setSelected(member);
                                   }}
-                                  className="border border-red-500 text-red-500 px-4 py-1.5 rounded-md hover:bg-red-500 hover:text-white transition duration-200"
+                                  title="Block"
                                 >
-                                  {member?.deleted_at ? "Unblock" : "Block"}
+                                  {member?.deleted_at ? 
+                                  <CgUnblock
+                                    size={24}
+                                    className="text-red-600 hover:text-red-700"
+                                  />
+                                  :
+                                  <MdBlock
+                                    size={24}
+                                    className="text-red-600 hover:text-red-700"
+                                  />
+                                  }
                                 </button>
                               </div>
                             </td>
