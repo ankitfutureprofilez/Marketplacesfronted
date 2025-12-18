@@ -22,8 +22,6 @@ function SalesView() {
   const closePopup = () => setIsOpen(false);
   const [isAddOpen, setIsAddOpen] = useState(false);
   const closeAddPopup = () => setIsAddOpen(false);
-  const [isEditOpen, setIsEditOpen] = useState(false);
-  const closeEditPopup = () => setIsEditOpen(false);
 
   const [selected, setSelected] = useState(null);
 
@@ -125,8 +123,8 @@ function SalesView() {
                 <div className="inline-block">
                   <button
                     onClick={() => {
-                      setIsAddOpen(true);
                       setSelected(null);
+                      setIsAddOpen(true);
                     }}
                     className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-blue-700 transition duration-150"
                   >

@@ -4,12 +4,10 @@ import Listing from "../../Apis/Listing";
 import toast from "react-hot-toast";
 import Popup from "../../common/Popup";
 
-const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) => {
+const AddCustomer = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) => {
   const [loading, setLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState(defaultimage);
   const [isPhoneVerified, setIsPhoneVerified] = useState(false);
-  const [originalPhone, setOriginalPhone] = useState("");
-  const [isPhoneChanged, setIsPhoneChanged] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -22,7 +20,6 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
 
   // Prefill data in edit mode
   useEffect(() => {
-    const phone = member?.phone || "";
     setFormData({
       name: member?.name || "",
       phone: member?.phone || "",
@@ -31,37 +28,21 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
       avatar: member?.avatar || null,
       role: "sales",
     });
-    setOriginalPhone(phone); 
-    setIsPhoneChanged(false);
-    setIsPhoneVerified(false);
     setPreviewImage(
       member?.avatar ||
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyCbJoUCRscGfzySEtqoR5HtHnEOE0ux4r-A&s"
     );
-
   }, [member]);
 
   useEffect(() => {
     if (!isOpen) {
+      // reset phone verification whenever modal closes
       setIsPhoneVerified(false);
-      setIsPhoneChanged(false);
     }
   }, [isOpen]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log("value", value);
-    console.log("originalPhone", originalPhone);
-    if (name === "phone") {
-      if(value != originalPhone && value.length === 10){
-        setIsPhoneVerified(false);
-        setIsPhoneChanged(true);
-      }
-      else{
-        setIsPhoneVerified(true);
-        setIsPhoneChanged(false);
-      }
-    }
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -124,7 +105,7 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
       }
 
       onClose();
-      fecthSalesList();
+      fetchSalesList();
       setPreviewImage(defaultimage);
       setFormData({
         name: "",
@@ -142,7 +123,7 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
     }
   };
 
-  const handleOtpSend = async () => {
+  const handleVerifyOtp = async () => {
     try {
       const main = new Listing();
       const response = await main.salephoneverify({ phone: formData.phone });
@@ -228,24 +209,15 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
                   name="phone"
                   type="tel"
                   value={formData.phone}
-                  disabled={isPhoneChanged && isPhoneVerified}
-                  onChange={(e) => {
-                    if (
-                      e.target.value.length <= 10 &&
-                      /^[0-9]*$/.test(e.target.value)
-                    ) {
-                      handleChange(e);
-                    }
-                  }}
-                  maxLength="10"
+                  onChange={handleChange}
+                  disabled={isPhoneVerified}
                   className="flex-grow px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="Enter phone number"
                   required
                 />
-            {isPhoneChanged && (
                 <button
                   type="button"
-                  onClick={handleOtpSend}
+                  onClick={handleVerifyOtp}
                   disabled={isPhoneVerified || loading}
                   className={`text-sm font-semibold px-3 py-2 rounded-lg transition ${
                     isPhoneVerified
@@ -255,26 +227,23 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
                 >
                   {isPhoneVerified ? "OTP Sent" : "Verify"}
                 </button>
-              )}
               </div>
             </div>
 
             {/* OTP */}
-            {isPhoneChanged && isPhoneVerified &&(
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  OTP
-                </label>
-                <input
-                  name="otp"
-                  value={formData.otp}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Enter OTP"
-                  required={isPhoneChanged}
-                />
-              </div>
-            )}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                OTP
+              </label>
+              <input
+                name="otp"
+                value={formData.otp}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                placeholder="Enter OTP"
+                required
+              />
+            </div>
 
             {/* Email */}
             <div>
@@ -307,4 +276,4 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
   );
 };
 
-export default AddSales;
+export default AddCustomer;

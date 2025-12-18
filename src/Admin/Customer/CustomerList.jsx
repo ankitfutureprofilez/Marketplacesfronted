@@ -10,6 +10,7 @@ import { MdEdit } from "react-icons/md";
 import { MdBlock } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
 import { Link } from "react-router-dom";
+import AddCustomer from "./AddCustomer";
 
 function CustomerList() {
   const [team, setTeams] = useState([]);
@@ -17,9 +18,9 @@ function CustomerList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const closePopup = () => setIsOpen(false);
-
+  const [isAddOpen, setIsAddOpen] = useState(false);
+  const closeAddPopup = () => setIsAddOpen(false);
   const [selected, setSelected] = useState(null);
-
   const timerRef = useRef(null);
 
   const handleSearchChange = (e) => {
@@ -47,31 +48,6 @@ function CustomerList() {
   useEffect(() => {
     fetchCustomerList();
   }, []);
-
-  // const handlestatus = async (id, status) => {
-  //   const Statusdata = status === "active" ? "inactive" : "active";
-  //   try {
-  //     setLoading(true);
-  //     const main = new Listing();
-  //     const response = await main.StatusSales(id, Statusdata);
-  //     if (response) fetchCustomerList();
-  //   } catch (error) {
-  //     console.error("Error updating status:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // const getStatusClasses = (status) => {
-  //   switch (status) {
-  //     case "active":
-  //       return "bg-green-100 text-green-700 uppercase";
-  //     case "inactive":
-  //       return "bg-red-200 text-gray-700 uppercase";
-  //     default:
-  //       return "";
-  //   }
-  // };
 
   return (
     <AuthLayout>
@@ -211,9 +187,15 @@ function CustomerList() {
                                     className="text-blue-600 hover:text-blue-900"
                                   />
                                 </Link>
-                                <Link to={`/customer/add/${member?._id}`}>
+                                <button 
+                                onClick={() => {
+                                  setIsAddOpen(true);
+                                  setSelected(member);
+                                }}
+                                title="Edit"
+                                >
                                   <MdEdit size={22} className="text-green-600 hover:text-green-900" />
-                                </Link>
+                                </button>
                                 <button
                                  onClick={() => {
                                   setIsOpen(true);
@@ -250,6 +232,13 @@ function CustomerList() {
         onClose={closePopup}
         member={selected}
         fetchCustomerList={fetchCustomerList}
+      />
+      <AddCustomer
+        isOpen={isAddOpen}
+        onClose={closeAddPopup}
+        member={selected}
+        isEdit={1}
+        fetchSalesList={fetchCustomerList}
       />
     </AuthLayout>
   );

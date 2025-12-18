@@ -12,7 +12,7 @@ export default function Header({ title }) {
   };
   const handleLogout = () => {
     localStorage && localStorage.removeItem('token');
-    navigate('/');
+    navigate('/login');
   };
   return (
     <>
