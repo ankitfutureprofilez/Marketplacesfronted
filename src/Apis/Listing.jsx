@@ -42,6 +42,10 @@ class Listing extends Component {
         return Api.get(`/admin/user_list?search=${data}`,)
     }
 
+    async CustomerDetail(data) {
+        return Api.get(`/admin/user/${data}`,)
+    }
+
     async PaymentGet() {
         return Api.get("/admin/payment_get",)
     }

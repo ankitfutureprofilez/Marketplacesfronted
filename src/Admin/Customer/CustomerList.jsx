@@ -9,6 +9,7 @@ import { IoMdEye } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import { MdBlock } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
+import { HiOutlineUserAdd } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import AddCustomer from "./AddCustomer";
 
@@ -82,6 +83,18 @@ function CustomerList() {
                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                     />
                   </svg>
+                </div>
+                <div className="inline-block">
+                  <button
+                    onClick={() => {
+                      setSelected(null);
+                      setIsAddOpen(true);
+                    }}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-blue-700 transition duration-150"
+                  >
+                    <HiOutlineUserAdd className="w-5 h-5" />
+                    <span>Add Customer</span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -237,7 +250,7 @@ function CustomerList() {
         isOpen={isAddOpen}
         onClose={closeAddPopup}
         member={selected}
-        isEdit={1}
+        isEdit={selected !== null ? true : false}
         fetchSalesList={fetchCustomerList}
       />
     </AuthLayout>

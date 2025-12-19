@@ -73,7 +73,6 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
     }
   };
 
-  // 🔹 Separate function for ADD
   const handleAddSales = async () => {
     const main = new Listing();
     const data = new FormData();
@@ -89,10 +88,15 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
     const response = await main.SalesAdd(data, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-    if (response?.data?.message) toast.success(response.data.message);
+    if (response?.data?.status) {
+      toast.success(response.data.message);
+    }
+    else {
+      toast.error(response?.data?.message || "Update failed");
+      throw new Error(response?.data?.message || "Update failed");
+    }
   };
 
-  // 🔹 Separate function for EDIT
   const handleEditSales = async () => {
     const main = new Listing();
     const data = new FormData();
@@ -108,13 +112,25 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
     const response = await main.AdminEditSales(member?._id, data, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-    if (response?.data?.message) toast.success(response.data.message);
+    if (response?.data?.status) {
+      toast.success(response.data.message);
+    }
+    else {
+      toast.error(response?.data?.message || "Update failed");
+      throw new Error(response?.data?.message || "Update failed");
+    }
   };
 
   // 🔹 Unified submit just picks which to call
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    
+    if(isPhoneChanged && !isPhoneVerified){
+      toast.error("Please verify the phone number before submitting.");
+      setLoading(false);
+      return;
+    }
 
     try {
       if (isEdit) {
@@ -136,7 +152,7 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
       });
     } catch (error) {
       console.error("Error submitting sales:", error);
-      toast.error("Something went wrong!");
+      toast.error(error?.response?.data?.message || "Something went wrong!");
     } finally {
       setLoading(false);
     }

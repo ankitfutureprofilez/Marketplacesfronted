@@ -274,7 +274,7 @@ function SalesView() {
         isOpen={isAddOpen}
         onClose={closeAddPopup}
         member={selected}
-        isEdit={1}
+        isEdit={selected !== null ? true : false}
         fecthSalesList={fecthSalesList}
       />
     </AuthLayout>
