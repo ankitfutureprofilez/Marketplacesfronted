@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Listing from "../../Apis/Listing";
 import HeaderAdmin from "../../common/HeaderAdmin";
 import AuthLayout from "../../component/AuthLayout";
@@ -141,7 +141,8 @@ function SalesDetails() {
 
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {record?.vendors?.map((v, i) => (
-                  <div
+                  <Link
+                  to={`/vendor/${v?.vendors?._id}`}
                     key={i}
                     className="bg-white shadow rounded-xl p-5 border hover:shadow-lg transition"
                   >
@@ -201,7 +202,7 @@ function SalesDetails() {
                         )}
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
