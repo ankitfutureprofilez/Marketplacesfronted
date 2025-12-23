@@ -27,9 +27,11 @@ function List() {
   const [selected, setSelected] = useState(null);
 
   // ✅ Fetch Vendor List
-  const fetchTeamList = async (search = "", status = "", category = "") => {
+  const fetchTeamList = async (search = "", status = "", category = "", loading=true) => {
     try {
-      setLoading(true);
+      if(loading){
+        setLoading(true);
+      }
       const main = new Listing();
       const response = await main.Vendorget(search, status, category);
       setTeams(response?.data?.vendor || []);
@@ -74,6 +76,12 @@ function List() {
     );
   };
 
+  const STATUS_OPTIONS = [
+    { value: "pending", label: "Pending" },
+    { value: "verify", label: "Verify" },
+    { value: "unverify", label: "Unverify" },
+  ];
+
   // ✅ Status Label Classes
   const getStatusClasses = (status) => {
     switch (status) {
@@ -82,7 +90,6 @@ function List() {
       case "pending":
         return "bg-yellow-100 text-yellow-700";
       case "unverify":
-      case "deleted":
         return "bg-red-100 text-red-700";
       default:
         return "bg-gray-100 text-gray-700";
@@ -90,19 +97,19 @@ function List() {
   };
 
   // ✅ Toggle Vendor Status
-  const handleStatusToggle = async (id, status) => {
-    const newStatus = status === "verify" ? "unverify" : "verify";
+  const handleStatusToggle = async (id, newStatus) => {
     try {
-      setLoading(true);
+      // setLoading(true);
       const main = new Listing();
       await main.vendorStatus(id, newStatus);
-      fetchTeamList(searchQuery, statusFilter, categoryFilter);
+      fetchTeamList(searchQuery, statusFilter, categoryFilter, false);
     } catch (error) {
       console.error("Error updating vendor status:", error);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
+
 
   // ✅ Initial Data Load
   useEffect(() => {
@@ -242,7 +249,7 @@ function List() {
                         "Sales",
                         "Status",
                         "Action",
-                      ].map((header) => (
+                      ]?.map((header) => (
                         <th className=" font-[Poppins] text-[14px] text-[#8C9199] font-[600] uppercase text-left p-[10px] mb-[10px]">
                           {header}
                         </th>
@@ -291,7 +298,7 @@ function List() {
                                 loadingStaff={loadingStaff}
                               />
                             </td>
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                            {/* <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
                               <span
                                 className={`px-2 py-1 inline-flex font-[Poppins] uppercase text-xs font-semibold rounded-full cursor-pointer ${
                                   isDeleted
@@ -308,6 +315,24 @@ function List() {
                               >
                                 {isDeleted ? "Deleted" : vendor?.Verify_status}
                               </span>
+                            </td> */}
+                            <td className="font-[Poppins] text-black text-[16px] text-left px-[10px] py-[16px]">
+                              <select
+                                value={vendor?.Verify_status}
+                                onChange={(e) =>
+                                  handleStatusToggle(vendor._id, e.target.value)
+                                }
+                                disabled={loading}
+                                className={`px-2 py-1 text-xs font-semibold rounded-full cursor-pointer outline-none ${getStatusClasses(
+                                  vendor?.Verify_status
+                                )}`}
+                              >
+                                {STATUS_OPTIONS.map((option) => (
+                                  <option key={option.value} value={option.value}>
+                                    {option.label}
+                                  </option>
+                                ))}
+                              </select>
                             </td>
                             <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
                               <div className="flex gap-1">

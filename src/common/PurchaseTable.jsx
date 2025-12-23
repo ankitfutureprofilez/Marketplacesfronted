@@ -58,6 +58,9 @@ export default function PurchaseTable({data, showCustomer}) {
                             {item.vendor.email}
                         </span>
                         )}
+                        <span className="text-[13px] text-gray-500 mt-[2px]">
+                            {item.vendor.phone}
+                        </span>
                     </div>
                 </td>
 
@@ -70,6 +73,9 @@ export default function PurchaseTable({data, showCustomer}) {
                                 {item.user.email}
                             </span>
                             )}
+                            <span className="text-[13px] text-gray-500 mt-[2px]">
+                                {item.user.phone}
+                            </span>
                         </div>
                         </td>
                     )}
