@@ -5,6 +5,15 @@ import HeaderAdmin from "../../common/HeaderAdmin";
 import Listing from "../../Apis/Listing"; // Assuming this path is correct
 import OfferLisitng from "./OfferLisitng"; // Assuming this component exists
 import BusinessImageGallery from "./BusinessImageGallery"; // Assuming this component exists
+import GalleryPopup from "./GalleryPopup";
+
+const Heading=({title})=>{
+  return(
+    <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
+      {title}
+    </h2>
+  );
+}
 
 export default function Details() {
   const { id } = useParams();
@@ -205,9 +214,7 @@ export default function Details() {
           {/* Business Info & Opening Hours */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div className="bg-white p-6 rounded-xl shadow border border-gray-100">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
-                Business Information
-              </h2>
+              <Heading title={"Business Information"} />
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-4 text-sm">
                 <div>
                   <p className="text-gray-500">Business Name</p>
@@ -306,9 +313,7 @@ export default function Details() {
 
           {/* Business Documents */}
           <div className="bg-white p-6 rounded-xl shadow mt-4 border border-gray-100">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
-              Business Documents
-            </h2>
+            <Heading title={"Business Documents"} />
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 text-sm">
               {/* Document Helper Function/Component could clean this up, but keeping it inline */}
               {[
@@ -343,18 +348,19 @@ export default function Details() {
 
           {/* Business Images Gallery */}
           <div className="bg-white p-6 rounded-xl shadow mt-4 border border-gray-100">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
-              Business Images Gallery
-            </h2>
+            <div className="flex justify-between w-full">
+            <Heading title={"Business Images Gallery"} />
+            <div className="mb-4 pb-2">
+            <GalleryPopup data={vendorRecord.business_image || []} />
+            </div>
+              </div>    
             {/* Assuming BusinessImageGallery handles the display of an array of images */}
-            <BusinessImageGallery images={vendorRecord.business_image || []} />
+            <BusinessImageGallery images={vendorRecord?.business_image || []} />
           </div>
 
           {/* Vendor Offers Listing */}
           <div className="bg-white p-6 rounded-xl shadow mt-4 border border-gray-100">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
-              Vendor Offers
-            </h2>
+            <Heading title={"Vendor Offers"} />
             {/* Assuming OfferLisitng handles the display of an array of offers */}
             <OfferLisitng Offer={offers} />
           </div>
