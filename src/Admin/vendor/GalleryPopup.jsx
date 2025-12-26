@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Popup from "../../common/Popup";
-import { MdClose } from "react-icons/md";
+import Listing from "../../Apis/Listing";
+import toast from "react-hot-toast";
 
-export default function GalleryPopup({ data = [] }) {
+export default function GalleryPopup({ data = [], id }) {
+  const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [images, setImages] = useState(data);
   const [selected, setSelected] = useState([]);
@@ -13,8 +15,6 @@ export default function GalleryPopup({ data = [] }) {
     setSelected([]);
     setNewImages([]);
   };
-
-  /* ---------------- Existing Images ---------------- */
 
   const toggleSelect = (img) => {
     setSelected((prev) =>
@@ -28,24 +28,35 @@ export default function GalleryPopup({ data = [] }) {
     setImages((prev) => prev.filter((img) => !selected.includes(img)));
     setSelected([]);
 
-    // 👉 call delete API here
   };
-
-  /* ---------------- Upload Images ---------------- */
 
   const handleUploadChange = (e) => {
     const files = Array.from(e.target.files);
     setNewImages(files);
   };
 
-  const uploadImages = () => {
+  const uploadImages = async() => {
     console.log("Uploading files:", newImages);
-
-    // 👉 API idea
-    // const formData = new FormData();
-    // newImages.forEach(file => formData.append("images", file));
-
-    setNewImages([]);
+    setLoading(true);
+    const main = new Listing();
+    const formData = new FormData();
+    newImages.forEach((file) => {
+    formData.append("files", file);
+    });
+    try {
+      const res = await main.VendorGalleryAdd(id, formData);
+      if (res?.data?.status) {
+        toast.success(res.data.message);
+      } else {
+        toast.error(res.data.message || "Login failed");
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong!");
+      console.log("Login error:", error);
+    } finally {
+      setLoading(false);
+      setNewImages([]);
+    }
   };
 
   return (

@@ -67,8 +67,16 @@ class Listing extends Component {
     async AdminVendorAdd(data) {
         return Api.post("/admin/vendor-add", data)
     }
+
     async VendorEdit(id, data) {
         return Api.post(`/admin/vendor-edit/${id}`, data)
+    }
+
+    async VendorGalleryAdd(id, data) {
+        return Api.post(`/admin/vendor/gallery/upload/${id}`, data)
+    }
+    async VendorGalleryDelete(id, data) {
+        return Api.post(`/admin/vendor/gallery/delete/${id}`, data)
     }
 
     async AdminDashbaord() {

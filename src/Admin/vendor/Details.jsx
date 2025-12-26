@@ -351,7 +351,7 @@ export default function Details() {
             <div className="flex justify-between w-full">
             <Heading title={"Business Images Gallery"} />
             <div className="mb-4 pb-2">
-            <GalleryPopup data={vendorRecord.business_image || []} />
+            <GalleryPopup data={vendorRecord.business_image || []} id={vendorRecord?.user?._id} />
             </div>
               </div>    
             {/* Assuming BusinessImageGallery handles the display of an array of images */}
