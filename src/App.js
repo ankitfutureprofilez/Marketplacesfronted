@@ -21,6 +21,7 @@ import SubCategories from "./Admin/SubCategories/SubCategories";
 import SalesDetails from "./Admin/sales/SalesDetails";
 import PurchaseHistory from "./Admin/Purchase/PurchaseHistory";
 import CustomerDetail from "./Admin/Customer/CustomerDetail";
+import Home from "./Admin/home/Home";
 
 function App() {
   return (
@@ -44,10 +45,11 @@ function App() {
         <Route path="/vendor/add" element={<AddVendor />} />
         <Route path="/vendor/add/:id" element={<AddVendor />} />
         <Route path="/purchase-history" element={<PurchaseHistory />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/terms" element={<TermsConditions />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/support" element={<Support />} />
-        {/* <Route path="/payment-ra" element={<PaymentPage />} /> */}
+        <Route path="/payment-ra" element={<PaymentPage />} />
         {/* <Route path="/cal-ra" element={<CalendlyWidget />} /> */}
       </Routes>
     </Router>

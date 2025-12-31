@@ -25,11 +25,13 @@ function Payment() {
 
         }
     };
+
     useEffect(() => {
 
         fetchTeamList();
     }, []);
-    console.log("teams", payments)
+
+    // console.log("teams", payments)
     return (
         <AuthLayout>
             <div className="w-full ">
