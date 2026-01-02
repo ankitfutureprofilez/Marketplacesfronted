@@ -106,45 +106,54 @@ class Listing extends Component {
         return Api.get(`/admin/subcatgroy/${id}`)
     }
 
-    category() {
+    async category() {
         return Api.get("/category/all");
     }
 
-    GetAllcategory() {
+    async GetAllcategory() {
         return Api.get("/admin/category/get");
     }
 
-    addCategory(body) {
+    async addCategory(body) {
         return Api.post("/category/add", body);
     }
 
-    updateCategory(id, body) {
+    async updateCategory(id, body) {
         return Api.post(`/category/update/${id}`, body);
     }
 
-    deleteCategory(id) {
+    async deleteCategory(id) {
         return Api.post(`/category/delete/${id}`);
     }
-    Subcategory() {
+    async Subcategory() {
         return Api.get("/subcategory/all");
     }
 
 
-    addSubCategory(body) {
+    async addSubCategory(body) {
         return Api.post("/subcategory/add", body);
     }
 
-     subdeleteCategory(id) {
+    async subdeleteCategory(id) {
         return Api.post(`/subcategory/delete/${id}`);
     }
 
-     updateSubCategory(id, body) {
+    async updateSubCategory(id, body) {
         return Api.post(`/subcategory/update/${id}`, body);
     }
 
     async sales_details(id) {
-        return Api.get(`/admin/sales_id/${id}`,)
+        return Api.get(`/admin/sales_id/${id}`);
     }
+
+    async getHome() {
+        return Api.get(`/home/find`);
+    }
+
+    async updateHome(data) {
+        return Api.post(`/home/update`, data);
+    }
+
     render() {
         return (
             <div>
