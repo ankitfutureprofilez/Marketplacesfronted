@@ -7,7 +7,7 @@ import Listing from '../Apis/Listing';
 export default function AdminLayout({ children }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [content, setContent] = useState([]);
+  const [content, setContent] = useState(null);
   const fetchData = async (signal) => {
     setLoading(true);
     try {
@@ -32,6 +32,8 @@ export default function AdminLayout({ children }) {
     }
   };
 
+  // console.log("content", content);
+
   useEffect(() => {
     const controller = new AbortController();
     const { signal } = controller;
@@ -42,9 +44,17 @@ export default function AdminLayout({ children }) {
     };
   }, []);
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
+  }
+
   return (
     <div className='flex bg-[#F5F6FB] min-h-screen h-full pl-[10px] md:pl-[15px] xl:pl-[330px]'>
-      <SideBar />
+      <SideBar user={content}/>
       {children}
     </div>
   );

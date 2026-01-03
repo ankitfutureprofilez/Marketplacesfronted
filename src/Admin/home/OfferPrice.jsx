@@ -97,8 +97,8 @@ export default function OfferPrice() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-semibold mb-6">
+    <div className="px-2 md:px-6 py-6">
+      <h1 className="text-xl md:text-2xl font-semibold mb-6">
         Offer Pricing Configuration
       </h1>
 

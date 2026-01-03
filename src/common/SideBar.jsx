@@ -130,6 +130,20 @@ function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
 
                     <li className="flex mb-[5px]">
                         <Link
+                            to="/sub-admin"
+                            className={`flex  font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/sub-admin") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
+                        >
+                            <i
+                                onClick={toggleSidebar}
+                                className={`pr-[10px] ${isActive("/sub-admin") ? "text-blue-600" : "text-black"}`}>
+                                <MdSettings />
+                            </i>
+                            Sub Admin
+                        </Link>
+                    </li>
+
+                    <li className="flex mb-[5px]">
+                        <Link
                             to="/home"
                             className={`flex  font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/home") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
                         >

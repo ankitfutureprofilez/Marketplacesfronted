@@ -22,6 +22,7 @@ import SalesDetails from "./Admin/sales/SalesDetails";
 import PurchaseHistory from "./Admin/Purchase/PurchaseHistory";
 import CustomerDetail from "./Admin/Customer/CustomerDetail";
 import Home from "./Admin/home/Home";
+import AdminList from "./Admin/subAdmin/AdminList";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/support" element={<Support />} />
         <Route path="/payment-ra" element={<PaymentPage />} />
+        <Route path="/sub-admin" element={<AdminList />} />
         {/* <Route path="/cal-ra" element={<CalendlyWidget />} /> */}
       </Routes>
     </Router>

@@ -154,6 +154,18 @@ class Listing extends Component {
         return Api.post(`/home/update`, data);
     }
 
+    async addSubAdmin(data) {
+        return Api.post(`/admin/sub-admin/add`, data);
+    }
+
+    async updateSubAdmin(id, data) {
+        return Api.post(`/admin/sub-admin/update/${id}`, data);
+    }
+
+    async getSubAdmin() {
+        return Api.get(`/admin/sub-admin/get`);
+    }
+
     render() {
         return (
             <div>
