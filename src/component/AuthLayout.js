@@ -15,6 +15,55 @@ export default function AdminLayout({ page }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { user, setUser } = useRole();
 
+  const SIDEBAR_ITEMS = [
+    { label: "Dashboard", path: "/" },
+
+    {
+      label: "Customer Management",
+      path: "/customer",
+      permission: "manage_customers",
+    },
+    {
+      label: "Sales Management",
+      path: "/sales",
+      permission: "manage_sales",
+    },
+    {
+      label: "Vendor Management",
+      path: "/vendor",
+      permission: "manage_vendors",
+    },
+    {
+      label: "Categories",
+      path: "/category",
+      permission: "manage_categories",
+    },
+    {
+      label: "Purchase History",
+      path: "/purchase-history",
+      permission: "view_purchase",
+    },
+    {
+      label: "Sub-Admin",
+      path: "/sub-admin",
+      role: "admin",
+    },
+    {
+      label: "Website Content",
+      path: "/home",
+      role: "admin",
+    },
+  ];
+
+  const hasAccess = (user, item) => {
+    if (!user) return false;
+    if (user.role === "admin") return true;
+    if (item.role && item.role !== user.role) return false;
+    if (item.permission) return user.permissions?.includes(item.permission);
+    return true;
+  };
+
+
   const fetchData = async (signal) => {
     // setLoading(true);
     try {
@@ -55,6 +104,27 @@ export default function AdminLayout({ page }) {
       controller.abort();
     };
   }, [location.pathname]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const currentPath = location.pathname;
+
+    const matchedItem = SIDEBAR_ITEMS.find(
+      (item) =>
+        currentPath === item.path ||
+        currentPath.startsWith(item.path + "/") // handles /sales/123
+    );
+
+    if (!matchedItem) return; // public or unknown route
+
+    const allowed = hasAccess(user, matchedItem);
+
+    if (!allowed) {
+      toast.error("You do not have access to this page");
+      navigate("/", { replace: true });
+    }
+  }, [location.pathname, user]);
 
   const handleLogout = () => {
     localStorage && localStorage.removeItem("token");
