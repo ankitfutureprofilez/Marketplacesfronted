@@ -39,7 +39,7 @@ export default function CustomerDetail() {
 
   return (
     <>
-      <div className="px-4 py-2 lg:px-4 lg:py-2.5 w-full">
+      <div className="py-2lg:py-2.5 w-full">
         <div className="bg-white rounded-[20px] mb-[10px] p-2">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-6 mb-6 p-4">
             {/* User Info */}

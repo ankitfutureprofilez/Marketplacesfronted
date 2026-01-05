@@ -12,27 +12,84 @@ import { IoCloseSharp, IoLogOutSharp } from "react-icons/io5";
 import { MdEvent } from "react-icons/md";
 import { MdContacts } from "react-icons/md";
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useRole } from "../context/RoleContext";
 
 function SideBar() {
-    const [isOpen, setIsOpen] = useState(false);
-    const location = useLocation();
-    const isActive = (path) => location.pathname === path;
-    const handleLinkClick = () => {
-        if (isOpen) {
-            setIsOpen(false);
-        }
-    };
-    const navigate = useNavigate();
+  const SIDEBAR_ITEMS = [
+    { label: "Dashboard", path: "/", icon: MdDashboard },
+    {
+      label: "Customer Management",
+      path: "/customer",
+      icon: FaUser,
+      permission: "manage_customers",
+    },
+    {
+      label: "Sales Management",
+      path: "/sales",
+      icon: FaUserAlt,
+      permission: "manage_sales",
+    },
+    {
+      label: "Vendor Management",
+      path: "/vendor",
+      icon: FaUser,
+      permission: "manage_vendors",
+    },
+    {
+      label: "Categories",
+      path: "/category",
+      icon: FaUser,
+      permission: "manage_categories",
+    },
+    {
+      label: "Purchase History",
+      path: "/purchase-history",
+      icon: MdPayment,
+      permission: "view_purchase",
+    },
+    { label: "Sub-Admin", path: "/sub-admin", icon: FaUser, role: "admin" },
+    {
+      label: "Website Content",
+      path: "/home",
+      icon: MdSettings,
+      role: "admin",
+    },
+    // { label: "Settings", path: "/setting", icon: MdSettings, role: "admin" },
+  ];
 
-    const handleLogout = () => {
-        localStorage && localStorage.removeItem('AdminToken');
-        toast.success("Logout Successful");
-        navigate('/login');
-    };
+  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path;
+  const navigate = useNavigate();
+  const { user } = useRole();
 
-    return (
-         <>
+  const hasAccess = (item) => {
+    if (!user) return false;
+    if (user.role === "admin") return true;
+    if (item.role && item.role !== user.role) return false;
+    if (item.permission) return user.permissions?.includes(item.permission);
+    return true;
+  };
+
+  const visibleItems = useMemo(() => SIDEBAR_ITEMS.filter(hasAccess), [user]);
+
+  const handleLinkClick = () => {
+    if (isOpen) {
+      setIsOpen(false);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage && localStorage.removeItem("AdminToken");
+    toast.success("Logout Successful");
+    navigate("/login");
+  };
+
+  //   console.log("user", user);
+
+  return (
+    <>
       {!isOpen && (
         <button
           className="lg:hidden p-2 fixed font-bold top-2.5 text-[#565F66] z-[99]"
@@ -76,21 +133,20 @@ function SideBar() {
             <div className="w-11 h-11 rounded-full flex items-center justify-center text-white text-xl font-bold">
               {/* Replace with an actual image if needed */}
               <img
-                // src={user?.profile_photo || "/Placeholder.png"}
-                src={"/Placeholder.png"}
+                src={user?.profile_photo || "/Placeholder.png"}
                 alt="User profile photo"
                 className="w-11 h-11 rounded-full object-cover"
               />
             </div>
             <div className="flex flex-col">
-                <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2">
                 <p className="font-medium text-sm capitalize text-black -tracking-[0.04em]">
-                    {/* {user?.name || ""} */}
+                  {user?.name || ""}
                 </p>
-            </div>
-                <p className="text-xs capitalize #7A7A7A text-[#7A7A7A]">
-                    {/* {user?.role || "Admin"} */}
-                </p>
+              </div>
+              <p className="text-xs capitalize #7A7A7A text-[#7A7A7A]">
+                {user?.role || "Admin"}
+              </p>
             </div>
           </Link>
         </div>
@@ -100,35 +156,40 @@ function SideBar() {
           </p>
 
           <ul className="space-y-1">
-            <li>
-              <Link
-                to="/"
-                onClick={handleLinkClick}
-                className={`flex items-center gap-2 py-2.5 px-6 text-base font-medium
-                ${
-                  isActive("/")
-                    ? "text-blue-600 bg-gray-200"
-                    : "text-[#565F66] hover:bg-gray-100"
-                }`}
-              >
-                <MdSpaceDashboard size={20} />
-                Dashboard
-              </Link>
-            </li>
+            {visibleItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <li key={item.path}>
+                  <Link
+                    to={item.path}
+                    onClick={handleLinkClick}
+                    className={`flex items-center gap-2 py-2.5 px-6 text-base font-medium
+                        ${
+                          isActive(item.path)
+                            ? "text-blue-600 bg-gray-200"
+                            : "text-[#565F66] hover:bg-gray-100"
+                        }`}
+                  >
+                    <Icon size={20} />
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
 
             <li>
               <Link
-                to="/customer"
+                to={"/setting"}
                 onClick={handleLinkClick}
                 className={`flex items-center gap-2 py-2.5 px-6 text-base font-medium
-                ${
-                  isActive("/customer")
-                    ? "text-blue-600 bg-gray-200"
-                    : "text-[#565F66] hover:bg-gray-100"
-                }`}
+                    ${
+                      isActive("/setting")
+                        ? "text-blue-600 bg-gray-200"
+                        : "text-[#565F66] hover:bg-gray-100"
+                    }`}
               >
-                <FaUser size={20} />
-                Customer Management
+                <MdSettings size={20} />
+                Settings
               </Link>
             </li>
 
@@ -145,7 +206,7 @@ function SideBar() {
         </div>
       </div>
     </>
-    );
+  );
 }
 
 export default SideBar;

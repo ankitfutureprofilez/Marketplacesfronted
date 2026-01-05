@@ -27,7 +27,7 @@ function Setting() {
     <>
       <div className="w-full">
         <HeaderAdmin title={"Admin Settings"} />
-        <div className="px-4 py-2 lg:px-4 lg:py-2.5">
+        <div className="py-2lg:py-2.5">
           <div className="bg-white rounded-[20px] p-5 shadow-md">
             {/* Tabs */}
             <div className="flex border-b border-gray-200 mb-4">

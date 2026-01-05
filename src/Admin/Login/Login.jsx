@@ -5,11 +5,13 @@ import logo from "../../img/login.png";
 import loginbanner from "../../img/login-page.png";
 import Listing from "../../Apis/Listing";
 import { IoEye, IoEyeOff } from "react-icons/io5";
+import { useRole } from "../../context/RoleContext";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const { setUser } = useRole();
 
   const navigate = useNavigate();
 
@@ -36,6 +38,7 @@ function Login() {
       if (res?.data?.status) {
         toast.success(res.data.message);
         localStorage.setItem("token", res.data.data.token);
+        setUser(res.data.data.user);
         navigate("/");
       } else {
         toast.error(res.data.message || "Login failed");

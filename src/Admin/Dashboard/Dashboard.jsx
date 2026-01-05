@@ -78,7 +78,7 @@ function Dashboard() {
     <>
       <div className="w-full ">
         <HeaderAdmin title={"Admin Dashboard"} />
-        <div className="px-4 py-2 lg:px-4 lg:py-4">
+        <div className="py-2 lg:py-4">
           <div className="w-full flex flex-wrap md:flex-nowrap gap-[15px] mb-[20px]">
             <Link
               to="/sales"

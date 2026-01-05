@@ -13,7 +13,7 @@ export default function Home() {
     <>
       <div className="flex flex-col w-full">
         <HeaderAdmin title={"Website"} />
-        <div className="bg-white px-4 py-2 lg:px-4 lg:py-2.5">
+        <div className="bg-white py-2lg:py-2.5">
         <div className="flex border-b border-[rgba(0,0,0,.1)]">
           <button
             onClick={() => handleTabClick("offer")}

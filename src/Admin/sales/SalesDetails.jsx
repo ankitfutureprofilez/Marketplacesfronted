@@ -39,7 +39,7 @@ function SalesDetails() {
     <>
         <div className="w-full">
           <HeaderAdmin title={"Sales Team"} />
-          <div className="px-4 py-2 lg:px-4 lg:py-2.5">
+          <div className="py-2lg:py-2.5">
             <div className="bg-white rounded-[20px] mb-[10px] p-2">
               <div className="flex flex-col sm:flex-row justify-between items-center p-4 bg-white rounded-lg shadow mb-6 border border-gray-100">
                 <div className="flex items-center space-x-3 mb-4 sm:mb-0">

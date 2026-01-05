@@ -37,7 +37,7 @@ export default function PurchaseHistory() {
       <div className="w-full">
         <HeaderAdmin title="Purchased Offers" />
         {/* 🔹 Purchases Section */}
-        <div className="px-4 py-2 lg:px-4 lg:py-2.5">
+        <div className="py-2lg:py-2.5">
           <div className="bg-white rounded-[20px] mb-[10px] p-2">
             {/* Header */}
             <div className="px-4 py-4 flex justify-between items-center border-b border-black border-opacity-10">
