@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Outlet, Link, useNavigate, useLocation } from "react-router-dom";
 import SideBar from "../common/SideBar";
 import { MdLogout } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
@@ -10,12 +10,13 @@ import { useRole } from "../context/RoleContext";
 
 export default function AdminLayout({ page }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { user, setUser } = useRole();
 
   const fetchData = async (signal) => {
-    setLoading(true);
+    // setLoading(true);
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -41,7 +42,7 @@ export default function AdminLayout({ page }) {
         navigate("/login");
       }
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -53,7 +54,7 @@ export default function AdminLayout({ page }) {
       console.log("Aborting fetch...");
       controller.abort();
     };
-  }, []);
+  }, [location.pathname]);
 
   const handleLogout = () => {
     localStorage && localStorage.removeItem("token");
