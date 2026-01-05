@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import AuthLayout from "../../component/AuthLayout";
 import HeaderAdmin from "../../common/HeaderAdmin";
 import Listing from "../../Apis/Listing"; // Assuming this path is correct
 import OfferLisitng from "./OfferLisitng"; // Assuming this component exists
@@ -55,38 +54,27 @@ export default function Details() {
 
   if (isLoading) {
     return (
-      <AuthLayout>
-        <HeaderAdmin title={"Vendor Details"} back={1} />
         <div className="p-4 text-center text-lg">Loading vendor details...</div>
-      </AuthLayout>
     );
   }
 
   if (error) {
     return (
-      <AuthLayout>
-        <HeaderAdmin title={"Vendor Details"} back={1} />
         <div className="p-4 text-center text-red-600 font-medium">{error}</div>
-      </AuthLayout>
     );
   }
 
   // If data is loaded but the main record is missing
   if (!record || Object.keys(vendorRecord).length === 0) {
     return (
-      <AuthLayout>
-        <HeaderAdmin title={"Vendor Details"} back={1} />
         <div className="p-4 text-center text-gray-500">
           No vendor details found for ID: {id}.
         </div>
-      </AuthLayout>
     );
   }
 
-  // console.log("vendorRecord", vendorRecord);
   return (
-    <AuthLayout>
-      {/* <HeaderAdmin title={"Vendor Details"} back={1} /> */}
+    <>
       <div className="px-4 py-2 lg:px-4 lg:py-2.5 w-full">
         <div className="bg-white rounded-[20px] mb-[10px] p-2">
           {/* User & Contact Information */}
@@ -366,6 +354,6 @@ export default function Details() {
           </div>
         </div>
       </div>
-    </AuthLayout>
+    </>
   );
 }

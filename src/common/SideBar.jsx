@@ -1,5 +1,8 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../img/market.png"; // Ensure the path is correct
+import { MdSpaceDashboard } from "react-icons/md";
+import { IoIosMenu } from "react-icons/io";
+import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdDashboard, MdSettings, MdVerifiedUser } from "react-icons/md";
 import { FaUser, FaUserAlt } from "react-icons/fa";
 import { MdPayment } from "react-icons/md";
@@ -9,8 +12,10 @@ import { IoCloseSharp, IoLogOutSharp } from "react-icons/io5";
 import { MdEvent } from "react-icons/md";
 import { MdContacts } from "react-icons/md";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
-function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
+function SideBar() {
+    const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
     const isActive = (path) => location.pathname === path;
     const handleLinkClick = () => {
@@ -25,161 +30,121 @@ function SideBar({ isOpen, setIsOpen, toggleSidebar }) {
         toast.success("Logout Successful");
         navigate('/login');
     };
+
     return (
-        <div
-            className={`${isOpen ? "  w-![340px]  left-0 " : "h-full  w-[100%] -left-[500px]"} h-full border-r border-r-[#cccccc2e] xl:border-none border-r-[#ccc] max-w-[286px] bg-[#ffffff]  px-[15px] py-[20px] fixed z-100 top-[0px] lg:top-[0] xl:top-[15px] ${isOpen ? "left-[0px]" : "left-[-100%]"
-                } z-[9] xl:left-[15px] transition-all duration-300`}
+         <>
+      {!isOpen && (
+        <button
+          className="lg:hidden p-2 fixed font-bold top-2.5 text-[#565F66] z-[99]"
+          onClick={() => setIsOpen(true)}
         >
-            <div className="flex justify-between items-start mb-[40px]">
-                <div className="flex items-center gap-3">
-                    <img src={logo} alt="Logo" className="max-w-[130px]" />
-                    <h2 className="font-bold text-xl">MarketPlace</h2>
-                </div>
+          <IoIosMenu size={24} />
+        </button>
+      )}
 
-                <button onClick={toggleSidebar} className="text-black">
-                    {isOpen && <IoCloseSharp size={32} />}
-                </button>
-            </div>
+      <div
+        className={`z-50 custom_scroll sidebar border-opacity-10 w-[260px] md:w-[286px] fixed left-0 top-0 bottom-0 overflow-y-auto bg-white transition-transform transform ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0 lg:block`}
+      >
+        {isOpen && (
+          <button
+            className="lg:hidden p-1.5 absolute left-[213px] top-3 text-red-700 border border-red-700 z-[99] rounded"
+            onClick={() => setIsOpen(false)}
+          >
+            <IoMdArrowRoundBack size={18} />
+          </button>
+        )}
 
-            <div className="h-full">
-                <ul>
-                    <li className="flex mb-[5px]">
-                        <Link
-                            to="/"
-
-                            className={`flex font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
-                        >
-                            <i
-                                onClick={handleLinkClick} // Toggle sidebar on click
-                                className={`pr-[10px] ${isActive("/") ? "text-blue-600" : "text-black"}`}>
-                                <MdDashboard />
-                            </i>
-                            Dashboard
-                        </Link>
-                    </li>
-
-                    <li className="flex mb-[5px]">
-                        <Link
-                            to="/customer"
-                            className={`flex font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/customer") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
-                        >
-                            <i
-                                onClick={toggleSidebar}
-                                className={`pr-[10px] ${isActive("/customer") ? "text-blue-600" : "text-black"}`}>
-                                <FaUser />
-                            </i>
-                            Customer Management
-                        </Link>
-                    </li>
-
-                    <li className="flex mb-[5px]">
-                        <Link
-                            to="/sales"
-                            className={`flex font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/sales") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
-                        >
-                            <i
-                                onClick={toggleSidebar}
-                                className={`pr-[10px] ${isActive("/sales") ? "text-blue-600" : "text-black"}`} >
-                                <FaUserAlt />
-                            </i>
-                            Sales Management
-                        </Link>
-                    </li>
-
-                    <li className="flex mb-[5px]">
-                        <Link
-                            to="/vendor"
-                            className={`flex  font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/vendor") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
-                        >
-                            <i
-                                onClick={toggleSidebar}
-                                className={`pr-[10px] ${isActive("/vendor") ? "text-blue-600" : "text-black"}`}>
-                                <FaUser />
-                            </i>
-                            Vendor Management
-                        </Link>
-                    </li>
-
-                    <li className="flex mb-[5px]">
-                        <Link
-                            to="/category"
-                            className={`flex  font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/category") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
-                        >
-                            <i
-                                onClick={toggleSidebar}
-                                className={`pr-[10px] ${isActive("/category") ? "text-blue-600" : "text-black"}`}>
-                                <FaUser />
-                            </i>
-                            Categories
-                        </Link>
-                    </li>
-
-                    <li className="flex mb-[5px]">
-                        <Link
-                            to="/purchase-history"
-                            className={`flex font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/purchase-history") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
-                        >
-                            <i
-                                onClick={toggleSidebar}
-                                className={`pr-[10px] ${isActive("/purchase-history") ? "text-blue-600" : "text-black"}`}>
-                                <FaUser />
-                            </i>
-                          Purchase History
-                        </Link>
-                    </li>
-
-                    <li className="flex mb-[5px]">
-                        <Link
-                            to="/sub-admin"
-                            className={`flex  font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/sub-admin") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
-                        >
-                            <i
-                                onClick={toggleSidebar}
-                                className={`pr-[10px] ${isActive("/sub-admin") ? "text-blue-600" : "text-black"}`}>
-                                <MdSettings />
-                            </i>
-                            Sub Admin
-                        </Link>
-                    </li>
-
-                    <li className="flex mb-[5px]">
-                        <Link
-                            to="/home"
-                            className={`flex  font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/home") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
-                        >
-                            <i
-                                onClick={toggleSidebar}
-                                className={`pr-[10px] ${isActive("/home") ? "text-blue-600" : "text-black"}`}>
-                                <MdSettings />
-                            </i>
-                            Website Content
-                        </Link>
-                    </li>
-
-                    <li className="flex mb-[5px]">
-                        <Link
-                            to="/setting"
-                            className={`flex  font-[Poppins] items-center w-full text-base p-[10px] rounded-[10px] ${isActive("/setting") ? "bg-[#F5F6FB] text-blue-600" : "text-black"} hover:bg-[#F5F6FB]`}
-                        >
-                            <i
-                                onClick={toggleSidebar}
-                                className={`pr-[10px] ${isActive("/setting") ? "text-blue-600" : "text-black"}`}>
-                                <MdSettings />
-                            </i>
-                            Settings
-                        </Link>
-                    </li>
-                </ul>
-                <div className="absolute bottom-[40px] left-[35px]">
-                    <button className="flex font-[Poppins] items-center text-[18px] text-black" onClick={handleLogout}>
-                        <i onClick={toggleSidebar} className="text-red-600 pr-[8px]">
-                            <IoLogOutSharp size={25} />
-                        </i>
-                        Log out
-                    </button>
-                </div>
-            </div>
+        <div className="px-3 md:px-4 lg:px-6 text-center py-6 lg:py-8">
+          <Link to="/">
+            <img
+              src={logo}
+              alt="Marketplace"
+              height={1000}
+              width={1000}
+              className="h-[85px] w-[100px] mx-2 inline-block"
+            />
+          </Link>
         </div>
+
+        <div className="px-3 lg:px-4">
+          <Link
+            to="/setting"
+            className="user_row p-2.5 bg-white shadow-md rounded-lg lg:rounded-xl flex items-center gap-3"
+          >
+            <div className="w-11 h-11 rounded-full flex items-center justify-center text-white text-xl font-bold">
+              {/* Replace with an actual image if needed */}
+              <img
+                // src={user?.profile_photo || "/Placeholder.png"}
+                src={"/Placeholder.png"}
+                alt="User profile photo"
+                className="w-11 h-11 rounded-full object-cover"
+              />
+            </div>
+            <div className="flex flex-col">
+                <div className="flex items-center gap-2">
+                <p className="font-medium text-sm capitalize text-black -tracking-[0.04em]">
+                    {/* {user?.name || ""} */}
+                </p>
+            </div>
+                <p className="text-xs capitalize #7A7A7A text-[#7A7A7A]">
+                    {/* {user?.role || "Admin"} */}
+                </p>
+            </div>
+          </Link>
+        </div>
+        <div className="py-6">
+          <p className="px-6 uppercase text-[#727272] text-sm font-medium mb-4">
+            Main Menu
+          </p>
+
+          <ul className="space-y-1">
+            <li>
+              <Link
+                to="/"
+                onClick={handleLinkClick}
+                className={`flex items-center gap-2 py-2.5 px-6 text-base font-medium
+                ${
+                  isActive("/")
+                    ? "text-blue-600 bg-gray-200"
+                    : "text-[#565F66] hover:bg-gray-100"
+                }`}
+              >
+                <MdSpaceDashboard size={20} />
+                Dashboard
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                to="/customer"
+                onClick={handleLinkClick}
+                className={`flex items-center gap-2 py-2.5 px-6 text-base font-medium
+                ${
+                  isActive("/customer")
+                    ? "text-blue-600 bg-gray-200"
+                    : "text-[#565F66] hover:bg-gray-100"
+                }`}
+              >
+                <FaUser size={20} />
+                Customer Management
+              </Link>
+            </li>
+
+            <li>
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center gap-2 py-2.5 px-6 text-[#565F66] hover:bg-gray-100"
+              >
+                <IoLogOutSharp size={20} />
+                Logout
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </>
     );
 }
 

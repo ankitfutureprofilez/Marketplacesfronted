@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Listing from "../../Apis/Listing";
 import HeaderAdmin from "../../common/HeaderAdmin";
-import AuthLayout from "../../component/AuthLayout";
 
 function SalesDetails() {
   const { id } = useParams();
@@ -38,7 +37,6 @@ function SalesDetails() {
 
   return (
     <>
-      <AuthLayout>
         <div className="w-full">
           <HeaderAdmin title={"Sales Team"} />
           <div className="px-4 py-2 lg:px-4 lg:py-2.5">
@@ -208,7 +206,6 @@ function SalesDetails() {
             </div>
           </div>
         </div>
-      </AuthLayout>
     </>
   );
 }

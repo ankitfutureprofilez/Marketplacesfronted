@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import AuthLayout from "../../component/AuthLayout";
 import { useParams } from "react-router-dom";
 import Listing from "../../Apis/Listing";
 import { FaUserCircle, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
@@ -39,7 +38,7 @@ export default function CustomerDetail() {
   console.log("data", data);
 
   return (
-    <AuthLayout>
+    <>
       <div className="px-4 py-2 lg:px-4 lg:py-2.5 w-full">
         <div className="bg-white rounded-[20px] mb-[10px] p-2">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-6 mb-6 p-4">
@@ -127,6 +126,6 @@ export default function CustomerDetail() {
         </div>
         </div>
       </div>
-    </AuthLayout>
+    </>
   );
 }

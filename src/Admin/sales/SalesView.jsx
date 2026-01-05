@@ -3,7 +3,6 @@ import Listing from "../../Apis/Listing";
 import HeaderAdmin from "../../common/HeaderAdmin";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import Nodata from "../../common/Nodata";
-import AuthLayout from "../../component/AuthLayout";
 import AddSales from "./AddSales";
 import DeletePopup from "../Customer/DeletePopup";
 import { HiOutlineUserAdd } from "react-icons/hi";
@@ -83,7 +82,7 @@ function SalesView() {
   // console.log("Sales", Sales);
 
   return (
-    <AuthLayout>
+    <>
       <div className="w-full">
         <HeaderAdmin title={"Sales Team"} />
         <div className="px-4 py-2 lg:px-4 lg:py-2.5">
@@ -277,7 +276,7 @@ function SalesView() {
         isEdit={selected !== null ? true : false}
         fecthSalesList={fecthSalesList}
       />
-    </AuthLayout>
+    </>
   );
 }
 

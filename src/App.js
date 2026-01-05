@@ -23,6 +23,7 @@ import PurchaseHistory from "./Admin/Purchase/PurchaseHistory";
 import CustomerDetail from "./Admin/Customer/CustomerDetail";
 import Home from "./Admin/home/Home";
 import AdminList from "./Admin/subAdmin/AdminList";
+import AuthLayout from "./component/AuthLayout";
 
 function App() {
   return (
@@ -33,25 +34,28 @@ function App() {
       <Routes>
         {/* Admin Chnagement */}
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/vendor" element={<List />} />
-        <Route path="/sales" element={<SalesView />} />
-        <Route path="/sales/:id" element={<SalesDetails />} />
-        <Route path="/category" element={<Category />} />
-        {/* <Route path="/subcategory" element={<SubCategories />} /> */}
-        <Route path="/customer" element={<CustomerList />} />
-        <Route path="/customer/:id" element={<CustomerDetail />} />
-        <Route path="/setting" element={<Setting />} />
-        <Route path="/vendor/:id" element={<Details />} />
-        <Route path="/vendor/add" element={<AddVendor />} />
-        <Route path="/vendor/add/:id" element={<AddVendor />} />
-        <Route path="/purchase-history" element={<PurchaseHistory />} />
-        <Route path="/home" element={<Home />} />
+        <Route element={<AuthLayout />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/vendor" element={<List />} />
+          <Route path="/sales" element={<SalesView />} />
+          <Route path="/sales/:id" element={<SalesDetails />} />
+          <Route path="/category" element={<Category />} />
+          {/* <Route path="/subcategory" element={<SubCategories />} /> */}
+          <Route path="/customer" element={<CustomerList />} />
+          <Route path="/customer/:id" element={<CustomerDetail />} />
+          <Route path="/setting" element={<Setting />} />
+          <Route path="/vendor/:id" element={<Details />} />
+          <Route path="/vendor/add" element={<AddVendor />} />
+          <Route path="/vendor/add/:id" element={<AddVendor />} />
+          <Route path="/purchase-history" element={<PurchaseHistory />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/sub-admin" element={<AdminList />} />
+        </Route>
+
         <Route path="/terms" element={<TermsConditions />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/support" element={<Support />} />
-        <Route path="/payment-ra" element={<PaymentPage />} />
-        <Route path="/sub-admin" element={<AdminList />} />
+        {/* <Route path="/payment-ra" element={<PaymentPage />} /> */}
         {/* <Route path="/cal-ra" element={<CalendlyWidget />} /> */}
       </Routes>
     </Router>

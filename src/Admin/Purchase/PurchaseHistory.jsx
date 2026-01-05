@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import AuthLayout from "../../component/AuthLayout";
 import HeaderAdmin from "../../common/HeaderAdmin";
 import Listing from "../../Apis/Listing";
 import Nodata from "../../common/Nodata";
@@ -34,7 +33,7 @@ export default function PurchaseHistory() {
   console.log("data", data);
 
   return (
-    <AuthLayout>
+    <>
       <div className="w-full">
         <HeaderAdmin title="Purchased Offers" />
         {/* 🔹 Purchases Section */}
@@ -58,6 +57,6 @@ export default function PurchaseHistory() {
           </div>
         </div>
       </div>
-    </AuthLayout>
+    </>
   );
 }

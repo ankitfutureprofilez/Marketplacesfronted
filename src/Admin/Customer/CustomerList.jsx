@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import AuthLayout from "../../component/AuthLayout";
 import Listing from "../../Apis/Listing";
 import HeaderAdmin from "../../common/HeaderAdmin";
 import Nodata from "../../common/Nodata";
@@ -51,7 +50,7 @@ function CustomerList() {
   }, []);
 
   return (
-    <AuthLayout>
+    <>
       <div className="w-full ">
         <HeaderAdmin title={"Customer "} />
         <div className="px-4 py-2 lg:px-4 lg:py-2.5">
@@ -253,7 +252,7 @@ function CustomerList() {
         isEdit={selected !== null ? true : false}
         fetchSalesList={fetchCustomerList}
       />
-    </AuthLayout>
+    </>
   );
 }
 

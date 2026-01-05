@@ -1,22 +1,12 @@
 import React, { useState } from 'react'
 import { HiOutlineMenu } from "react-icons/hi";
-import SideBar from './SideBar';
 import { AiOutlineLogout } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
 export default function Header({ title }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
-  const handleLogout = () => {
-    localStorage && localStorage.removeItem('token');
-    navigate('/login');
-  };
   return (
     <>
-      <div className='sticky z-[1] top-0 mb-[20px] flex items-center justify-between gap-[5px] md:gap-[20px]  w-full  bg-[#ffffff] p-[10px] md:p-[20px]  rounded-[10px] md:rounded-[15px]  mt-3'>
+      {/* <div className='sticky z-[1] top-0 mb-[20px] flex items-center justify-between gap-[5px] md:gap-[20px]  w-full  bg-[#ffffff] p-[10px] md:p-[20px]  rounded-[10px] md:rounded-[15px]  mt-3'>
         <div className='flex items-center w-full gap-[5px] md:gap-[20px]'>
           <button
             onClick={toggleSidebar}
@@ -34,7 +24,7 @@ export default function Header({ title }) {
         <div>
         </div>
       </div>
-      <SideBar toggleSidebar={toggleSidebar} isOpen={isOpen} setIsOpen={setIsOpen} />
+      <SideBar toggleSidebar={toggleSidebar} isOpen={isOpen} setIsOpen={setIsOpen} /> */}
     </>
 
   )

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import AuthLayout from "../../component/AuthLayout";
 import Listing from "../../Apis/Listing";
 import HeaderAdmin from "../../common/HeaderAdmin";
 import toast from "react-hot-toast";
@@ -59,7 +58,7 @@ export default function AdminList() {
   };
 
   return (
-    <AuthLayout>
+    <>
       <div className="w-full">
         <HeaderAdmin title={"Sub Admins"} />
         <div className="py-2 lg:py-2.5">
@@ -242,6 +241,6 @@ export default function AdminList() {
         isEdit={selected !== null ? true : false}
         fecthSalesList={fetchAdmins}
       />
-    </AuthLayout>
+    </>
   );
 }

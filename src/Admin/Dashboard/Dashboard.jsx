@@ -1,6 +1,5 @@
 import { IoMdEye } from "react-icons/io";
 import HeaderAdmin from "../../common/HeaderAdmin";
-import AuthLayout from "../../component/AuthLayout";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import Nodata from "../../common/Nodata";
@@ -76,7 +75,7 @@ function Dashboard() {
   //   console.log("team", team);
 
   return (
-    <AuthLayout>
+    <>
       <div className="w-full ">
         <HeaderAdmin title={"Admin Dashboard"} />
         <div className="px-4 py-2 lg:px-4 lg:py-4">
@@ -226,7 +225,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
-    </AuthLayout>
+    </>
   );
 }
 

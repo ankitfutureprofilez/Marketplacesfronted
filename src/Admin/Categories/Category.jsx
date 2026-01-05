@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import AuthLayout from "../../component/AuthLayout";
 import Listing from "../../Apis/Listing";
 import AddCategory from "./AddCategory";
 import HeaderAdmin from "../../common/HeaderAdmin";
@@ -65,10 +64,10 @@ export default function Category() {
     fetchData();
   }, []);
 
-  console.log("data", data);
+  // console.log("data", data);
 
   return (
-    <AuthLayout>
+    <>
       <div className="w-full">
         <HeaderAdmin title={"Customer "} />
         <div className="px-4 py-2 lg:px-4 lg:py-2.5">
@@ -306,6 +305,6 @@ export default function Category() {
           fetchCustomerList={fetchData}
         />
       </div>
-    </AuthLayout>
+    </>
   );
 }

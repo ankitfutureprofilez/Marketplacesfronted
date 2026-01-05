@@ -3,7 +3,6 @@ import Listing from "../../Apis/Listing";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import Nodata from "../../common/Nodata";
 import HeaderAdmin from "../../common/HeaderAdmin";
-import AuthLayout from "../../component/AuthLayout";
 import { IoMdEye } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { MdEdit } from "react-icons/md";
@@ -143,7 +142,7 @@ function List() {
   }, []);
 
   return (
-    <AuthLayout>
+    <>
       <div className="w-full">
         <HeaderAdmin title="Vendor Listing" />
 
@@ -383,7 +382,7 @@ function List() {
         member={selected}
         fetchTeamList={fetchTeamList}
       />
-    </AuthLayout>
+    </>
   );
 }
 
