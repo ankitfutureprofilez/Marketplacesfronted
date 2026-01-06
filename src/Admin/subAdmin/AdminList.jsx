@@ -239,7 +239,7 @@ export default function AdminList() {
         onClose={closeAddPopup}
         member={selected}
         isEdit={selected !== null ? true : false}
-        fecthSalesList={fetchAdmins}
+        fetchData={fetchAdmins}
       />
     </>
   );
