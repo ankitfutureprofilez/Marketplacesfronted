@@ -86,7 +86,7 @@ function SideBar() {
     navigate("/login");
   };
 
-  //   console.log("user", user);
+    console.log("user", user);
 
   return (
     <>
@@ -133,7 +133,7 @@ function SideBar() {
             <div className="w-11 h-11 rounded-full flex items-center justify-center text-white text-xl font-bold">
               {/* Replace with an actual image if needed */}
               <img
-                src={user?.profile_photo || "/Placeholder.png"}
+                src={user?.avatar || "/Placeholder.png"}
                 alt="User profile photo"
                 className="w-11 h-11 rounded-full object-cover"
               />
@@ -156,7 +156,7 @@ function SideBar() {
           </p>
 
           <ul className="space-y-1">
-            {visibleItems.map((item) => {
+            {visibleItems && visibleItems?.map((item) => {
               const Icon = item.icon;
               return (
                 <li key={item.path}>
@@ -196,7 +196,7 @@ function SideBar() {
             <li>
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center gap-2 py-2.5 px-6 text-[#565F66] hover:bg-gray-100"
+                className="flex items-center gap-2 py-2.5 px-6 text-base font-medium text-[#565F66] hover:bg-gray-100"
               >
                 <IoLogOutSharp size={20} />
                 Logout

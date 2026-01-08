@@ -5,7 +5,7 @@ import HeaderAdmin from "../../common/HeaderAdmin";
 import OfferPrice from "./OfferPrice";
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState("offer");
+  const [activeTab, setActiveTab] = useState("term");
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
@@ -15,7 +15,7 @@ export default function Home() {
         <HeaderAdmin title={"Website"} />
         <div className="bg-white py-2lg:py-2.5">
         <div className="flex border-b border-[rgba(0,0,0,.1)]">
-          <button
+          {/* <button
             onClick={() => handleTabClick("offer")}
             className={` cursor-pointer tracking-[-0.04em] font-medium  px-2 md:px-4 lg:px-3 xl:px-8 pt-3 lg:pt-4 pb-3 lg:pb-4 text-sm 
             sm:text-base  xl:text-xl outline-none focus:outline-none ease-linear transition-all border-b duration-150  
@@ -26,7 +26,7 @@ export default function Home() {
             }`}
           >
             Offers Price
-          </button>
+          </button> */}
 
           <button
             onClick={() => handleTabClick("term")}
