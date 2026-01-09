@@ -86,7 +86,7 @@ function SideBar() {
     navigate("/login");
   };
 
-    console.log("user", user);
+  // console.log("user", user);
 
   return (
     <>
@@ -196,7 +196,7 @@ function SideBar() {
             <li>
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 py-2.5 px-6 text-base font-medium text-[#565F66] hover:bg-gray-100"
+                className="flex items-center gap-2 py-2.5 px-6 text-base font-medium text-[#565F66] hover:bg-gray-100 w-full"
               >
                 <IoLogOutSharp size={20} />
                 Logout

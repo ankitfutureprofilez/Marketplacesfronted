@@ -3,6 +3,7 @@ import HeaderAdmin from "../../common/HeaderAdmin";
 import Listing from "../../Apis/Listing";
 import Nodata from "../../common/Nodata";
 import PurchaseTable from "../../common/PurchaseTable";
+import LoadingSpinner from "../../common/LoadingSpinner";
 
 export default function PurchaseHistory() {
   const [data, setData] = useState([]);
@@ -48,7 +49,9 @@ export default function PurchaseHistory() {
 
             {/* Table */}
             <div className="overflow-x-auto">
-              {!data?.purchased?.length ? (
+              {loading ? (
+                <LoadingSpinner />
+              ) : !data?.purchased?.length ? (
                 <Nodata />
               ) : (
                 <PurchaseTable data={data?.purchased} showCustomer={true} />
