@@ -108,7 +108,7 @@ export default function Details() {
             </div>
 
             <div className="flex flex-wrap justify-center sm:justify-end items-center gap-4 text-sm text-gray-600">
-              <div className="flex items-center space-x-1">
+              <a href={`mailto:${vendorRecord?.user?.email || "N/A"}`} className="flex items-center space-x-1">
                 <svg
                   className="w-4 h-4 text-gray-400"
                   fill="none"
@@ -126,8 +126,8 @@ export default function Details() {
                 <span className="font-medium">
                   {vendorRecord?.user?.email || "N/A"}
                 </span>
-              </div>
-              <div className="flex items-center space-x-1">
+              </a>
+              <a href={`tel:${vendorRecord?.user?.phone || "N/A"}`} className="flex items-center space-x-1">
                 <svg
                   className="w-4 h-4 text-gray-400"
                   fill="none"
@@ -143,7 +143,7 @@ export default function Details() {
                   ></path>
                 </svg>
                 <span className="font-medium">{vendorRecord?.user?.phone || "N/A"}</span>
-              </div>
+              </a>
               <div className="flex items-center space-x-1">
                 <svg
                   className="w-4 h-4 text-gray-400"
@@ -166,7 +166,7 @@ export default function Details() {
                   ></path>
                 </svg>
                 <span className="font-medium">
-                  {vendorRecord.address || "N/A"}
+                  {vendorRecord?.address || "N/A"}
                 </span>
               </div>
             </div>

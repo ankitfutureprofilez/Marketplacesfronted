@@ -36,7 +36,6 @@ export default function GalleryPopup({ data = [], id }) {
   };
 
   const uploadImages = async() => {
-    console.log("Uploading files:", newImages);
     setLoading(true);
     const main = new Listing();
     const formData = new FormData();

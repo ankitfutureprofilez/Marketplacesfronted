@@ -125,22 +125,25 @@ function SalesDetails() {
 
           {/* ================= Stats ================= */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div 
-            onClick={() =>
-              offersRef.current?.scrollIntoView({ behavior: "smooth" })
-            }
-            className="p-4 rounded-xl shadow-lg text-white bg-gradient-to-br from-blue-600 to-blue-400 cursor-pointer">
+            <div
+              onClick={() =>
+                offersRef.current?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="p-4 rounded-xl shadow-lg text-white bg-gradient-to-br from-blue-600 to-blue-400 cursor-pointer"
+            >
               <p className="text-sm opacity-80">Active Offers</p>
               <p className="text-4xl font-extrabold mt-1">
                 {record?.total_offer_stats?.activeOffers ?? 0}
               </p>
             </div>
 
-            <div 
-            onClick={() =>
-              purchaseRef.current?.scrollIntoView({ behavior: "smooth" })
-            } cursor-pointer
-            className="p-4 rounded-xl shadow-lg bg-white border cursor-pointer">
+            <div
+              onClick={() =>
+                purchaseRef.current?.scrollIntoView({ behavior: "smooth" })
+              }
+              cursor-pointer
+              className="p-4 rounded-xl shadow-lg bg-white border cursor-pointer"
+            >
               <p className="text-sm text-gray-500">Offers Sold</p>
               <p className="text-4xl font-extrabold text-gray-800 mt-1">
                 {record?.total_offer_stats?.totalOfferBuys ?? 0}
@@ -148,10 +151,11 @@ function SalesDetails() {
             </div>
 
             <div
-            onClick={() =>
-              purchaseRef.current?.scrollIntoView({ behavior: "smooth" })
-            }
-             className="p-4 rounded-xl shadow-lg bg-green-50 border border-green-200 cursor-pointer">
+              onClick={() =>
+                purchaseRef.current?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="p-4 rounded-xl shadow-lg bg-green-50 border border-green-200 cursor-pointer"
+            >
               <p className="text-sm text-green-700">Redeemed Offers</p>
               <p className="text-4xl font-extrabold text-green-600 mt-1">
                 {record?.total_offer_stats?.redeemedOffers ?? 0}
@@ -159,10 +163,11 @@ function SalesDetails() {
             </div>
 
             <div
-            onClick={() =>
-              purchaseRef.current?.scrollIntoView({ behavior: "smooth" })
-            }
-             className="p-4 rounded-xl shadow-lg bg-yellow-50 border border-yellow-200 cursor-pointer">
+              onClick={() =>
+                purchaseRef.current?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="p-4 rounded-xl shadow-lg bg-yellow-50 border border-yellow-200 cursor-pointer"
+            >
               <p className="text-sm text-yellow-700">Total Earnings</p>
               <p className="text-3xl font-extrabold text-yellow-600 mt-1">
                 {record?.total_offer_stats?.totalAmount ?? 0}
@@ -208,7 +213,10 @@ function SalesDetails() {
           </div>
 
           {/* ================= Purchases ================= */}
-          <div className="flex flex-col border-t border-black border-opacity-10 mt-4" ref={purchaseRef}>
+          <div
+            className="flex flex-col border-t border-black border-opacity-10 mt-4"
+            ref={purchaseRef}
+          >
             <div className="px-4 py-4">
               <h2 className="text-[16px] lg:text-[18px] font-bold text-[#1E1E1E]">
                 Purchases
