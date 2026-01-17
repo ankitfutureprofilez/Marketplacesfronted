@@ -53,7 +53,7 @@ function SideBar() {
       label: "Website Content",
       path: "/home",
       icon: MdSettings,
-      role: "admin",
+      permission: "manage_website",
     },
     // { label: "Settings", path: "/setting", icon: MdSettings, role: "admin" },
   ];

@@ -21,7 +21,7 @@ export default function Home() {
             sm:text-base  xl:text-xl outline-none focus:outline-none ease-linear transition-all border-b duration-150  
             ${
               activeTab === "offer"
-                ? "text-[#CC2828] border-[#CC2828]"
+                ? "text-blue-600 border-blue-600"
                 : "text-[#535353]  border-[rgba(0,0,0,.0)] "
             }`}
           >
@@ -34,7 +34,7 @@ export default function Home() {
             sm:text-base  xl:text-xl outline-none focus:outline-none ease-linear transition-all border-b duration-150  
             ${
               activeTab === "term"
-                ? "text-[#CC2828] border-[#CC2828]"
+                ? "text-blue-600 border-blue-600"
                 : "text-[#535353]  border-[rgba(0,0,0,.0)] "
             }`}
           >
@@ -47,7 +47,7 @@ export default function Home() {
             lg:pb-4 text-sm sm:text-base  xl:text-xl outline-none focus:outline-none ease-linear transition-all 
             border-b duration-150  ${
               activeTab === "privacy"
-                ? "text-[#CC2828] border-[#CC2828]"
+                ? "text-blue-600 border-blue-600"
                 : "text-[#535353]  border-[rgba(0,0,0,.0)] "
             }`}
           >
