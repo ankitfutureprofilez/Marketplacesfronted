@@ -59,6 +59,7 @@ export default function AdminLayout() {
     { path: "/", title: "Dashboard", exact: true },
     { path: "/vendor/add", title: "Add Vendor" },
     { path: "/vendor", title: "Vendor Management" },
+    { path: "/vendor/:id", title: "Vendor Details" },
     { path: "/sales", title: "Sales Management" },
     { path: "/sales/:id", title: "Sales Details" },
     { path: "/category", title: "Categories" },

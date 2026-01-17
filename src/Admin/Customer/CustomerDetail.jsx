@@ -35,7 +35,7 @@ export default function CustomerDetail() {
     }
   }, [id]);
 
-  console.log("data", data);
+  // console.log("data", data);
 
   return (
     <>
@@ -63,16 +63,16 @@ export default function CustomerDetail() {
             <div className="flex flex-wrap justify-center sm:justify-end gap-6 text-sm text-gray-700">
               <div className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-lg border">
                 <FaEnvelope className="text-gray-400" />
-                <span className="font-medium">
+                <a href={`mailto:${data?.record?.email || "N/A"}`} className="font-medium">
                   {data?.record?.email || "N/A"}
-                </span>
+                </a>
               </div>
 
               <div className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-lg border">
                 <FaPhoneAlt className="text-gray-400" />
-                <span className="font-medium">
+                <a href={`tel:${data?.record?.phone || "N/A"}`} className="font-medium">
                   {data?.record?.phone || "N/A"}
-                </span>
+                </a>
               </div>
             </div>
           </div>
@@ -87,7 +87,7 @@ export default function CustomerDetail() {
             </div>
             <div className="p-4 rounded-xl shadow-lg text-gray-800 bg-white border border-gray-200">
               <p className="text-sm font-medium text-gray-500">
-                Total Paid Offers
+                Redeemed Offers
               </p>
               <p className="text-4xl font-extrabold mt-1">
                 {data?.stats?.vendorBillTrueCount ?? 0}

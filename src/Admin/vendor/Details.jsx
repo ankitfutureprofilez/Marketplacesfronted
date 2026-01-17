@@ -74,7 +74,6 @@ export default function Details() {
   }
 
   return (
-    <>
       <div className="py-2lg:py-2.5 w-full">
         <div className="bg-white rounded-[20px] mb-[10px] p-2">
           {/* User & Contact Information */}
@@ -354,6 +353,5 @@ export default function Details() {
           </div>
         </div>
       </div>
-    </>
   );
 }
