@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Popup from "../../common/Popup";
 import Listing from "../../Apis/Listing";
 import toast from "react-hot-toast";
 
-export default function GalleryPopup({ data = [], id }) {
+export default function GalleryPopup({ data = [], id, fetchData }) {
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  const [images, setImages] = useState(data);
+  const [images, setImages] = useState([]);
   const [selected, setSelected] = useState([]);
   const [newImages, setNewImages] = useState([]);
 
@@ -24,10 +25,26 @@ export default function GalleryPopup({ data = [], id }) {
     );
   };
 
-  const deleteSelected = () => {
-    setImages((prev) => prev.filter((img) => !selected.includes(img)));
-    setSelected([]);
-
+  const deleteSelected = async() => {
+    // console.log("Deleting selected images:", selected);
+    setDeleteLoading(true);
+    const main = new Listing();
+    try {
+      const res = await main.VendorGalleryDelete(id, {files: selected});
+      if (res?.data?.status) {
+        toast.success(res.data.message);
+        setShowPopup(false);
+        fetchData(false);
+      } else {
+        toast.error(res.data.message || "Login failed");
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong!");
+      console.log("Login error:", error);
+    } finally {
+      setDeleteLoading(false);
+      setSelected([]);
+    }
   };
 
   const handleUploadChange = (e) => {
@@ -46,6 +63,8 @@ export default function GalleryPopup({ data = [], id }) {
       const res = await main.VendorGalleryAdd(id, formData);
       if (res?.data?.status) {
         toast.success(res.data.message);
+        setShowPopup(false);
+        fetchData(false);
       } else {
         toast.error(res.data.message || "Login failed");
       }
@@ -57,6 +76,11 @@ export default function GalleryPopup({ data = [], id }) {
       setNewImages([]);
     }
   };
+
+  useEffect(() => {
+    setImages(data || []);
+    setSelected([]);
+  }, [data]);
 
   return (
     <>
@@ -106,9 +130,9 @@ export default function GalleryPopup({ data = [], id }) {
               {selected && selected?.length > 0 && (
                 <button
                   onClick={deleteSelected}
-                  className="mt-4 bg-red-600 text-white px-4 py-2 rounded"
+                  className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
                 >
-                  Delete Selected ({selected.length})
+                  {deleteLoading ? "Deleting... " : `Delete Selected (${selected.length})`}
                 </button>
               )}
             </div>
@@ -139,9 +163,9 @@ export default function GalleryPopup({ data = [], id }) {
 
                   <button
                     onClick={uploadImages}
-                    className="mt-4 bg-green-600 text-white px-4 py-2 rounded"
+                    className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
                   >
-                    Upload Images ({newImages?.length})
+                    {loading ? "Uploading..." : "Upload Images"}
                   </button>
                 </>
               )}
