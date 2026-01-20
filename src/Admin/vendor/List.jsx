@@ -188,7 +188,7 @@ function List() {
                 >
                   <option>All Status</option>
                   <option value="verify">Verify</option>
-                  <option value="unverify">UnVerify</option>
+                  <option value="unverify">Unverify</option>
                 </select>
 
                 {/* Category Filter */}

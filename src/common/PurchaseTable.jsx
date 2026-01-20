@@ -70,8 +70,8 @@ export default function PurchaseTable({ data, showCustomer }) {
                 {/* VENDOR */}
                 <td className="px-[10px] py-[16px] text-[16px]">
                   <div className="flex flex-col">
-                    {/* <span className="font-medium">{item?.vendor?.business_name}</span> */}
-                    <span className="font-medium">{item?.vendor?.name}</span>
+                    <span className="font-medium">{item?.vendor?.business_name}</span>
+                    <span className="text-[13px] text-gray-500">{item?.vendor?.name}</span>
                     {item?.vendor?.email && (
                       <span className="text-[13px] text-gray-500">
                         {item.vendor.email}

@@ -1,8 +1,11 @@
 import DateFormate from "../../component/DateFormate";
+import { CiEdit } from "react-icons/ci";
 
 export default function OfferListing({ Offer }) {
+  console.log("Offer", Offer);
+  
   return (
-    <div className="bg-white     rounded-lg  overflow-x-auto mt-3">
+    <div className="bg-white rounded-lg overflow-x-auto mt-3">
       <table className="min-w-full divide-y divide-gray-200">
         <thead>
           <tr className="text-xs font-medium tracking-wider text-gray-500 uppercase bg-gray-50">
@@ -40,10 +43,13 @@ export default function OfferListing({ Offer }) {
 
                   {/* Title */}
                   <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900 capitalize">
-                    {record?.title || "No Title"}
+                    <div className="flex gap-2">
+                    {record?.title || "N/A"}
+                    <CiEdit size={20} className="text-green-600 cursor-pointer"/>
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
-                    {record?.description || "No description"}
+                    {record?.description || "N/A"}
                   </td>
                   {/* Discount Type */}
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -65,7 +71,7 @@ export default function OfferListing({ Offer }) {
                     ₹{record?.amount || 0}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <DateFormate data={record.expiryDate} />
+                    <DateFormate data={record?.expiryDate} />
                   </td>
                   {/* Status */}
                   <td className="px-6 py-4 whitespace-nowrap">

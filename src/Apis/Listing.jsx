@@ -84,11 +84,11 @@ class Listing extends Component {
     }
 
     async AdminDashbaordSales(start, end) {
-        return Api.get(`/admin/dashboard/sales?start=${start}&end=${end}`,)
+        return Api.get(`/admin/dashboard/sales?start=${start}&end=${end}`,);
     }
 
-    async PurchasedOfferGet() {
-        return Api.get("/admin/brought-offer",)
+    async PurchasedOfferGet(search, status) {
+        return Api.get(`/admin/brought-offer?search=${search}&status=${status}`);
     }
 
     async assignStaff(data) {
