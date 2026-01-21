@@ -45,7 +45,7 @@ export default function OfferListing({ Offer }) {
                   <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900 capitalize">
                     <div className="flex gap-2">
                     {record?.title || "N/A"}
-                    <CiEdit size={20} className="text-green-600 cursor-pointer"/>
+                    {/* <CiEdit size={20} className="text-green-600 cursor-pointer"/> */}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
