@@ -270,10 +270,10 @@ function List() {
                             <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
                               {index + 1}
                             </td>
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
-                              {vendor.business_name}
+                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px] capitalize">
+                              {vendor?.business_name}
                             </td>
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px] capitalize">
                               {vendor?.user?.name}
                             </td>
                             <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">

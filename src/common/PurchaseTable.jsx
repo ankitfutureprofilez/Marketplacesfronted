@@ -74,11 +74,11 @@ export default function PurchaseTable({ data, showCustomer }) {
                     <span className="text-[13px] text-gray-500">{item?.vendor?.name}</span>
                     {item?.vendor?.email && (
                       <span className="text-[13px] text-gray-500">
-                        {item.vendor.email}
+                        {item?.vendor?.email}
                       </span>
                     )}
                     <span className="text-[13px] text-gray-500">
-                      {item.vendor.phone}
+                      {item?.vendor?.phone}
                     </span>
                   </div>
                 </td>
@@ -90,11 +90,11 @@ export default function PurchaseTable({ data, showCustomer }) {
                       <span className="font-medium">{item?.user?.name}</span>
                       {item?.user?.email && (
                         <span className="text-[13px] text-gray-500">
-                          {item.user.email}
+                          {item?.user?.email}
                         </span>
                       )}
                       <span className="text-[13px] text-gray-500">
-                        {item.user.phone}
+                        {item?.user?.phone}
                       </span>
                     </div>
                   </td>
@@ -233,7 +233,7 @@ export default function PurchaseTable({ data, showCustomer }) {
                               <div className="text-gray-500">
                                 Purchased:{" "}
                                 {moment(history?.createdAt).format(
-                                  "DD MMM YYYY"
+                                  "DD MMM YYYY, hh:mm A"
                                 )}
                               </div>
                             </div>
@@ -247,7 +247,7 @@ export default function PurchaseTable({ data, showCustomer }) {
                               </div>
                               <div className="text-gray-500">
                                 Upgraded:{" "}
-                                {moment(nextUpgradeDate).format("DD MMM YYYY")}
+                                {moment(nextUpgradeDate).format("DD MMM YYYY, hh:mm A")}
                               </div>
                             </div>
                           </div>
