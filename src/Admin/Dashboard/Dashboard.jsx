@@ -140,10 +140,10 @@ function Dashboard() {
               </div>
               <div className="pl-[2px] lg:pl-[10px] xl:pl-[15px]">
                 <h3 className="capitalize font-[Poppins] font-[400] text-black text-[14px] leading-[15px] mb-[2px] lg:mb-[5px] lg:mb-[8px] ">
-                  OFFERS Sold
+                  Total Customers
                 </h3>
                 <h2 className="font-[Poppins] font-[400] text-black text-[25px] md:text-[28px] lg:text-[35px] xl:text-[48px] leading-[48px]">
-                  {team?.stats?.total_offer_buys}
+                  {team?.stats?.total_customers}
                 </h2>
               </div>
             </Link>

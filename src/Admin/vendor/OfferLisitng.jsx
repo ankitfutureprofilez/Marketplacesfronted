@@ -1,5 +1,6 @@
 import DateFormate from "../../component/DateFormate";
-import { CiEdit } from "react-icons/ci";
+// import { CiEdit } from "react-icons/ci";
+import AddOffer from "./AddOffer";
 
 export default function OfferListing({ Offer }) {
   console.log("Offer", Offer);
@@ -46,6 +47,7 @@ export default function OfferListing({ Offer }) {
                     <div className="flex gap-2">
                     {record?.title || "N/A"}
                     {/* <CiEdit size={20} className="text-green-600 cursor-pointer"/> */}
+                    {/* <AddOffer /> */}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">

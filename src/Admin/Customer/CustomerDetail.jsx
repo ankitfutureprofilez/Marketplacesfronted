@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import moment from "moment";
 import Listing from "../../Apis/Listing";
 import { FaUserCircle, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
 import PurchaseTable from "../../common/PurchaseTable";
@@ -35,7 +36,7 @@ export default function CustomerDetail() {
     }
   }, [id]);
 
-  // console.log("data", data);
+  console.log("data", data);
 
   return (
     <div className="py-2 lg:py-2.5 w-full">
@@ -53,7 +54,7 @@ export default function CustomerDetail() {
                 <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
               </p>
               <p className="text-sm text-gray-500 capitalize">
-                {data?.record?.role || "N/A"}
+                Joined at - {moment(data?.record?.createdAt).format("DD-MM-YYYY, HH:MM A") || "N/A"}
               </p>
             </div>
           </div>
@@ -77,7 +78,7 @@ export default function CustomerDetail() {
         </div>
 
         {/* Stats/Metrics Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div className="p-4 rounded-xl shadow-lg text-white bg-gradient-to-br from-blue-600 to-blue-400">
             <p className="text-sm opacity-80">Total Offers</p>
             <p className="text-4xl font-extrabold mt-1">
@@ -92,14 +93,6 @@ export default function CustomerDetail() {
               {data?.stats?.vendorBillTrueCount ?? 0}
             </p>
           </div>
-          <div className="p-4 rounded-xl shadow-lg text-gray-800 bg-green-50 border border-green-200">
-            <p className="text-sm font-medium text-green-700">
-              Pending Offers
-            </p>
-            <p className="text-4xl font-extrabold text-green-600 mt-1">
-              {data?.stats?.vendorBillFalseCount ?? 0}
-            </p>
-          </div>
           <div className="p-4 rounded-xl shadow-lg text-gray-800 bg-yellow-50 border border-yellow-200">
             <p className="text-sm font-medium text-yellow-700">
               Total Amount Paid
@@ -108,10 +101,18 @@ export default function CustomerDetail() {
               {formatMultiPrice(data?.stats?.totalFinalAmountPaid, "INR") ?? 0}
             </p>
           </div>
+          <div className="p-4 rounded-xl shadow-lg text-gray-800 bg-green-50 border border-green-200">
+            <p className="text-sm font-medium text-green-700">
+              Total Money Saved
+            </p>
+            <p className="text-4xl font-extrabold text-green-600 mt-1">
+              {formatMultiPrice(data?.stats?.totalDiscount, "INR") ?? 0}
+            </p>
+          </div>
         </div>
 
         {/* Purchases */}
-        <div className="flex flex-col border-t border-black border-opacity-10 mt-4">
+        <div className="flex flex-col border-t border-black border-opacity-10 mt-4 overflow-y-auto">
         {/* Title */}
         <div className="px-4 py-4">
           <h2 className="text-[16px] lg:text-[18px] font-bold text-[#1E1E1E]">

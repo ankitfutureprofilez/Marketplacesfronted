@@ -320,8 +320,7 @@ const handleSubmit = async (e) => {
   };
 
   return (
-    <>
-      <div className="w-full px-4">
+      <div className="w-full">
         <HeaderAdmin title={id ? "Edit Vendor" : "Add New Vendor"} back={1} />
 
         <div className="bg-gray-100 pb-8">
@@ -578,6 +577,5 @@ const handleSubmit = async (e) => {
           </form>
         </div>
       </div>
-    </>
   );
 }
