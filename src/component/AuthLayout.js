@@ -51,7 +51,7 @@ export default function AdminLayout() {
     {
       label: "Website Content",
       path: "/home",
-      role: "admin",
+      permission: "manage_website",
     },
   ];
 
@@ -87,6 +87,7 @@ export default function AdminLayout() {
   };
 
   const hasAccess = (user, item) => {
+    // console.log("Checking access for user:", user, "on item:", item);
     if (!user) return false;
     if (user.role === "admin") return true;
     if (item.role && item.role !== user.role) return false;
