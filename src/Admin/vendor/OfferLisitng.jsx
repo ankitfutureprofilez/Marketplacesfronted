@@ -1,6 +1,7 @@
 import DateFormate from "../../component/DateFormate";
-// import { CiEdit } from "react-icons/ci";
+import { CiEdit } from "react-icons/ci";
 import AddOffer from "./AddOffer";
+import { Link } from "react-router-dom";
 
 export default function OfferListing({ Offer }) {
   console.log("Offer", Offer);
@@ -46,8 +47,9 @@ export default function OfferListing({ Offer }) {
                   <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900 capitalize">
                     <div className="flex gap-2">
                     {record?.title || "N/A"}
-                    {/* <CiEdit size={20} className="text-green-600 cursor-pointer"/> */}
-                    {/* <AddOffer /> */}
+                    <Link to={`/offer/${item._id}`}>
+                      <CiEdit size={20} className="text-green-600 cursor-pointer"/>
+                    </Link>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">

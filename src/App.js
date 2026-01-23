@@ -24,6 +24,7 @@ import CustomerDetail from "./Admin/Customer/CustomerDetail";
 import Home from "./Admin/home/Home";
 import AdminList from "./Admin/subAdmin/AdminList";
 import AuthLayout from "./component/AuthLayout";
+import AddOffer from "./Admin/vendor/AddOffer";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
           <Route path="/vendor/:id" element={<Details />} />
           <Route path="/vendor/add" element={<AddVendor />} />
           <Route path="/vendor/add/:id" element={<AddVendor />} />
+          <Route path="/offer/:id" element={<AddOffer />} />
           <Route path="/purchase-history" element={<PurchaseHistory />} />
           <Route path="/home" element={<Home />} />
           <Route path="/sub-admin" element={<AdminList />} />
