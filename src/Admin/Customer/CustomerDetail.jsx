@@ -54,7 +54,7 @@ export default function CustomerDetail() {
                 <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
               </p>
               <p className="text-sm text-gray-500 capitalize">
-                Joined at - {moment(data?.record?.createdAt).format("DD-MM-YYYY, HH:MM A") || "N/A"}
+                Joined at- {moment(data?.record?.createdAt).format("DD MMM-YYYY, HH:MM A") || "N/A"}
               </p>
             </div>
           </div>
