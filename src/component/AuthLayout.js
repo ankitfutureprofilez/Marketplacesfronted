@@ -66,7 +66,7 @@ export default function AdminLayout() {
     { path: "/customer", title: "Customer Management" },
     { path: "/customer/:id", title: "Customer Details" },
     { path: "/purchase-history", title: "Purchase History" },
-    { path: "/home", title: "Website Content" },
+    { path: "/home", title: "manage_website" },
     { path: "/sub-admin", title: "Sub-Admin" },
     { path: "/setting", title: "Settings" },
   ];
