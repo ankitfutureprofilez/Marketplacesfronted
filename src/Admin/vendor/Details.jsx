@@ -287,14 +287,14 @@ export default function Details() {
                   </div>
                 ),
               )}
-              {vendorRecord.weekly_off_day && (
+              {/* {vendorRecord.weekly_off_day && (
                 <div className="col-span-2 mt-2">
                   <p className="text-gray-500">Weekly Off Day </p>
                   <p className="font-medium text-base text-blue-600">
                     {vendorRecord.weekly_off_day}
                   </p>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>
