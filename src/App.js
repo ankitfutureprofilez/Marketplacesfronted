@@ -25,6 +25,7 @@ import Home from "./Admin/home/Home";
 import AdminList from "./Admin/subAdmin/AdminList";
 import AuthLayout from "./component/AuthLayout";
 import AddOffer from "./Admin/vendor/AddOffer";
+import Test from "./Test";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="/sales" element={<SalesView />} />
           <Route path="/sales/:id" element={<SalesDetails />} />
           <Route path="/category" element={<Category />} />
+          <Route path="/test" element={<Test />} />
           {/* <Route path="/subcategory" element={<SubCategories />} /> */}
           <Route path="/customer" element={<CustomerList />} />
           <Route path="/customer/:id" element={<CustomerDetail />} />
