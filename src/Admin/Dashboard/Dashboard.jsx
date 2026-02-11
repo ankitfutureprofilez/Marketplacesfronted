@@ -132,7 +132,7 @@ function Dashboard() {
             </Link>
 
             <Link
-              to="/vendor"
+              to="/customer"
               className="flex items-center gap-[5px] xl:gap-[8px] lg:gap-[10px] xl:gap-[15px] bg-white rounded-[10px] md:rounded-[10px] lg:rounded-[20px] p-[10px] md:p-[10px] lg:p-[25px] w-full md:w-4/12"
             >
               <div className="flex items-center justify-center  w-[50px] h-[50px] md:w-[60px] md:h-[60px] lg:w-[80px] lg:h-[80px] rounded-[8px]">

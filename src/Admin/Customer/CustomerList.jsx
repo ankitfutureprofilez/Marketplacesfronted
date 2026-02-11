@@ -41,6 +41,7 @@ function CustomerList() {
       setLoading(false);
     } catch (error) {
       console.error("Error fetching team list:", error);
+      setTeams([]);
       setLoading(false);
     }
   };

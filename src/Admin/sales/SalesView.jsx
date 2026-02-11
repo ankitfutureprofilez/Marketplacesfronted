@@ -46,6 +46,7 @@ function SalesView() {
       setSales(response?.data?.data || []);
     } catch (error) {
       console.error("Error fetching team list:", error);
+      setSales([])
     } finally {
       setLoading(false);
     }

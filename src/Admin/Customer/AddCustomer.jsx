@@ -31,12 +31,12 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
       avatar: member?.avatar || null,
       role: "customer",
     });
-    setOriginalPhone(phone); 
+    setOriginalPhone(phone);
     setIsPhoneChanged(false);
     setIsPhoneVerified(false);
     setPreviewImage(
       member?.avatar ||
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyCbJoUCRscGfzySEtqoR5HtHnEOE0ux4r-A&s"
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyCbJoUCRscGfzySEtqoR5HtHnEOE0ux4r-A&s"
     );
 
   }, [member]);
@@ -53,11 +53,11 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
     console.log("value", value);
     console.log("originalPhone", originalPhone);
     if (name === "phone") {
-      if(value != originalPhone && value.length === 10){
+      if (value != originalPhone && value.length === 10) {
         setIsPhoneVerified(false);
         setIsPhoneChanged(true);
       }
-      else{
+      else {
         setIsPhoneVerified(true);
         setIsPhoneChanged(false);
       }
@@ -125,8 +125,8 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
-    if(isPhoneChanged && !isPhoneVerified){
+
+    if (isPhoneChanged && !isPhoneVerified) {
       toast.error("Please verify the phone number before submitting.");
       setLoading(false);
       return;
@@ -191,7 +191,7 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Profile Image */}
-            <div className="flex flex-col items-center">
+            <div className="realtive flex flex-col items-center">
               <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-gray-300 shadow-md">
                 <img
                   src={previewImage}
@@ -199,12 +199,16 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
                   className="w-full h-full object-cover"
                 />
               </div>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleAvatarChange}
-                className="mt-2 text-sm"
-              />
+              <div className="relative">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarChange}
+                  className="mt-2 text-sm"
+                />
+                <span className="absolute top-2 right-16 text-red-500">*</span>
+              </div>
+
               {previewImage !== defaultimage && (
                 <button
                   type="button"
@@ -223,6 +227,7 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Name
+                <span className="text-red-500">*</span>
               </label>
               <input
                 name="name"
@@ -239,6 +244,7 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Phone
+                <span className="text-red-500">*</span>
               </label>
               <div className="flex gap-2">
                 <input
@@ -259,25 +265,24 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
                   placeholder="Enter phone number"
                   required
                 />
-            {isPhoneChanged && (
-                <button
-                  type="button"
-                  onClick={handleOtpSend}
-                  disabled={isPhoneVerified || loading}
-                  className={`text-sm font-semibold px-3 py-2 rounded-lg transition ${
-                    isPhoneVerified
+                {isPhoneChanged && (
+                  <button
+                    type="button"
+                    onClick={handleOtpSend}
+                    disabled={isPhoneVerified || loading}
+                    className={`text-sm font-semibold px-3 py-2 rounded-lg transition ${isPhoneVerified
                       ? "bg-green-100 text-green-600 cursor-not-allowed"
                       : "bg-blue-100 text-blue-600 hover:bg-blue-200"
-                  }`}
-                >
-                  {isPhoneVerified ? "OTP Sent" : "Verify"}
-                </button>
-              )}
+                      }`}
+                  >
+                    {isPhoneVerified ? "OTP Sent" : "Verify"}
+                  </button>
+                )}
               </div>
             </div>
 
             {/* OTP */}
-            {isPhoneChanged && isPhoneVerified &&(
+            {isPhoneChanged && isPhoneVerified && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   OTP
@@ -297,6 +302,7 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Email
+                <span className="text-red-500">*</span>
               </label>
               <input
                 name="email"

@@ -140,7 +140,9 @@ export default function AddVendor() {
     const main = new Listing();
     main
       .category()
-      .then((res) => setCategories(res.data.data))
+      .then((res) =>
+         setCategories(res.data.data)
+    )
       .catch((err) => console.log("Error fetching categories:", err));
   }, []);
 
@@ -224,52 +226,52 @@ export default function AddVendor() {
     }));
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  try {
-    const fd = new FormData();
-    fd.append("name", formData.name);
-    fd.append("email", formData.email);
-    fd.append("phone", formData.phone);
-    fd.append("address", formData.address);
-    fd.append("business_name", formData.business_name);
-    fd.append("business_register", formData.business_register);
-    fd.append("gst_number", formData.gst_number);
-    fd.append("city", formData.city);
-    fd.append("state", formData.state);
-    fd.append("area", formData.area);
-    fd.append("pincode", formData.pincode);
-    fd.append("lat", formData.lat);
-    fd.append("long", formData.long);
-    fd.append("categroy", formData.category);
-    fd.append("subcategory", formData.subcategory);
-    fd.append("opening_hours", JSON.stringify(hours));
-    if (formData.aadhaar_front instanceof File)
-      fd.append("aadhaar_front", formData.aadhaar_front);
-    if (formData.aadhaar_back instanceof File)
-      fd.append("aadhaar_back", formData.aadhaar_back);
-    if (formData.pan_card_image instanceof File)
-      fd.append("pan_card_image", formData.pan_card_image);
-    if (formData.gst_certificate instanceof File)
-      fd.append("gst_certificate", formData.gst_certificate);
-    if (formData.business_logo instanceof File)
-      fd.append("business_logo", formData.business_logo);
-    const main = new Listing();
-    const res = await main.AdminVendorAdd(fd);
-    if(res?.data?.status){
-      toast.success(res.data.message);
-      navigate("/vendor");
-    }else{
-      toast.error(res.data.message);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const fd = new FormData();
+      fd.append("name", formData.name);
+      fd.append("email", formData.email);
+      fd.append("phone", formData.phone);
+      fd.append("address", formData.address);
+      fd.append("business_name", formData.business_name);
+      fd.append("business_register", formData.business_register);
+      fd.append("gst_number", formData.gst_number);
+      fd.append("city", formData.city);
+      fd.append("state", formData.state);
+      fd.append("area", formData.area);
+      fd.append("pincode", formData.pincode);
+      fd.append("lat", formData.lat);
+      fd.append("long", formData.long);
+      fd.append("categroy", formData.category);
+      fd.append("subcategory", formData.subcategory);
+      fd.append("opening_hours", JSON.stringify(hours));
+      if (formData.aadhaar_front instanceof File)
+        fd.append("aadhaar_front", formData.aadhaar_front);
+      if (formData.aadhaar_back instanceof File)
+        fd.append("aadhaar_back", formData.aadhaar_back);
+      if (formData.pan_card_image instanceof File)
+        fd.append("pan_card_image", formData.pan_card_image);
+      if (formData.gst_certificate instanceof File)
+        fd.append("gst_certificate", formData.gst_certificate);
+      if (formData.business_logo instanceof File)
+        fd.append("business_logo", formData.business_logo);
+      const main = new Listing();
+      const res = await main.AdminVendorAdd(fd);
+      if (res?.data?.status) {
+        toast.success(res.data.message);
+        navigate("/vendor");
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "Error adding vendor");
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
-  } catch (err) {
-    toast.error("Error adding vendor");
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   // 🔹 Update Existing Vendor
   const handleEdit = async (e) => {
@@ -305,10 +307,10 @@ const handleSubmit = async (e) => {
         fd.append("business_logo", formData.business_logo);
       const main = new Listing();
       const res = await main.VendorEdit(id, fd);
-      if(res?.data?.status){
+      if (res?.data?.status) {
         toast.success(res.data.message);
         navigate("/vendor");
-      }else{
+      } else {
         toast.error(res.data.message);
       }
     } catch (err) {
@@ -320,262 +322,265 @@ const handleSubmit = async (e) => {
   };
 
   return (
-      <div className="w-full">
-        <HeaderAdmin title={id ? "Edit Vendor" : "Add New Vendor"} back={1} />
+    <div className="w-full">
+      <HeaderAdmin title={id ? "Edit Vendor" : "Add New Vendor"} back={1} />
 
-        <div className="bg-gray-100 pb-8">
-          <form
-            onSubmit={id ? handleEdit : handleSubmit}
-            className="space-y-10"
-          >
-            {/* BUSINESS INFO */}
-            <div className="bg-white shadow-sm rounded-xl p-6 border">
-              <h3 className="text-2xl font-semibold text-indigo-700 mb-1">
-                Business Info
-              </h3>
-              <p className="text-gray-500 mb-6">
-                Provide the business owner details and basic business
-                information.
-              </p>
+      <div className="bg-gray-100 pb-8">
+        <form
+          onSubmit={id ? handleEdit : handleSubmit}
+          className="space-y-10"
+        >
+          {/* BUSINESS INFO */}
+          <div className="bg-white shadow-sm rounded-xl p-6 border">
+            <h3 className="text-2xl font-semibold text-indigo-700 mb-1">
+              Business Info
+            </h3>
+            <p className="text-gray-500 mb-6">
+              Provide the business owner details and basic business
+              information.
+            </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                <InputField
-                  label="Owner Name"
-                  id="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  isRequired
-                />
-                <InputField
-                  label="Phone Number"
-                  id="phone"
-                  value={formData.phone}
-                  onChange={(e) => {
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <InputField
+                label="Owner Name"
+                id="name"
+                value={formData.name}
+                onChange={handleChange}
+                isRequired
+              />
+              <InputField
+                label="Phone Number"
+                id="phone"
+                value={formData.phone}
+                onChange={(e) => {
                   if (
                     e.target.value.length <= 10 &&
                     /^[0-9]*$/.test(e.target.value)
                   ) {
                     handleChange(e);
                   }
-                 }}
-                 maxLength="10"
-                  isRequired
-                />
-                <InputField
-                  label="Email"
-                  id="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  isRequired
-                />
-
-                <InputField
-                  label="Business Name"
-                  id="business_name"
-                  value={formData.business_name}
-                  onChange={handleChange}
-                  isRequired
-                />
-                <InputField
-                  label="Business Registration No."
-                  id="business_register"
-                  value={formData.business_register}
-                  onChange={handleChange}
-                  isRequired
-                />
-                <InputField
-                  label="GST Number"
-                  id="gst_number"
-                  value={formData.gst_number}
-                  onChange={handleChange}
-                />
-
-                {/* Category */}
-                <div className="flex flex-col">
-                  <label className="mb-1 font-semibold text-gray-700">
-                    Category
-                  </label>
-                  <select
-                    name="category"
-                    value={formData.category}
-                    onChange={handleChange}
-                    required
-                    className="border p-2 rounded-lg focus:ring-2 focus:ring-indigo-500"
-                  >
-                    <option value="">Select Category</option>
-                    {categories.map((cat) => (
-                      <option key={cat._id} value={cat._id}>
-                        {cat.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Subcategory */}
-                <div className="flex flex-col">
-                  <label className="mb-1 font-semibold text-gray-700">
-                    Sub Category
-                  </label>
-                  <select
-                    name="subcategory"
-                    value={formData.subcategory}
-                    onChange={handleChange}
-                    required
-                    className="border p-2 rounded-lg focus:ring-2 focus:ring-indigo-500"
-                  >
-                    <option value="">Select Sub Category</option>
-                    {subcategories.map((sub) => (
-                      <option key={sub._id} value={sub._id}>
-                        {sub.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            {/* LOCATION */}
-            <div className="bg-white shadow-sm rounded-xl p-6 border">
-              <h3 className="text-2xl font-semibold text-indigo-700 mb-1">
-                Location & Type
-              </h3>
-              <p className="text-gray-500 mb-6">
-                Add the vendor’s location and geographical information.
-              </p>
-
+                }}
+                maxLength="10"
+                isRequired
+              />
               <InputField
-                label="Address"
-                id="address"
-                value={formData.address}
+                label="Email"
+                id="email"
+                value={formData.email}
                 onChange={handleChange}
                 isRequired
               />
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                <InputField
-                  label="State"
-                  id="state"
-                  value={formData.state}
+              <InputField
+                label="Business Name"
+                id="business_name"
+                value={formData.business_name}
+                onChange={handleChange}
+                isRequired
+              />
+              <InputField
+                label="Business Registration No."
+                id="business_register"
+                value={formData.business_register}
+                onChange={handleChange}
+                isRequired
+              />
+              <InputField
+                label="GST Number"
+                id="gst_number"
+                value={formData.gst_number}
+                onChange={handleChange}
+              />
+
+              {/* Category */}
+              <div className="flex flex-col">
+                <label className="mb-1 font-semibold text-gray-700">
+                  Category
+                  <span className="text-red-500 ml-1">*</span>
+                </label>
+                <select
+                  name="category"
+                  value={formData.category}
                   onChange={handleChange}
-                />
-                <InputField
-                  label="Latitude"
-                  id="lat"
-                  type="number"
-                  value={formData.lat}
-                  onChange={handleChange}
-                />
-                <InputField
-                  label="Longitude"
-                  id="long"
-                  type="number"
-                  value={formData.long}
-                  onChange={handleChange}
-                />
+                  required
+                  className="border p-2 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                >
+                  <option value="">Select Category</option>
+                  {categories.map((cat) => (
+                    <option key={cat._id} value={cat._id}>
+                      {cat.name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                <InputField
-                  label="City"
-                  id="city"
-                  value={formData.city}
+              {/* Subcategory */}
+              <div className="flex flex-col">
+                <label className="mb-1 font-semibold text-gray-700">
+                  Sub Category
+                  <span className="text-red-500 ml-1">*</span>
+                </label>
+                <select
+                  name="subcategory"
+                  value={formData.subcategory}
                   onChange={handleChange}
-                  isRequired
-                />
-                <InputField
-                  label="Area"
-                  id="area"
-                  value={formData.area}
-                  onChange={handleChange}
-                  isRequired
-                />
-                <InputField
-                  label="Pincode"
-                  id="pincode"
-                  type="number"
-                  value={formData.pincode}
-                  onChange={handleChange}
-                  isRequired
-                />
-              </div>
-            </div>
-
-            {/* DOCUMENTS */}
-            <div className="bg-white shadow-sm rounded-xl p-6 border">
-              <h3 className="text-2xl font-semibold text-indigo-700 mb-1">
-                Documents & Files
-              </h3>
-              <p className="text-gray-500 mb-6">
-                Upload required documents for verification and listing.
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <FileUploadField
-                  label="Aadhaar Card (Front)"
-                  id="aadhaar_front"
-                  onChange={handleFileChange}
-                  preview={formData.aadhaar_frontPreview || formData.aadhaar_front || ""}
-                />
-                <FileUploadField
-                  label="Aadhaar Card (Back)"
-                  id="aadhaar_back"
-                  onChange={handleFileChange}
-                  preview={ formData.aadhaar_backPreview || formData.aadhaar_back || ""}
-                />
-                <FileUploadField
-                  label="PAN Card Image"
-                  id="pan_card_image"
-                  onChange={handleFileChange}
-                  preview={formData.pan_card_imagePreview || formData.pan_card_image || ""}
-                />
-                <FileUploadField
-                  label="GST Certificate"
-                  id="gst_certificate"
-                  onChange={handleFileChange}
-                  preview={formData.gst_certificatePreview ||formData.gst_certificate ||""}
-                />
-                <FileUploadField
-                  label="Business Logo"
-                  id="business_logo"
-                  onChange={handleFileChange}
-                  preview={formData.business_logoPreview || formData.business_logo || ""}
-                />
+                  required
+                  className="border p-2 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                >
+                  <option value="">Select Sub Category</option>
+                  {subcategories.map((sub) => (
+                    <option key={sub._id} value={sub._id}>
+                      {sub.name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
+          </div>
 
-            {/* BUSINESS HOURS */}
-            <div className="bg-white shadow-sm rounded-xl p-6 border">
-              <h3 className="text-2xl font-semibold text-indigo-700 mb-1">
-                Business Hours & Holidays
-              </h3>
-              <p className="text-gray-500 mb-6">
-                Set weekly hours and holidays for the vendor.
-              </p>
+          {/* LOCATION */}
+          <div className="bg-white shadow-sm rounded-xl p-6 border">
+            <h3 className="text-2xl font-semibold text-indigo-700 mb-1">
+              Location & Type
+            </h3>
+            <p className="text-gray-500 mb-6">
+              Add the vendor’s location and geographical information.
+            </p>
 
-              <BusinessHoursAndHolidays
-                setHours={setHours}
-                hours={hours}
-                setExtraHoliday={setExtraHoliday}
-                extraHoliday={extraHoliday}
+            <InputField
+              label="Address"
+              id="address"
+              value={formData.address}
+              onChange={handleChange}
+              isRequired
+            />
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <InputField
+                label="State"
+                id="state"
+                value={formData.state}
+                onChange={handleChange}
+                isRequired
+              />
+              <InputField
+                label="Latitude"
+                id="lat"
+                type="number"
+                value={formData.lat}
+                onChange={handleChange}
+              />
+              <InputField
+                label="Longitude"
+                id="long"
+                type="number"
+                value={formData.long}
+                onChange={handleChange}
               />
             </div>
 
-           {/* SUBMIT BUTTON */}
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                disabled={loading}
-                className="py-2.5 px-6 text-base font-semibold rounded-lg bg-indigo-600 text-white shadow hover:bg-indigo-700 transition-all"
-              >
-                {loading
-                  ? "Saving..."
-                  : id
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <InputField
+                label="City"
+                id="city"
+                value={formData.city}
+                onChange={handleChange}
+                isRequired
+              />
+              <InputField
+                label="Area"
+                id="area"
+                value={formData.area}
+                onChange={handleChange}
+                isRequired
+              />
+              <InputField
+                label="Pincode"
+                id="pincode"
+                type="number"
+                value={formData.pincode}
+                onChange={handleChange}
+                isRequired
+              />
+            </div>
+          </div>
+
+          {/* DOCUMENTS */}
+          <div className="bg-white shadow-sm rounded-xl p-6 border">
+            <h3 className="text-2xl font-semibold text-indigo-700 mb-1">
+              Documents & Files
+            </h3>
+            <p className="text-gray-500 mb-6">
+              Upload required documents for verification and listing.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <FileUploadField
+                label="Aadhaar Card (Front)"
+                id="aadhaar_front"
+                onChange={handleFileChange}
+                preview={formData.aadhaar_frontPreview || formData.aadhaar_front || ""}
+              />
+              <FileUploadField
+                label="Aadhaar Card (Back)"
+                id="aadhaar_back"
+                onChange={handleFileChange}
+                preview={formData.aadhaar_backPreview || formData.aadhaar_back || ""}
+              />
+              <FileUploadField
+                label="PAN Card Image"
+                id="pan_card_image"
+                onChange={handleFileChange}
+                preview={formData.pan_card_imagePreview || formData.pan_card_image || ""}
+              />
+              <FileUploadField
+                label="GST Certificate"
+                id="gst_certificate"
+                onChange={handleFileChange}
+                preview={formData.gst_certificatePreview || formData.gst_certificate || ""}
+              />
+              <FileUploadField
+                label="Business Logo"
+                id="business_logo"
+                onChange={handleFileChange}
+                preview={formData.business_logoPreview || formData.business_logo || ""}
+              />
+            </div>
+          </div>
+
+          {/* BUSINESS HOURS */}
+          <div className="bg-white shadow-sm rounded-xl p-6 border">
+            <h3 className="text-2xl font-semibold text-indigo-700 mb-1">
+              Business Hours & Holidays
+            </h3>
+            <p className="text-gray-500 mb-6">
+              Set weekly hours and holidays for the vendor.
+            </p>
+
+            <BusinessHoursAndHolidays
+              setHours={setHours}
+              hours={hours}
+              setExtraHoliday={setExtraHoliday}
+              extraHoliday={extraHoliday}
+            />
+          </div>
+
+          {/* SUBMIT BUTTON */}
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              disabled={loading}
+              className="py-2.5 px-6 text-base font-semibold rounded-lg bg-indigo-600 text-white shadow hover:bg-indigo-700 transition-all"
+            >
+              {loading
+                ? "Saving..."
+                : id
                   ? "Update Vendor"
                   : "Add New Vendor"}
-              </button>
-            </div>
-          </form>
-        </div>
+            </button>
+          </div>
+        </form>
       </div>
+    </div>
   );
 }
