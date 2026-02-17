@@ -48,7 +48,7 @@ export default function PurchaseTable({ data, showCustomer }) {
           return (
             <React.Fragment key={item._id}>
               {/* MAIN ROW */}
-              <tr className="bg-white cursor-pointer"
+              <tr className={`bg-white ${hasUpgradeHistory ? "cursor-pointer" : ""}`}
               onClick={() =>
                 setOpenRow(openRow === item._id ? null : item._id)
               }>
@@ -154,7 +154,15 @@ export default function PurchaseTable({ data, showCustomer }) {
                       </div>
                     </div>
                   ) : (
-                    "N/A"
+                    <div className="space-y-1">
+                      <div className="flex justify-between gap-4">
+                        <span className="text-gray-500">Offer Price</span>
+                        <span className="font-medium text-black">
+                          {formatMultiPrice(item.offer_paid_amount, "INR")}
+                        </span>
+                      </div>
+
+                    </div>
                   )}
                 </td>
 

@@ -36,7 +36,7 @@ export default function CustomerDetail() {
     }
   }, [id]);
 
-  console.log("data", data);
+  // console.log("data", data);
 
   return (
     <div className="py-2 lg:py-2.5 w-full">
@@ -49,7 +49,7 @@ export default function CustomerDetail() {
             </div>
 
             <div>
-              <p className="text-2xl font-extrabold text-gray-800 flex items-center gap-2">
+              <p className="text-2xl font-extrabold text-gray-800 flex items-center gap-2 capitalize">
                 {data?.record?.name || "N/A"}
                 <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
               </p>
@@ -78,7 +78,7 @@ export default function CustomerDetail() {
         </div>
 
         {/* Stats/Metrics Cards */}
-        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid sm:grid-cols-2 md:grid-cols-5 gap-4 mb-6">
           <div className="p-4 rounded-xl shadow-lg text-white bg-gradient-to-br from-blue-600 to-blue-400">
             <p className="text-sm opacity-80">Total Offers</p>
             <p className="text-4xl font-extrabold mt-1">
@@ -91,6 +91,14 @@ export default function CustomerDetail() {
             </p>
             <p className="text-4xl font-extrabold mt-1">
               {data?.stats?.vendorBillTrueCount ?? 0}
+            </p>
+          </div>
+          <div className="p-4 rounded-xl shadow-lg text-gray-800 bg-indigo-50 border border-indigo-200">
+            <p className="text-sm font-medium text-indigo-700">
+              Offers Spent
+            </p>
+            <p className="text-3xl font-extrabold text-indigo-600 mt-1">
+              {formatMultiPrice(data?.stats?.totalOfferPaidAmount, "INR") ?? 0}
             </p>
           </div>
           <div className="p-4 rounded-xl shadow-lg text-gray-800 bg-yellow-50 border border-yellow-200">
