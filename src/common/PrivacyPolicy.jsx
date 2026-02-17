@@ -33,7 +33,7 @@ export default function PrivacyPolicy() {
       {/* Page Header */}
       <div className="max-w-[1100px] mx-auto px-4 mb-10">
         <h1 className="text-3xl md:text-4xl font-semibold text-gray-900">
-          Terms & Conditions
+          Privacy Policy
         </h1>
         <p className="mt-2 text-gray-600 max-w-[700px]">
           Please read these terms carefully before using our platform.
