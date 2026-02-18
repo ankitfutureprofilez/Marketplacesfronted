@@ -26,6 +26,7 @@ import AdminList from "./Admin/subAdmin/AdminList";
 import AuthLayout from "./component/AuthLayout";
 import AddOffer from "./Admin/vendor/AddOffer";
 import Test from "./Test";
+import Enquiries from "./Admin/enquiries/Enquiries";
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
           <Route path="/purchase-history" element={<PurchaseHistory />} />
           <Route path="/home" element={<Home />} />
           <Route path="/sub-admin" element={<AdminList />} />
+          <Route path="/enquiries" element={<Enquiries />} />
         </Route>
 
         <Route path="/terms" element={<TermsConditions />} />

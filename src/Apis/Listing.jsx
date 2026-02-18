@@ -174,6 +174,10 @@ class Listing extends Component {
         return Api.get(`/admin/sub-admin/get`);
     }
 
+    async getEnquiries(data) {
+        return Api.get(`/enquiry/get?search=${data}`)
+    }
+
     render() {
         return (
             <div>

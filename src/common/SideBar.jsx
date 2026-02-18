@@ -4,6 +4,7 @@ import { MdSpaceDashboard } from "react-icons/md";
 import { IoIosMenu } from "react-icons/io";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdDashboard, MdSettings, MdVerifiedUser } from "react-icons/md";
+import { LuMessageCircleMore } from "react-icons/lu";
 import { FaUser, FaUserAlt } from "react-icons/fa";
 import { MdPayment } from "react-icons/md";
 import { FaRegEnvelope } from "react-icons/fa6";
@@ -50,11 +51,17 @@ function SideBar() {
     },
     { label: "Sub-Admin", path: "/sub-admin", icon: FaUser, role: "admin" },
     {
+      label: "Enquiries",
+      path: "/enquiries",
+      icon: LuMessageCircleMore,
+    },
+    {
       label: "Website Content",
       path: "/home",
       icon: MdSettings,
       permission: "manage_website",
     },
+
     // { label: "Settings", path: "/setting", icon: MdSettings, role: "admin" },
   ];
 
@@ -100,9 +107,8 @@ function SideBar() {
       )}
 
       <div
-        className={`z-50 custom_scroll sidebar border-opacity-10 w-[260px] md:w-[286px] fixed left-0 top-0 bottom-0 overflow-y-auto bg-white transition-transform transform ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 lg:block`}
+        className={`z-50 custom_scroll sidebar border-opacity-10 w-[260px] md:w-[286px] fixed left-0 top-0 bottom-0 overflow-y-auto bg-white transition-transform transform ${isOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:translate-x-0 lg:block`}
       >
         {isOpen && (
           <button
@@ -164,11 +170,10 @@ function SideBar() {
                     to={item.path}
                     onClick={handleLinkClick}
                     className={`flex items-center gap-2 py-2.5 px-6 text-base font-medium
-                        ${
-                          isActive(item.path)
-                            ? "text-blue-600 bg-gray-200"
-                            : "text-[#565F66] hover:bg-gray-100"
-                        }`}
+                        ${isActive(item.path)
+                        ? "text-blue-600 bg-gray-200"
+                        : "text-[#565F66] hover:bg-gray-100"
+                      }`}
                   >
                     <Icon size={20} />
                     {item.label}
@@ -182,11 +187,10 @@ function SideBar() {
                 to={"/setting"}
                 onClick={handleLinkClick}
                 className={`flex items-center gap-2 py-2.5 px-6 text-base font-medium
-                    ${
-                      isActive("/setting")
-                        ? "text-blue-600 bg-gray-200"
-                        : "text-[#565F66] hover:bg-gray-100"
-                    }`}
+                    ${isActive("/setting")
+                    ? "text-blue-600 bg-gray-200"
+                    : "text-[#565F66] hover:bg-gray-100"
+                  }`}
               >
                 <MdSettings size={20} />
                 Settings
