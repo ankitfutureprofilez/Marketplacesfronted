@@ -68,6 +68,7 @@ export default function AdminLayout() {
     { path: "/purchase-history", title: "Purchase History" },
     { path: "/home", title: "Website Content" },
     { path: "/sub-admin", title: "Sub-Admin" },
+    { path: "/enquiries", title: "Enquiries" },
     { path: "/setting", title: "Settings" },
   ];
 
