@@ -18,7 +18,6 @@ function Enquiries() {
             const response = await main.getEnquiries(search)
             if (response?.data?.status) {
                 setEnquiries(response?.data?.data || []);
-                console.log("enquiries", response?.data?.data)
             }else{
                 setEnquiries([]);
             }
