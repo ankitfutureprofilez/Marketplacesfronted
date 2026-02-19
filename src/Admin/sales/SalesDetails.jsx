@@ -175,7 +175,7 @@ function SalesDetails() {
               >
                 <div className="w-full h-40 bg-gray-100 rounded-lg overflow-hidden mb-4">
                   <img
-                    src={v?.business_logo}
+                    src={v?.business_logo || "/shopdefault.png"}
                     alt={v?.business_name}
                     className="w-full h-full object-cover"
                   />
