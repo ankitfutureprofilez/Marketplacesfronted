@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { BiCalendar } from 'react-icons/bi';
+import { IoCloseCircleOutline } from 'react-icons/io5';
 
 const BusinessHourRow = ({
   day,
@@ -61,11 +62,10 @@ const BusinessHourRow = ({
 
   return (
     <div
-      className={`flex items-center justify-between border-b ${
-        day !== 'Sun'
-          ? 'pb-4 mb-4 border-gray-100'
-          : 'pb-0 border-none'
-      }`}
+      className={`flex items-center justify-between border-b ${day !== 'Sun'
+        ? 'pb-4 mb-4 border-gray-100'
+        : 'pb-0 border-none'
+        }`}
     >
       <span className="text-gray-900 w-12 font-medium">{day}</span>
       <div className="flex-grow flex justify-center space-x-2 mx-4">
@@ -105,14 +105,12 @@ const BusinessHourRow = ({
           className="sr-only peer"
         />
         <div
-          className={`w-11 h-6 rounded-full peer transition-colors ${
-            isActive ? 'bg-blue-600' : 'bg-gray-200'
-          }`}
+          className={`w-11 h-6 rounded-full peer transition-colors ${isActive ? 'bg-blue-600' : 'bg-gray-200'
+            }`}
         >
           <div
-            className={`absolute top-0.5 left-[2px] bg-white border border-gray-300 rounded-full h-5 w-5 transition-transform ${
-              isActive ? 'translate-x-full border-white' : ''
-            }`}
+            className={`absolute top-0.5 left-[2px] bg-white border border-gray-300 rounded-full h-5 w-5 transition-transform ${isActive ? 'translate-x-full border-white' : ''
+              }`}
           ></div>
         </div>
       </label>
@@ -137,13 +135,18 @@ const BusinessHoursAndHolidays = ({ setHours, hours, setExtraHoliday, extraHolid
 
   // Convert DD-MM-YYYY → YYYY-MM-DD for date input
   const formattedHoliday = extraHoliday
-    ? extraHoliday.split('-').reverse().join('-')
+    ? extraHoliday
     : '';
 
   // Convert back to DD-MM-YYYY on change
   const handleDateChange = (e) => {
-    const val = e.target.value.split('-').reverse().join('-');
-    setExtraHoliday(val);
+    const val = e.target.value;
+    setExtraHoliday((prev) => {
+      if (!prev.includes(val)) {
+        return [...prev, val];
+      }
+      return prev;
+    });
   };
 
   return (
@@ -179,9 +182,19 @@ const BusinessHoursAndHolidays = ({ setHours, hours, setExtraHoliday, extraHolid
         </div>
       </div>
       {extraHoliday && (
-        <p className="mt-2 text-sm text-gray-500">
-          Selected Holiday: {extraHoliday}
-        </p>
+        <div className='flex items-center gap-2 mt-2'>
+          <p className="text-sm text-gray-500">
+            Selected Holiday:
+          </p>
+          <div className='flex items-center gap-1'>
+            {extraHoliday.map((e) => (
+              <p className='flex items-center gap-2 border rounded-full px-3 py-1'>
+                {e}
+                <IoCloseCircleOutline size={18} />
+              </p>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );

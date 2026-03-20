@@ -83,7 +83,7 @@ export default function AddVendor() {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
-  const [extraHoliday, setExtraHoliday] = useState("");
+  const [extraHoliday, setExtraHoliday] = useState([]);
 
   const initialHours = {
     Mon: { open: "09:00", close: "22:00", active: true },
@@ -127,6 +127,7 @@ export default function AddVendor() {
 
   // 🔹 Format date helper
   const formatDate = (dateValue) => {
+    console.log("datavalue", dateValue)
     if (!dateValue) return "";
     const date = new Date(dateValue);
     const day = String(date.getDate()).padStart(2, "0");
@@ -141,8 +142,8 @@ export default function AddVendor() {
     main
       .category()
       .then((res) =>
-         setCategories(res.data.data)
-    )
+        setCategories(res.data.data)
+      )
       .catch((err) => console.log("Error fetching categories:", err));
   }, []);
 
@@ -181,8 +182,14 @@ export default function AddVendor() {
           _id: records?.user?._id || "",
         });
 
-        setExtraHoliday(formatDate(records?.weekly_off_day) || "");
-        setHours(records?.opening_hours || initialHours);
+        if (records?.weekly_off_day?.length) {
+          const formatted = records.weekly_off_day.map(d =>
+            new Date(d).toISOString().split("T")[0] // YYYY-MM-DD
+          );
+          setExtraHoliday(formatted);
+        } else {
+          setExtraHoliday([]);
+        } setHours(records?.opening_hours || initialHours);
 
         if (records?.category?._id) fetchSubcategories(records.category._id);
       })
@@ -295,6 +302,8 @@ export default function AddVendor() {
       fd.append("categroy", formData.category);
       fd.append("subcategory", formData.subcategory);
       fd.append("opening_hours", JSON.stringify(hours));
+      const cleanDates = extraHoliday.filter(d => d !== "");
+      fd.append("weekly_off_day", JSON.stringify(cleanDates));
       if (formData.aadhaar_front instanceof File)
         fd.append("aadhaar_front", formData.aadhaar_front);
       if (formData.aadhaar_back instanceof File)
