@@ -95,8 +95,8 @@ class Listing extends Component {
         return Api.post(`/admin/offer/update/${id}`, data);
     }  
 
-    async PurchasedOfferGet(search, status) {
-        return Api.get(`/admin/brought-offer?search=${search}&status=${status}`);
+    async PurchasedOfferGet(search, status, page) {
+        return Api.get(`/admin/brought-offer?search=${search}&status=${status}&page=${page}&limit=10`);
     }
 
     async assignStaff(data) {
@@ -170,8 +170,8 @@ class Listing extends Component {
         return Api.post(`/admin/sub-admin/update/${id}`, data);
     }
 
-    async getSubAdmin() {
-        return Api.get(`/admin/sub-admin/get`);
+    async getSubAdmin(data) {
+        return Api.get(`/admin/sub-admin/get?search=${data}`);
     }
 
     async getEnquiries(data) {

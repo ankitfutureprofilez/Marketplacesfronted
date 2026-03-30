@@ -11,14 +11,18 @@ export default function PurchaseHistory() {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [page, setPage] = useState(1);
 
   const fetchData = async () => {
     try {
       setLoading(true);
       const main = new Listing();
-      const response = await main.PurchasedOfferGet(searchQuery, statusFilter);
+      const response = await main.PurchasedOfferGet(searchQuery, statusFilter, page);
       if (response?.data?.status) {
-        setData(response?.data?.data || []);
+        const newData = response?.data?.data?.purchased || []
+        setData(prev =>
+          page === 1 ? newData : [...(Array.isArray(prev) ? prev : []), ...newData]
+        );
       } else {
         setData([]);
       }
@@ -35,7 +39,7 @@ export default function PurchaseHistory() {
       fetchData();
     }, 600);
     return () => clearTimeout(timer);
-  }, [searchQuery, statusFilter]);
+  }, [searchQuery, statusFilter, page]);
 
 
   const handleSearchChange = (e) => {
@@ -69,12 +73,12 @@ export default function PurchaseHistory() {
                 <div className="relative w-full md:w-64">
                   <input
                     type="text"
-                    placeholder="Search by owner or business name"
+                    placeholder="Search by vendor name"
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
                     value={searchQuery}
                     onChange={handleSearchChange}
                   />
-                  <CiSearch size={24} className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"/>
+                  <CiSearch size={24} className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                 </div>
 
                 {/* Status Filter */}
@@ -94,11 +98,20 @@ export default function PurchaseHistory() {
             <div className="overflow-x-auto">
               {loading ? (
                 <LoadingSpinner />
-              ) : !data?.purchased?.length ? (
+              ) : !data?.length ? (
                 <Nodata />
               ) : (
-                <PurchaseTable data={data?.purchased} showCustomer={true} />
+                <PurchaseTable data={data} showCustomer={true} />
               )}
+            </div>
+
+            <div className="flex justify-center py-6">
+              <button
+                onClick={() => setPage(prev => prev + 1)}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-150"
+              >
+                Load More
+              </button>
             </div>
           </div>
         </div>
