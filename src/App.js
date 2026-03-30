@@ -26,7 +26,7 @@ import AdminList from "./Admin/subAdmin/AdminList";
 import AuthLayout from "./component/AuthLayout";
 import AddOffer from "./Admin/vendor/AddOffer";
 import Test from "./Test";
-import Enquiries from "./Admin/enquiries/Enquiries";
+import Enquiries from "./Admin/enquiries/Enquiries"; 
 
 function App() {
   return (
