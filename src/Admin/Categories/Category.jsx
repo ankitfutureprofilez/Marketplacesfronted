@@ -79,6 +79,7 @@ export default function Category() {
               <button
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-blue-700 transition duration-150"
                 onClick={() => {
+                  setSelected(null);
                   setIsOpen(true);
                 }}
               >
