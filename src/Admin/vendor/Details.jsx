@@ -21,9 +21,9 @@ export default function Details() {
   const [record, setRecord] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchData = async (allowLoading=true) => {
+  const fetchData = async (allowLoading = true) => {
     try {
-      if(allowLoading){
+      if (allowLoading) {
         setLoading(true);
       }
       const main = new Listing();
@@ -76,7 +76,7 @@ export default function Details() {
         <div className="flex flex-col sm:flex-row justify-between items-center p-4 bg-white rounded-lg shadow mb-6 border border-gray-100">
           <div className="flex items-center space-x-3 mb-4 sm:mb-0">
             <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-             <FaUserCircle className="text-blue-600 text-4xl" />
+              <FaUserCircle className="text-blue-600 text-4xl" />
             </div>
             <div>
               <p className="text-xl font-bold flex items-center text-gray-800">
@@ -177,7 +177,7 @@ export default function Details() {
               {record?.stats?.unique_customers}
             </p>
           </div> */}
-           <div className="p-4 rounded-xl shadow-lg text-gray-800 bg-white border border-gray-200">
+          <div className="p-4 rounded-xl shadow-lg text-gray-800 bg-white border border-gray-200">
             <p className="text-sm font-medium text-gray-500">Pending Offers</p>
             <p className="text-4xl font-extrabold mt-1">
               {record?.stats?.vendor_bill_false}
@@ -287,14 +287,16 @@ export default function Details() {
                   </div>
                 ),
               )}
-              {/* {vendorRecord.weekly_off_day && (
+              {vendorRecord.weekly_off_day && (
                 <div className="col-span-2 mt-2">
                   <p className="text-gray-500">Weekly Off Day </p>
-                  <p className="font-medium text-base text-blue-600">
-                    {vendorRecord.weekly_off_day}
+                  <p className="font-medium text-base text-blue-600 mr-2">
+                    {vendorRecord.weekly_off_day
+                      .map(day => moment(day).format("DD MMM YYYY"))
+                      .join(", ")}
                   </p>
                 </div>
-              )} */}
+              )}
             </div>
           </div>
         </div>
@@ -322,9 +324,8 @@ export default function Details() {
                     <img
                       src={doc.src}
                       alt={doc.title}
-                      className={`w-24 h-24 object-cover rounded${
-                        doc.isLogo ? "-full" : ""
-                      } border-2 border-gray-200 hover:border-blue-500 transition-colors cursor-pointer`}
+                      className={`w-24 h-24 object-cover rounded${doc.isLogo ? "-full" : ""
+                        } border-2 border-gray-200 hover:border-blue-500 transition-colors cursor-pointer`}
                     />
                   </a>
                 ) : (

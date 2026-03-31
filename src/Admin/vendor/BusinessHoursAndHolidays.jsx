@@ -190,7 +190,7 @@ const BusinessHoursAndHolidays = ({ setHours, hours, setExtraHoliday, extraHolid
             {extraHoliday.map((e) => (
               <p className='flex items-center gap-2 border rounded-full px-3 py-1'>
                 {e}
-                <IoCloseCircleOutline size={18} />
+                {/* <IoCloseCircleOutline size={18} /> */}
               </p>
             ))}
           </div>
