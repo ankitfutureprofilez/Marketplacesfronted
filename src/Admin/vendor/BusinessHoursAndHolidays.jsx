@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { BiCalendar } from 'react-icons/bi';
+import { useState } from "react";
+import { BiCalendar } from "react-icons/bi";
 import { IoCloseCircleOutline } from 'react-icons/io5';
 
 const BusinessHourRow = ({
@@ -8,7 +8,7 @@ const BusinessHourRow = ({
   initialClose,
   initialActive,
   onToggleChange,
-  onTimeChange
+  onTimeChange,
 }) => {
   const [isActive, setIsActive] = useState(initialActive);
   const [openTime, setOpenTime] = useState(initialOpen);
@@ -16,19 +16,20 @@ const BusinessHourRow = ({
 
   // Format time to always be HH:mm
   const formatTime = (time) => {
-    if (!time) return '';
-    const [h, m] = time.split(':');
-    return `${h.padStart(2, '0')}:${m.padStart(2, '0')}`;
+    if (!time) return "";
+    const [h, m] = time.split(":");
+    return `${h.padStart(2, "0")}:${m.padStart(2, "0")}`;
   };
 
   // Generate list of times every hour
-  const timeOptions = Array.from({ length: 24 }, (_, i) =>
-    `${i.toString().padStart(2, '0')}:00`
+  const timeOptions = Array.from(
+    { length: 24 },
+    (_, i) => `${i.toString().padStart(2, "0")}:00`,
   );
 
   // Close times must be after open time
   const closeTimeOptions = timeOptions.filter(
-    (time) => parseInt(time.split(':')[0]) > parseInt(openTime?.split(':')[0])
+    (time) => parseInt(time.split(":")[0]) > parseInt(openTime?.split(":")[0]),
   );
 
   const handleToggle = () => {
@@ -44,7 +45,7 @@ const BusinessHourRow = ({
     // Auto-adjust close time if before open
     if (
       closeTime &&
-      parseInt(closeTime.split(':')[0]) <= parseInt(newOpen.split(':')[0])
+      parseInt(closeTime.split(":")[0]) <= parseInt(newOpen.split(":")[0])
     ) {
       const firstValidClose = closeTimeOptions[0] || newOpen;
       setCloseTime(firstValidClose);
@@ -62,10 +63,9 @@ const BusinessHourRow = ({
 
   return (
     <div
-      className={`flex items-center justify-between border-b ${day !== 'Sun'
-        ? 'pb-4 mb-4 border-gray-100'
-        : 'pb-0 border-none'
-        }`}
+      className={`flex items-center justify-between border-b ${
+        day !== "Sun" ? "pb-4 mb-4 border-gray-100" : "pb-0 border-none"
+      }`}
     >
       <span className="text-gray-900 w-12 font-medium">{day}</span>
       <div className="flex-grow flex justify-center space-x-2 mx-4">
@@ -105,12 +105,14 @@ const BusinessHourRow = ({
           className="sr-only peer"
         />
         <div
-          className={`w-11 h-6 rounded-full peer transition-colors ${isActive ? 'bg-blue-600' : 'bg-gray-200'
-            }`}
+          className={`w-11 h-6 rounded-full peer transition-colors ${
+            isActive ? "bg-blue-600" : "bg-gray-200"
+          }`}
         >
           <div
-            className={`absolute top-0.5 left-[2px] bg-white border border-gray-300 rounded-full h-5 w-5 transition-transform ${isActive ? 'translate-x-full border-white' : ''
-              }`}
+            className={`absolute top-0.5 left-[2px] bg-white border border-gray-300 rounded-full h-5 w-5 transition-transform ${
+              isActive ? "translate-x-full border-white" : ""
+            }`}
           ></div>
         </div>
       </label>
@@ -118,35 +120,51 @@ const BusinessHourRow = ({
   );
 };
 
-const BusinessHoursAndHolidays = ({ setHours, hours, setExtraHoliday, extraHoliday }) => {
+const BusinessHoursAndHolidays = ({
+  setHours,
+  hours,
+  setExtraHoliday,
+  extraHoliday,
+}) => {
   const handleToggle = (day, isActive) => {
     setHours((prev) => ({
       ...prev,
-      [day]: { ...prev[day], active: isActive }
+      [day]: { ...prev[day], active: isActive },
     }));
   };
 
   const handleTimeChange = (day, openTime, closeTime) => {
     setHours((prev) => ({
       ...prev,
-      [day]: { ...prev[day], open: openTime, close: closeTime }
+      [day]: { ...prev[day], open: openTime, close: closeTime },
     }));
   };
 
   // Convert DD-MM-YYYY → YYYY-MM-DD for date input
-  const formattedHoliday = extraHoliday
-    ? extraHoliday
-    : '';
+  const formattedHoliday = extraHoliday ? extraHoliday : "";
 
   // Convert back to DD-MM-YYYY on change
   const handleDateChange = (e) => {
     const val = e.target.value;
+
+    if (!val) return;
+
     setExtraHoliday((prev) => {
       if (!prev.includes(val)) {
         return [...prev, val];
       }
       return prev;
     });
+
+    // Reset input after selection (UX++)
+    e.target.value = "";
+  };
+
+  
+  const handleRemoveHoliday = (dateToRemove) => {
+    setExtraHoliday((prev) =>
+      prev.filter((date) => date !== dateToRemove)
+    );
   };
 
   return (
@@ -174,6 +192,7 @@ const BusinessHoursAndHolidays = ({ setHours, hours, setExtraHoliday, extraHolid
         <input
           type="date"
           value={formattedHoliday}
+          min={new Date().toISOString().split("T")[0]} // ✅ disable past dates
           onChange={handleDateChange}
           className="w-full p-3 border border-gray-300 rounded-lg text-gray-900 focus:ring-blue-500 focus:border-blue-500 pr-12 appearance-none"
         />
@@ -181,21 +200,22 @@ const BusinessHoursAndHolidays = ({ setHours, hours, setExtraHoliday, extraHolid
           <BiCalendar className="h-6 w-6" />
         </div>
       </div>
-      {extraHoliday && (
-        <div className='flex items-center gap-2 mt-2'>
-          <p className="text-sm text-gray-500">
-            Selected Holiday:
-          </p>
-          <div className='flex items-center gap-1'>
-            {extraHoliday.map((e) => (
-              <p className='flex items-center gap-2 border rounded-full px-3 py-1'>
-                {e}
-                {/* <IoCloseCircleOutline size={18} /> */}
-              </p>
-            ))}
-          </div>
+      <div className="flex gap-1 mt-3 flex-wrap">
+      {extraHoliday.map((e, index) => (
+        <div
+          key={index}
+          className="flex items-center gap-2 max-w-fit border rounded-full px-3 py-1 bg-gray-50"
+        >
+          <span>{e}</span>
+
+          <IoCloseCircleOutline
+            size={18}
+            className="text-red-500 cursor-pointer hover:text-red-700 transition"
+            onClick={() => handleRemoveHoliday(e)}
+          />
         </div>
-      )}
+      ))}
+      </div>
     </div>
   );
 };
