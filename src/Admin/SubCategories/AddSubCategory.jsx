@@ -2,34 +2,14 @@ import React, { useState, useEffect } from "react";
 import Listing from "../../Apis/Listing";
 import toast from "react-hot-toast";
 
-export default function AddSubCategory({ isOpen, onClose, member, isEdit, fecthSalesList }) {
+export default function AddSubCategory({ isOpen, onClose, member, isEdit, fecthSalesList, categories }) {
 
   console.log("member" ,member)
   const [name, setName] = useState("");
   const [categoryId, setCategoryId] = useState("");
   console.log("categoryId" ,categoryId)
-  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
-  // Fetch all categories for dropdown
-  const fetchCategories = async () => {
-    try {
-      const api = new Listing();
-      const response = await api.category();
-
-      if (response?.data?.status) {
-        setCategories(response.data.data);
-      } else {
-        setCategories([]);
-      }
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-      setCategories([]);
-    }
-  };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
+  
 
   // Load data while editing
   useEffect(() => {
@@ -105,7 +85,7 @@ export default function AddSubCategory({ isOpen, onClose, member, isEdit, fecthS
         {/* Category Dropdown */}
         <label className="block mb-2 text-sm font-medium">Select Category</label>
         <select
-          className="w-full border px-3 py-2 rounded-md mb-4"
+          className="w-full border px-3 py-2 rounded-md mb-4 capitalize"
           value={categoryId}
           onChange={(e) => setCategoryId(e.target.value)}
         >

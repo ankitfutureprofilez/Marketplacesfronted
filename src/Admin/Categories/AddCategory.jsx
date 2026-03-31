@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Listing from "../../Apis/Listing";
 import toast from "react-hot-toast";
 
-export default function AddCategory({ isOpen, onClose, member, isEdit, fecthSalesList }) {
+export default function AddCategory({ isOpen, onClose, member, isEdit, fecthSalesList, fetchCategories }) {
   const [name, setName] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [preview, setPreview] = useState("");
@@ -81,6 +81,7 @@ export default function AddCategory({ isOpen, onClose, member, isEdit, fecthSale
       }
 
       fecthSalesList();
+      fetchCategories();
       onClose();
 
     } catch (error) {
