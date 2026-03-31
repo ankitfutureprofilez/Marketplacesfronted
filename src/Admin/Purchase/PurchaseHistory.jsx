@@ -9,13 +9,18 @@ import { CiSearch } from "react-icons/ci";
 export default function PurchaseHistory() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [page, setPage] = useState(1);
 
   const fetchData = async () => {
     try {
-      setLoading(true);
+      if (page == 1) {
+        setLoading(true);
+      } else {
+        setLoadingMore(true);
+      }
       const main = new Listing();
       const response = await main.PurchasedOfferGet(searchQuery, statusFilter, page);
       if (response?.data?.status) {
@@ -31,6 +36,7 @@ export default function PurchaseHistory() {
       setData([]);
     } finally {
       setLoading(false);
+      setLoadingMore(false);
     }
   };
 
@@ -108,9 +114,10 @@ export default function PurchaseHistory() {
             <div className="flex justify-center py-6">
               <button
                 onClick={() => setPage(prev => prev + 1)}
+                disabled={loadingMore}
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-150"
               >
-                Load More
+                {loadingMore ? "Loading..." : "Load More"}
               </button>
             </div>
           </div>
