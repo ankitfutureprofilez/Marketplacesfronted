@@ -11,6 +11,7 @@ import { HiOutlineUserAdd } from "react-icons/hi";
 import LoadingSpinner from "../../common/LoadingSpinner";
 import Nodata from "../../common/Nodata";
 import Add from "./Add";
+import DeletePopup from "../Customer/DeletePopup";
 
 export default function AdminList() {
   const [loading, setLoading] = useState(false);
@@ -145,9 +146,8 @@ export default function AdminList() {
                         return (
                           <tr
                             key={member._id}
-                            className={`bg-white ${
-                              isDeleted ? "opacity-50" : ""
-                            }`}
+                            className={`bg-white ${isDeleted ? "opacity-50" : ""
+                              }`}
                           >
                             <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
                               {index + 1}
@@ -205,8 +205,8 @@ export default function AdminList() {
                                 </button>
                                 <button
                                   onClick={() => {
-                                    // setIsOpen(true);
-                                    // setSelected(member);
+                                    setIsOpen(true);
+                                    setSelected(member);
                                   }}
                                   title="Block"
                                 >
@@ -234,6 +234,12 @@ export default function AdminList() {
           </div>
         </div>
       </div>
+      <DeletePopup
+        isOpen={isOpen}
+        onClose={closePopup}
+        member={selected}
+        fetchCustomerList={fetchAdmins}
+      />
       <Add
         isOpen={isAddOpen}
         onClose={closeAddPopup}
