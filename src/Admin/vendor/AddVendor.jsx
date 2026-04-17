@@ -5,6 +5,7 @@ import BusinessHoursAndHolidays from "./BusinessHoursAndHolidays";
 import Listing from "../../Apis/Listing";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
+import { useRole } from "../../context/RoleContext";
 
 // 🔹 Reusable Input Field
 const InputField = ({
@@ -84,6 +85,20 @@ export default function AddVendor() {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [extraHoliday, setExtraHoliday] = useState([]);
+  const { user } = useRole();
+
+  const permissions = user?.permissions || [];
+
+  const canCreateVendor = permissions.includes("create_vendor");
+  const canUpdateVendor = permissions.includes("update_vendor");
+  const canViewVendor = permissions.includes("manage_vendor");
+
+  useEffect(() => {
+    if (!canCreateVendor && !canUpdateVendor) {
+      toast.error("You do not have permission to access this page");
+      navigate("/unauthorized");
+    }
+  }, [canCreateVendor, canUpdateVendor]);
 
   const initialHours = {
     Mon: { open: "09:00", close: "22:00", active: true },
@@ -235,6 +250,12 @@ export default function AddVendor() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!canCreateVendor) {
+      toast.error("You are not allowed to create vendor");
+      return;
+    }
+
     setLoading(true);
     try {
       const fd = new FormData();
@@ -283,6 +304,12 @@ export default function AddVendor() {
   // 🔹 Update Existing Vendor
   const handleEdit = async (e) => {
     e.preventDefault();
+
+    if (!canUpdateVendor) {
+      toast.error("You are not allowed to update vendor");
+      return;
+    }
+
     setLoading(true);
     try {
       const fd = new FormData();
@@ -575,19 +602,21 @@ export default function AddVendor() {
           </div>
 
           {/* SUBMIT BUTTON */}
-          <div className="flex justify-center">
-            <button
-              type="submit"
-              disabled={loading}
-              className="py-2.5 px-6 text-base font-semibold rounded-lg bg-indigo-600 text-white shadow hover:bg-indigo-700 transition-all"
-            >
-              {loading
-                ? "Saving..."
-                : id
-                  ? "Update Vendor"
-                  : "Add New Vendor"}
-            </button>
-          </div>
+          {((id && canUpdateVendor) || (!id && canCreateVendor)) && (
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                disabled={loading}
+                className="py-2.5 px-6 text-base font-semibold rounded-lg bg-indigo-600 text-white shadow hover:bg-indigo-700 transition-all"
+              >
+                {loading
+                  ? "Saving..."
+                  : id
+                    ? "Update Vendor"
+                    : "Add New Vendor"}
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </div>

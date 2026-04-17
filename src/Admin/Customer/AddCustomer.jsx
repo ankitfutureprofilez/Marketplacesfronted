@@ -3,6 +3,7 @@ import defaultimage from "../../img/userdefault.webp";
 import Listing from "../../Apis/Listing";
 import toast from "react-hot-toast";
 import Popup from "../../common/Popup";
+import { useRole } from "../../context/RoleContext";
 
 const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) => {
   const [loading, setLoading] = useState(false);
@@ -10,6 +11,23 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
   const [isPhoneVerified, setIsPhoneVerified] = useState(false);
   const [originalPhone, setOriginalPhone] = useState("");
   const [isPhoneChanged, setIsPhoneChanged] = useState(false);
+  const { user } = useRole();
+  const canCreate = user?.permissions?.includes("create_customer");
+  const canUpdate = user?.permissions?.includes("update_customer");
+
+  useEffect(() => {
+    if (isOpen) {
+      if (!isEdit && !canCreate) {
+        toast.error("You don't have permission to create customer");
+        onClose();
+      }
+
+      if (isEdit && !canUpdate) {
+        toast.error("You don't have permission to update customer");
+        onClose();
+      }
+    }
+  }, [isOpen]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -302,7 +320,6 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Email
-                <span className="text-red-500">*</span>
               </label>
               <input
                 name="email"
@@ -311,15 +328,17 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 placeholder="Enter email address"
-                required
               />
             </div>
 
             {/* Submit */}
             <button
               type="submit"
-              disabled={loading}
-              className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-400"
+              disabled={
+                loading ||
+                (!isEdit && !canCreate) ||
+                (isEdit && !canUpdate)
+              } className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-400"
             >
               {loading ? "Submitting..." : isEdit ? "Update" : "Submit"}
             </button>

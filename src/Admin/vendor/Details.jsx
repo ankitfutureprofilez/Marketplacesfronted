@@ -79,15 +79,23 @@ export default function Details() {
               <FaUserCircle className="text-blue-600 text-4xl" />
             </div>
             <div>
-              <p className="text-xl font-bold flex items-center text-gray-800">
-                {userInfo.name || "N/A"}
-                <span className="ml-2 w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>{" "}
-                {/* Enhanced status dot */}
-              </p>
+              <div className="flex items-center gap-4 mb-1">
+                <p className="text-xl font-bold flex items-center text-gray-800">
+                  {userInfo.name || "N/A"}
+                  <span className="ml-2 w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>{" "}
+                  {/* Enhanced status dot */}
+                </p>
+                {vendorRecord?.added_by !== null &&
+                  <p className="text-white text-sm bg-blue-600 rounded-full px-2 py-0.5 uppercase">
+                    Assigned by{" "}{vendorRecord?.added_by?.role}
+                  </p>
+                }
+              </div>
               <p className="text-sm text-gray-500">
                 Joined at- {moment(vendorRecord?.createdAt).format("DD MMM-YYYY, HH:MM A") || "N/A"}
               </p>
             </div>
+
           </div>
 
           <div className="flex flex-wrap justify-center sm:justify-end items-center gap-4 text-sm text-gray-600">

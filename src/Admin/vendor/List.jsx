@@ -10,6 +10,7 @@ import AssignStaff from "./AssignStaff";
 import DeleteVendor from "./DeleteVendor";
 import { MdBlock } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
+import { useRole } from "../../context/RoleContext";
 
 function List() {
   const [team, setTeams] = useState([]);
@@ -19,6 +20,11 @@ function List() {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [categories, setCategories] = useState([]);
   const timerRef = useRef(null);
+  const { user } = useRole();
+
+  const canCreate = user?.permissions?.includes("create_vendor");
+  const canUpdate = user?.permissions?.includes("update_vendor");
+  const canDelete = user?.permissions?.includes("delete_vendor");
 
   const [isOpen, setIsOpen] = useState(false);
   const closePopup = () => setIsOpen(false);
@@ -26,9 +32,9 @@ function List() {
   const [selected, setSelected] = useState(null);
 
   // ✅ Fetch Vendor List
-  const fetchTeamList = async (search = "", status = "", category = "", loading=true) => {
+  const fetchTeamList = async (search = "", status = "", category = "", loading = true) => {
     try {
-      if(loading){
+      if (loading) {
         setLoading(true);
       }
       const main = new Listing();
@@ -78,7 +84,7 @@ function List() {
   const STATUS_OPTIONS = [
     { value: "pending", label: "Pending" },
     { value: "verify", label: "Verify" },
-    { value: "unverify", label: "Unverify" },
+    { value: "rejected", label: "Rejected" },
   ];
 
   // ✅ Status Label Classes
@@ -88,7 +94,7 @@ function List() {
         return "bg-green-100 text-green-700";
       case "pending":
         return "bg-yellow-100 text-yellow-700";
-      case "unverify":
+      case "rejected":
         return "bg-red-100 text-red-700";
       default:
         return "bg-gray-100 text-gray-700";
@@ -207,24 +213,26 @@ function List() {
                 </select>
 
                 {/* Add Vendor */}
-                <Link
-                  to="/vendor/add"
-                  className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 focus:ring-2 focus:ring-blue-500"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
+                {canCreate && (
+                  <Link
+                    to="/vendor/add"
+                    className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 focus:ring-2 focus:ring-blue-500"
                   >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span>Add Vendor</span>
-                </Link>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span>Add Vendor</span>
+                  </Link>
+                )}
               </div>
             </div>
 
@@ -243,6 +251,7 @@ function List() {
                         "Business Name",
                         "Owner Name",
                         "Mobile",
+                        "Created By",
                         "Category",
                         "Sub Category",
                         "City",
@@ -264,9 +273,8 @@ function List() {
                         return (
                           <tr
                             key={vendor._id}
-                            className={`bg-white ${
-                              isDeleted ? "opacity-50" : ""
-                            }`}
+                            className={`bg-white ${isDeleted ? "opacity-50" : ""
+                              }`}
                           >
                             <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
                               {index + 1}
@@ -279,6 +287,11 @@ function List() {
                             </td>
                             <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
                               {vendor.user?.phone}
+                            </td>
+                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px] ">
+                              <p className="text-white text-center bg-blue-600 rounded-full px-2 py-0.5">
+                                {vendor?.added_by?.role || "--"}
+                              </p>
                             </td>
                             <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
                               {vendor.category?.name}
@@ -342,29 +355,34 @@ function List() {
                                     className="text-blue-600 hover:text-blue-900"
                                   />
                                 </Link>
-                                <Link to={`/vendor/add/${vendor._id}`}>
-                                  <MdEdit size={22} className="text-green-600 hover:text-green-900" />
-                                </Link>
+                                {canUpdate && (
+                                  <Link to={`/vendor/add/${vendor._id}`}>
+                                    <MdEdit size={22} className="text-green-600 hover:text-green-900" />
+                                  </Link>
+                                )}
+
                                 {/* <Delete Id={vendor._id} step={1} fetchTeamList={fetchTeamList} /> */}
-                                <button
-                                  onClick={() => {
-                                    setSelected(vendor);
-                                    setIsOpen(true);
-                                  }}
-                                  title="Block"
-                                >
-                                  {isDeleted ? 
-                                  <CgUnblock
-                                    size={24}
-                                    className="text-red-600 hover:text-red-700"
-                                  />
-                                  :
-                                  <MdBlock
-                                    size={24}
-                                    className="text-red-600 hover:text-red-700"
-                                  />
-                                  }
-                                </button>
+                                {canDelete && (
+                                  <button
+                                    onClick={() => {
+                                      setSelected(vendor);
+                                      setIsOpen(true);
+                                    }}
+                                    title="Block"
+                                  >
+                                    {isDeleted ?
+                                      <CgUnblock
+                                        size={24}
+                                        className="text-red-600 hover:text-red-700"
+                                      />
+                                      :
+                                      <MdBlock
+                                        size={24}
+                                        className="text-red-600 hover:text-red-700"
+                                      />
+                                    }
+                                  </button>
+                                )}
                               </div>
                             </td>
                           </tr>

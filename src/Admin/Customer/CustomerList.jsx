@@ -11,6 +11,7 @@ import { CgUnblock } from "react-icons/cg";
 import { HiOutlineUserAdd } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import AddCustomer from "./AddCustomer";
+import { useRole } from "../../context/RoleContext";
 
 function CustomerList() {
   const [team, setTeams] = useState([]);
@@ -22,6 +23,11 @@ function CustomerList() {
   const closeAddPopup = () => setIsAddOpen(false);
   const [selected, setSelected] = useState(null);
   const timerRef = useRef(null);
+  const { user } = useRole();
+  const canCreate = user?.permissions?.includes("create_customer");
+  const canUpdate = user?.permissions?.includes("update_customer");
+  const canDelete = user?.permissions?.includes("delete_customer");
+  const canViewPage = user?.permissions?.includes("manage_customers");
 
   const handleSearchChange = (e) => {
     const val = e.target.value;
@@ -85,16 +91,19 @@ function CustomerList() {
                   </svg>
                 </div>
                 <div className="inline-block">
-                  <button
-                    onClick={() => {
-                      setSelected(null);
-                      setIsAddOpen(true);
-                    }}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-blue-700 transition duration-150"
-                  >
-                    <HiOutlineUserAdd className="w-5 h-5" />
-                    <span>Add Customer</span>
-                  </button>
+                  {canCreate && (
+
+                    <button
+                      onClick={() => {
+                        setSelected(null);
+                        setIsAddOpen(true);
+                      }}
+                      className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-blue-700 transition duration-150"
+                    >
+                      <HiOutlineUserAdd className="w-5 h-5" />
+                      <span>Add Customer</span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -160,9 +169,8 @@ function CustomerList() {
                         return (
                           <tr
                             key={index}
-                            className={`bg-white ${
-                              isDeleted ? "opacity-50" : ""
-                            }`}
+                            className={`bg-white ${isDeleted ? "opacity-50" : ""
+                              }`}
                           >
                             <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] text-center">
                               {index + 1}
@@ -200,34 +208,38 @@ function CustomerList() {
                                     className="text-blue-600 hover:text-blue-900"
                                   />
                                 </Link>
-                                <button 
-                                onClick={() => {
-                                  setIsAddOpen(true);
-                                  setSelected(member);
-                                }}
-                                title="Edit"
-                                >
-                                  <MdEdit size={22} className="text-green-600 hover:text-green-900" />
-                                </button>
-                                <button
-                                 onClick={() => {
-                                  setIsOpen(true);
-                                  setSelected(member);
-                                }}
-                                  title="Block"
-                                >
-                                  {member?.deleted_at ? 
-                                  <CgUnblock
-                                    size={24}
-                                    className="text-red-600 hover:text-red-700"
-                                  />
-                                  :
-                                  <MdBlock
-                                    size={24}
-                                    className="text-red-600 hover:text-red-700"
-                                  />
-                                  }
-                                </button>
+                                {canUpdate && (
+                                  <button
+                                    onClick={() => {
+                                      setIsAddOpen(true);
+                                      setSelected(member);
+                                    }}
+                                    title="Edit"
+                                  >
+                                    <MdEdit size={22} className="text-green-600 hover:text-green-900" />
+                                  </button>
+                                )}
+                                {canDelete && (
+                                  <button
+                                    onClick={() => {
+                                      setIsOpen(true);
+                                      setSelected(member);
+                                    }}
+                                    title="Block"
+                                  >
+                                    {member?.deleted_at ?
+                                      <CgUnblock
+                                        size={24}
+                                        className="text-red-600 hover:text-red-700"
+                                      />
+                                      :
+                                      <MdBlock
+                                        size={24}
+                                        className="text-red-600 hover:text-red-700"
+                                      />
+                                    }
+                                  </button>
+                                )}
                               </div>
                             </td>
                           </tr>

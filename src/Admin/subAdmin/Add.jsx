@@ -7,8 +7,23 @@ import toast from "react-hot-toast";
 export default function Add({ isOpen, onClose, member, fetchData, isEdit = false }) {
   const PERMISSIONS = [
     { label: "Manage Customers", value: "manage_customers" },
+    // Customer Actions
+    { label: "Create Customer", value: "create_customer" },
+    { label: "Update Customer", value: "update_customer" },
+    { label: "Delete Customer", value: "delete_customer" },
+
     { label: "Manage Sales", value: "manage_sales" },
+    // Sales Actions
+    { label: "Create Sales", value: "create_sales" },
+    { label: "Update Sales", value: "update_sales" },
+    { label: "Delete Sales", value: "delete_sales" },
+
     { label: "Manage Vendors", value: "manage_vendors" },
+    // Vendor Actions
+    { label: "Create Vendor", value: "create_vendor" },
+    { label: "Update Vendor", value: "update_vendor" },
+    { label: "Delete Vendor", value: "delete_vendor" },
+    
     { label: "Manage Categories", value: "manage_categories" },
     { label: "Manage website", value: "manage_website" },
     { label: "View Purchase", value: "view_purchase" },
@@ -31,19 +46,19 @@ export default function Add({ isOpen, onClose, member, fetchData, isEdit = false
   useEffect(() => {
     // if (!member) return;
     setFormData((prev) => ({
-        ...prev,
-        name: member?.name || "",
-        phone: member?.phone || "",
-        email: member?.email || "",
-        permissions: member?.permissions || [],
-        password: "",
-        avatar: null, // keep file null, not URL
+      ...prev,
+      name: member?.name || "",
+      phone: member?.phone || "",
+      email: member?.email || "",
+      permissions: member?.permissions || [],
+      password: "",
+      avatar: null, // keep file null, not URL
     }));
     setPreviewImage(
-        member?.avatar ||
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyCbJoUCRscGfzySEtqoR5HtHnEOE0ux4r-A&s"
+      member?.avatar ||
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyCbJoUCRscGfzySEtqoR5HtHnEOE0ux4r-A&s"
     );
-    }, [member]);
+  }, [member]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,16 +75,16 @@ export default function Add({ isOpen, onClose, member, fetchData, isEdit = false
 
   const handlePermissionToggle = (permission) => {
     setFormData((prev) => {
-        const currentPermissions = prev.permissions || [];
+      const currentPermissions = prev.permissions || [];
 
-        const exists = currentPermissions.includes(permission);
+      const exists = currentPermissions.includes(permission);
 
-        return {
+      return {
         ...prev,
         permissions: exists
-            ? currentPermissions.filter((p) => p !== permission)
-            : [...currentPermissions, permission],
-        };
+          ? currentPermissions.filter((p) => p !== permission)
+          : [...currentPermissions, permission],
+      };
     });
   };
 
@@ -79,7 +94,7 @@ export default function Add({ isOpen, onClose, member, fetchData, isEdit = false
       toast.error("Please select at least one permission");
       return;
     }
-    if(loading) return;
+    if (loading) return;
     try {
       setLoading(true);
       const main = new Listing();
@@ -93,18 +108,18 @@ export default function Add({ isOpen, onClose, member, fetchData, isEdit = false
       if (formData.avatar && formData.avatar instanceof File) {
         payload.append("avatar", formData.avatar);
       }
-    const response = await main.addSubAdmin(payload, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    if (response?.data?.status) {
-      toast.success(response.data.message);
-      onClose();
-      fetchData();
-    }
-    else {
-      toast.error(response?.data?.message || "Update failed");
-      throw new Error(response?.data?.message || "Update failed");
-    }
+      const response = await main.addSubAdmin(payload, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      if (response?.data?.status) {
+        toast.success(response.data.message);
+        onClose();
+        fetchData();
+      }
+      else {
+        toast.error(response?.data?.message || "Update failed");
+        throw new Error(response?.data?.message || "Update failed");
+      }
     } catch (err) {
       console.error(err);
       toast.error(err?.response?.data?.message || "Something went wrong");
@@ -119,7 +134,7 @@ export default function Add({ isOpen, onClose, member, fetchData, isEdit = false
       toast.error("Please select at least one permission");
       return;
     }
-    if(loading) return;
+    if (loading) return;
     try {
       setLoading(true);
       const main = new Listing();
@@ -133,18 +148,18 @@ export default function Add({ isOpen, onClose, member, fetchData, isEdit = false
       if (formData.avatar && formData.avatar instanceof File) {
         payload.append("avatar", formData.avatar);
       }
-    const response = await main.updateSubAdmin(member?._id, payload, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    if (response?.data?.status) {
-      toast.success(response.data.message);
-      onClose();
-      fetchData();
-    }
-    else {
-      toast.error(response?.data?.message || "Update failed");
-      throw new Error(response?.data?.message || "Update failed");
-    }
+      const response = await main.updateSubAdmin(member?._id, payload, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      if (response?.data?.status) {
+        toast.success(response.data.message);
+        onClose();
+        fetchData();
+      }
+      else {
+        toast.error(response?.data?.message || "Update failed");
+        throw new Error(response?.data?.message || "Update failed");
+      }
     } catch (err) {
       console.error(err);
       toast.error(err?.response?.data?.message || "Something went wrong");
@@ -168,7 +183,7 @@ export default function Add({ isOpen, onClose, member, fetchData, isEdit = false
             {isEdit ? "Edit " : "Add "}Sub-Admin
           </h2>
 
-          <form onSubmit={isEdit? handleUpdate : handleSubmit} className="space-y-5">
+          <form onSubmit={isEdit ? handleUpdate : handleSubmit} className="space-y-5">
             {/* Avatar */}
             <div className="flex flex-col items-center">
               <div className="w-24 h-24 rounded-full overflow-hidden border">
@@ -252,9 +267,9 @@ export default function Add({ isOpen, onClose, member, fetchData, isEdit = false
               className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold"
             >
               {loading ? "Submitting..." :
-              isEdit ? "Update Sub-Admin"
-              : 
-              "Create Sub-Admin"}
+                isEdit ? "Update Sub-Admin"
+                  :
+                  "Create Sub-Admin"}
             </button>
           </form>
         </div>
