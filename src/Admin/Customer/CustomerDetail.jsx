@@ -93,7 +93,7 @@ export default function CustomerDetail() {
           {/* Stats/Metrics Cards */}
           <div className="grid sm:grid-cols-2 md:grid-cols-5 gap-4 mb-6">
             <div className="p-4 rounded-xl shadow-lg text-white bg-gradient-to-br from-blue-600 to-blue-400">
-              <p className="text-sm opacity-80">Total Offers</p>
+              <p className="text-sm opacity-80">Total Purchased Offers</p>
               <p className="text-4xl font-extrabold mt-1">
                 {data?.stats?.totalCount ?? 0}
               </p>
