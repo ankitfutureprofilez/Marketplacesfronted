@@ -11,6 +11,8 @@ import AddSubCategory from "../SubCategories/AddSubCategory";
 export default function Category() {
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [categories, setCategories] = useState([]);
+  
   // Category ke liye
   const [isOpen, setIsOpen] = useState(false);
   const [DeleteIsOpen, setDeleteIsOpen] = useState(false);
@@ -60,8 +62,26 @@ export default function Category() {
     }
   };
 
+  // Fetch all categories for dropdown
+  const fetchCategories = async () => {
+    try {
+      const api = new Listing();
+      const response = await api.category();
+
+      if (response?.data?.status) {
+        setCategories(response.data.data);
+      } else {
+        setCategories([]);
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      setCategories([]);
+    }
+  };
+
   useEffect(() => {
     fetchData();
+    fetchCategories();
   }, []);
 
   // console.log("data", data);
@@ -79,6 +99,7 @@ export default function Category() {
               <button
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-blue-700 transition duration-150"
                 onClick={() => {
+                  setSelected(null);
                   setIsOpen(true);
                 }}
               >
@@ -116,7 +137,7 @@ export default function Category() {
                       return (
                         <React.Fragment key={item._id}>
                           <tr
-                            className={`border-b hover:bg-gray-50 cursor-pointer ${
+                            className={`border-b hover:bg-gray-50 capitalize cursor-pointer ${
                               item?.deleted_at ? "opacity-50" : ""
                             }`}
                             onClick={() => toggleRow(index)}
@@ -284,6 +305,7 @@ export default function Category() {
           member={selected}
           isEdit={1}
           fecthSalesList={fetchData}
+          fetchCategories={fetchCategories}
         />
         <Delete
           isOpen={DeleteIsOpen}
@@ -292,6 +314,7 @@ export default function Category() {
           fetchCustomerList={fetchData}
         />
         <AddSubCategory
+          categories={categories}
           isOpen={isSubCategoryOpen}
           onClose={closeSubCategoryPopup}
           member={selected}

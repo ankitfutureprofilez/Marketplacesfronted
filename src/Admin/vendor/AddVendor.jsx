@@ -7,7 +7,21 @@ import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRole } from "../../context/RoleContext";
 
-// 🔹 Reusable Input Field
+const ADDRESS_PROOFS = [
+  "aadhaar_front",
+  "aadhaar_back",
+  "pan_card_image",
+  "driving_license",
+  "passport",
+];
+
+const BUSINESS_PROOFS = [
+  "gst_certificate",
+  "udhyam",
+  "trade_license",
+  "shop_license",
+];
+
 const InputField = ({
   label,
   id,
@@ -39,7 +53,6 @@ const InputField = ({
   </div>
 );
 
-// 🔹 Reusable File Upload
 const FileUploadField = ({
   label,
   id,
@@ -142,7 +155,7 @@ export default function AddVendor() {
 
   // 🔹 Format date helper
   const formatDate = (dateValue) => {
-    console.log("datavalue", dateValue)
+    // console.log("datavalue", dateValue)
     if (!dateValue) return "";
     const date = new Date(dateValue);
     const day = String(date.getDate()).padStart(2, "0");
@@ -162,17 +175,40 @@ export default function AddVendor() {
       .catch((err) => console.log("Error fetching categories:", err));
   }, []);
 
-  // 🔹 Fetch vendor details only after categories are loaded
   useEffect(() => {
     if (!id || !categories.length) return;
 
     const main = new Listing();
+
     main
       .vendor_details(id)
       .then((res) => {
         const records = res?.data?.data?.record;
-        console.log("records", records);
+        // console.log("records", records);
 
+        // ================= DETECT ADDRESS PROOF =================
+        let detectedAddressProof = "";
+        for (let key of ADDRESS_PROOFS) {
+          if (records?.[key]) {
+            detectedAddressProof = key;
+            break;
+          }
+        }
+
+        // ================= DETECT BUSINESS PROOF =================
+        let detectedBusinessProof = "";
+        for (let key of BUSINESS_PROOFS) {
+          if (records?.[key]) {
+            detectedBusinessProof = key;
+            break;
+          }
+        }
+
+        // ================= SET DROPDOWNS =================
+        setSelectedAddressProof(detectedAddressProof);
+        setSelectedBusinessProof(detectedBusinessProof);
+
+        // ================= SET FORM DATA =================
         setFormData({
           business_name: records?.business_name || "",
           name: records?.user?.name || "",
@@ -188,25 +224,60 @@ export default function AddVendor() {
           long: records?.long || "",
           area: records?.area || "",
           pincode: records?.pincode || "",
-          aadhaar_front: records?.aadhaar_front || "",
-          aadhaar_back: records?.aadhaar_back || "",
-          pan_card_image: records?.pan_card_image || "",
-          gst_certificate: records?.gst_certificate || "",
-          business_logo: records?.business_logo || "",
           state: records?.state || "",
           _id: records?.user?._id || "",
+
+          // ================= DYNAMIC FILES =================
+
+          // Address proofs
+          aadhaar_front: records?.aadhaar_front || null,
+          aadhaar_back: records?.aadhaar_back || null,
+          pan_card_image: records?.pan_card_image || null,
+          driving_license: records?.driving_license || null,
+          passport: records?.passport || null,
+
+          // Business proofs
+          gst_certificate: records?.gst_certificate || null,
+          udhyam: records?.udhyam || null,
+          trade_license: records?.trade_license || null,
+          shop_license: records?.shop_license || null,
+
+          // Logo
+          business_logo: records?.business_logo || null,
         });
 
+        // ================= PREVIEW SET =================
+        if (detectedAddressProof && records?.[detectedAddressProof]) {
+          setFormData((prev) => ({
+            ...prev,
+            [`${detectedAddressProof}Preview`]: records[detectedAddressProof],
+          }));
+        }
+
+        if (detectedBusinessProof && records?.[detectedBusinessProof]) {
+          setFormData((prev) => ({
+            ...prev,
+            [`${detectedBusinessProof}Preview`]: records[detectedBusinessProof],
+          }));
+        }
+
+        // ================= WEEKLY OFF =================
         if (records?.weekly_off_day?.length) {
-          const formatted = records.weekly_off_day.map(d =>
-            new Date(d).toISOString().split("T")[0] // YYYY-MM-DD
+          const formatted = records.weekly_off_day.map((d) =>
+            new Date(d).toISOString().split("T")[0]
           );
           setExtraHoliday(formatted);
         } else {
           setExtraHoliday([]);
-        } setHours(records?.opening_hours || initialHours);
+        }
 
-        if (records?.category?._id) fetchSubcategories(records.category._id);
+        // ================= HOURS =================
+        setHours(records?.opening_hours || initialHours);
+
+        // ================= SUBCATEGORY =================
+        if (records?.category?._id) {
+          fetchSubcategories(records.category._id);
+        }
       })
       .catch((error) => console.log("Error fetching vendor:", error));
   }, [categories, id]);
@@ -237,15 +308,32 @@ export default function AddVendor() {
   };
 
   // 🔹 Handle file input
-  const handleFileChange = (e) => {
+  const handleDynamicFileChange = (e, type) => {
     const file = e.target.files[0];
-    const { name } = e.target;
+    if (!file) return;
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: file,
-      [`${name}Preview`]: URL.createObjectURL(file) // preview url
-    }));
+    if (type === "address" && selectedAddressProof) {
+      setFormData((prev) => ({
+        ...prev,
+        [selectedAddressProof]: file,
+        [`${selectedAddressProof}Preview`]: URL.createObjectURL(file),
+      }));
+    }
+
+    if (type === "business" && selectedBusinessProof) {
+      setFormData((prev) => ({
+        ...prev,
+        [selectedBusinessProof]: file,
+        [`${selectedBusinessProof}Preview`]: URL.createObjectURL(file),
+      }));
+    }
+  };
+
+  const handleFileChange = (e) => { 
+    const file = e.target.files[0]; 
+    const { name } = e.target; 
+    setFormData((prev) => ({ ...prev, [name]: file, [`${name}Preview`]: URL.createObjectURL(file) // preview url 
+    })); 
   };
 
   const handleSubmit = async (e) => {
@@ -275,16 +363,31 @@ export default function AddVendor() {
       fd.append("categroy", formData.category);
       fd.append("subcategory", formData.subcategory);
       fd.append("opening_hours", JSON.stringify(hours));
-      if (formData.aadhaar_front instanceof File)
-        fd.append("aadhaar_front", formData.aadhaar_front);
-      if (formData.aadhaar_back instanceof File)
-        fd.append("aadhaar_back", formData.aadhaar_back);
-      if (formData.pan_card_image instanceof File)
-        fd.append("pan_card_image", formData.pan_card_image);
-      if (formData.gst_certificate instanceof File)
-        fd.append("gst_certificate", formData.gst_certificate);
-      if (formData.business_logo instanceof File)
+      // Address proofs
+      ADDRESS_PROOFS.forEach((key) => {
+        if (formData[key] instanceof File) {
+          fd.append(key, formData[key]);
+        }
+      });
+      // Business proofs
+      BUSINESS_PROOFS.forEach((key) => {
+        if (formData[key] instanceof File) {
+          fd.append(key, formData[key]);
+        }
+      });
+      // Logo
+      if (formData.business_logo instanceof File) {
         fd.append("business_logo", formData.business_logo);
+      }
+
+      // if (formData.aadhaar_front instanceof File)
+      //   fd.append("aadhaar_front", formData.aadhaar_front);
+      // if (formData.aadhaar_back instanceof File)
+      //   fd.append("aadhaar_back", formData.aadhaar_back);
+      // if (formData.pan_card_image instanceof File)
+      //   fd.append("pan_card_image", formData.pan_card_image);
+      // if (formData.gst_certificate instanceof File)
+      //   fd.append("gst_certificate", formData.gst_certificate);
       const main = new Listing();
       const res = await main.AdminVendorAdd(fd);
       if (res?.data?.status) {
@@ -331,16 +434,22 @@ export default function AddVendor() {
       fd.append("opening_hours", JSON.stringify(hours));
       const cleanDates = extraHoliday.filter(d => d !== "");
       fd.append("weekly_off_day", JSON.stringify(cleanDates));
-      if (formData.aadhaar_front instanceof File)
-        fd.append("aadhaar_front", formData.aadhaar_front);
-      if (formData.aadhaar_back instanceof File)
-        fd.append("aadhaar_back", formData.aadhaar_back);
-      if (formData.pan_card_image instanceof File)
-        fd.append("pan_card_image", formData.pan_card_image);
-      if (formData.gst_certificate instanceof File)
-        fd.append("gst_certificate", formData.gst_certificate);
-      if (formData.business_logo instanceof File)
+      // Address proofs
+      ADDRESS_PROOFS.forEach((key) => {
+        if (formData[key] instanceof File) {
+          fd.append(key, formData[key]);
+        }
+      });
+      // Business proofs
+      BUSINESS_PROOFS.forEach((key) => {
+        if (formData[key] instanceof File) {
+          fd.append(key, formData[key]);
+        }
+      });
+      // Logo
+      if (formData.business_logo instanceof File) {
         fd.append("business_logo", formData.business_logo);
+      }
       const main = new Listing();
       const res = await main.VendorEdit(id, fd);
       if (res?.data?.status) {
@@ -550,37 +659,88 @@ export default function AddVendor() {
               Upload required documents for verification and listing.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <FileUploadField
-                label="Aadhaar Card (Front)"
-                id="aadhaar_front"
-                onChange={handleFileChange}
-                preview={formData.aadhaar_frontPreview || formData.aadhaar_front || ""}
-              />
-              <FileUploadField
-                label="Aadhaar Card (Back)"
-                id="aadhaar_back"
-                onChange={handleFileChange}
-                preview={formData.aadhaar_backPreview || formData.aadhaar_back || ""}
-              />
-              <FileUploadField
-                label="PAN Card Image"
-                id="pan_card_image"
-                onChange={handleFileChange}
-                preview={formData.pan_card_imagePreview || formData.pan_card_image || ""}
-              />
-              <FileUploadField
-                label="GST Certificate"
-                id="gst_certificate"
-                onChange={handleFileChange}
-                preview={formData.gst_certificatePreview || formData.gst_certificate || ""}
-              />
-              <FileUploadField
-                label="Business Logo"
-                id="business_logo"
-                onChange={handleFileChange}
-                preview={formData.business_logoPreview || formData.business_logo || ""}
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+              {/* ================= ADDRESS PROOF ================= */}
+              <div>
+                <h4 className="text-lg font-semibold mb-2">Address Proof</h4>
+
+                <select
+                  className="w-full mb-3 border rounded-lg p-2"
+                  value={selectedAddressProof}
+                  onChange={(e) => setSelectedAddressProof(e.target.value)}
+                >
+                  <option value="">Select Address Proof</option>
+                  <option value="aadhaar_front">Aadhaar Front</option>
+                  <option value="aadhaar_back">Aadhaar Back</option>
+                  <option value="pan_card_image">PAN Card</option>
+                  <option value="driving_license">Driving License</option>
+                  <option value="passport">Passport</option>
+                </select>
+
+                {selectedAddressProof && (
+                  <input
+                    type="file"
+                    onChange={(e) => handleDynamicFileChange(e, "address")}
+                    className="w-full"
+                  />
+                )}
+
+                {/* Preview */}
+                {selectedAddressProof &&
+                  formData[`${selectedAddressProof}Preview`] && (
+                    <img
+                      src={formData[`${selectedAddressProof}Preview`]}
+                      className="mt-2 w-40 rounded border"
+                    />
+                  )}
+              </div>
+
+              {/* ================= BUSINESS PROOF ================= */}
+              <div>
+                <h4 className="text-lg font-semibold mb-2">Business Proof</h4>
+
+                <select
+                  className="w-full mb-3 border rounded-lg p-2"
+                  value={selectedBusinessProof}
+                  onChange={(e) => setSelectedBusinessProof(e.target.value)}
+                >
+                  <option value="">Select Business Proof</option>
+                  <option value="gst_certificate">GST Certificate</option>
+                  <option value="udhyam">Udhyam</option>
+                  <option value="trade_license">Trade License</option>
+                  <option value="shop_license">Shop License</option>
+                </select>
+
+                {selectedBusinessProof && (
+                  <input
+                    type="file"
+                    onChange={(e) => handleDynamicFileChange(e, "business")}
+                    className="w-full"
+                  />
+                )}
+
+                {/* Preview */}
+                {selectedBusinessProof &&
+                  formData[`${selectedBusinessProof}Preview`] && (
+                    <img
+                      src={formData[`${selectedBusinessProof}Preview`]}
+                      className="mt-2 w-40 rounded border"
+                    />
+                  )}
+              </div>
+
+              {/* ================= BUSINESS LOGO ================= */}
+              <div className="md:col-span-2">
+                <FileUploadField
+                  label="Business Logo"
+                  id="business_logo"
+                  onChange={handleFileChange}
+                  preview={
+                    formData.business_logoPreview || formData.business_logo || ""
+                  }
+                />
+              </div>
             </div>
           </div>
 
