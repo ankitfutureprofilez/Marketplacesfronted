@@ -12,6 +12,7 @@ import { MdEdit } from "react-icons/md";
 import { MdBlock } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
 import { useRole } from "../../context/RoleContext";
+import { hasPermission } from "../../common/Permissions";
 
 function SalesView() {
   const [Sales, setSales] = useState([]);
@@ -26,10 +27,9 @@ function SalesView() {
   const [selected, setSelected] = useState(null);
   const { user } = useRole();
 
-  const canCreate = user?.permissions?.includes("create_sales");
-  const canUpdate = user?.permissions?.includes("update_sales");
-  const canDelete = user?.permissions?.includes("delete_sales");
-  const canView = user?.permissions?.includes("manage_sales");
+  const canCreate = hasPermission(user, "create_sales");
+  const canUpdate = hasPermission(user, "update_sales");
+  const canDelete = hasPermission(user, "delete_sales");
 
   const timerRef = useRef(null);
 

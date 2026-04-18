@@ -4,6 +4,7 @@ import Listing from "../../Apis/Listing";
 import toast from "react-hot-toast";
 import Popup from "../../common/Popup";
 import { useRole } from "../../context/RoleContext";
+import { hasPermission } from "../../common/Permissions";
 
 const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) => {
   const [loading, setLoading] = useState(false);
@@ -13,8 +14,8 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
   const [isPhoneChanged, setIsPhoneChanged] = useState(false);
   const { user } = useRole();
 
-  const canCreate = user?.permissions?.includes("create_sales");
-  const canUpdate = user?.permissions?.includes("update_sales");
+  const canCreate = hasPermission(user, "create_sales");
+  const canUpdate = hasPermission(user, "update_sales");
 
   const [formData, setFormData] = useState({
     name: "",

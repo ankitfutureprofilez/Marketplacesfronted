@@ -11,6 +11,7 @@ import DeleteVendor from "./DeleteVendor";
 import { MdBlock } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
 import { useRole } from "../../context/RoleContext";
+import { hasPermission } from "../../common/Permissions";
 
 function List() {
   const [team, setTeams] = useState([]);
@@ -22,9 +23,9 @@ function List() {
   const timerRef = useRef(null);
   const { user } = useRole();
 
-  const canCreate = user?.permissions?.includes("create_vendor");
-  const canUpdate = user?.permissions?.includes("update_vendor");
-  const canDelete = user?.permissions?.includes("delete_vendor");
+  const canCreate = hasPermission(user, "create_vendor");
+  const canUpdate = hasPermission(user, "update_vendor");
+  const canDelete = hasPermission(user, "delete_vendor");
 
   const [isOpen, setIsOpen] = useState(false);
   const closePopup = () => setIsOpen(false);

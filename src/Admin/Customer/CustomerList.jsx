@@ -12,6 +12,7 @@ import { HiOutlineUserAdd } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import AddCustomer from "./AddCustomer";
 import { useRole } from "../../context/RoleContext";
+import { hasPermission } from "../../common/Permissions";
 
 function CustomerList() {
   const [team, setTeams] = useState([]);
@@ -24,10 +25,9 @@ function CustomerList() {
   const [selected, setSelected] = useState(null);
   const timerRef = useRef(null);
   const { user } = useRole();
-  const canCreate = user?.permissions?.includes("create_customer");
-  const canUpdate = user?.permissions?.includes("update_customer");
-  const canDelete = user?.permissions?.includes("delete_customer");
-  const canViewPage = user?.permissions?.includes("manage_customers");
+  const canCreate = hasPermission(user, "create_customer");
+  const canUpdate = hasPermission(user, "update_customer");
+  const canDelete = hasPermission(user, "delete_customer");
 
   const handleSearchChange = (e) => {
     const val = e.target.value;
@@ -92,7 +92,6 @@ function CustomerList() {
                 </div>
                 <div className="inline-block">
                   {canCreate && (
-
                     <button
                       onClick={() => {
                         setSelected(null);

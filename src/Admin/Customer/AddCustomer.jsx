@@ -4,6 +4,7 @@ import Listing from "../../Apis/Listing";
 import toast from "react-hot-toast";
 import Popup from "../../common/Popup";
 import { useRole } from "../../context/RoleContext";
+import { hasPermission } from "../../common/Permissions";
 
 const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) => {
   const [loading, setLoading] = useState(false);
@@ -12,8 +13,8 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
   const [originalPhone, setOriginalPhone] = useState("");
   const [isPhoneChanged, setIsPhoneChanged] = useState(false);
   const { user } = useRole();
-  const canCreate = user?.permissions?.includes("create_customer");
-  const canUpdate = user?.permissions?.includes("update_customer");
+  const canCreate = hasPermission(user, "create_customer");
+  const canUpdate = hasPermission(user, "update_customer");
 
   useEffect(() => {
     if (isOpen) {
