@@ -98,6 +98,8 @@ export default function AddVendor() {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [extraHoliday, setExtraHoliday] = useState([]);
+  const [selectedAddressProof, setSelectedAddressProof] = useState("");
+  const [selectedBusinessProof, setSelectedBusinessProof] = useState("");
   const { user } = useRole();
 
   const permissions = user?.permissions || [];
