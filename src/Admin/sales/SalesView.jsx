@@ -11,6 +11,8 @@ import { IoMdEye } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import { MdBlock } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
+import { useRole } from "../../context/RoleContext";
+import { hasPermission } from "../../common/Permissions";
 
 function SalesView() {
   const [Sales, setSales] = useState([]);
@@ -23,6 +25,11 @@ function SalesView() {
   const closeAddPopup = () => setIsAddOpen(false);
 
   const [selected, setSelected] = useState(null);
+  const { user } = useRole();
+
+  const canCreate = hasPermission(user, "create_sales");
+  const canUpdate = hasPermission(user, "update_sales");
+  const canDelete = hasPermission(user, "delete_sales");
 
   const timerRef = useRef(null);
 
@@ -121,16 +128,18 @@ function SalesView() {
                 </div>
                 {/* <AddSales fecthSalesList={fecthSalesList} /> */}
                 <div className="inline-block">
-                  <button
-                    onClick={() => {
-                      setSelected(null);
-                      setIsAddOpen(true);
-                    }}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-blue-700 transition duration-150"
-                  >
-                    <HiOutlineUserAdd className="w-5 h-5" />
-                    <span>Add Salesperson</span>
-                  </button>
+                  {canCreate && (
+                    <button
+                      onClick={() => {
+                        setSelected(null);
+                        setIsAddOpen(true);
+                      }}
+                      className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 hover:bg-blue-700 transition duration-150"
+                    >
+                      <HiOutlineUserAdd className="w-5 h-5" />
+                      <span>Add Salesperson</span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -224,34 +233,38 @@ function SalesView() {
                                     className="text-blue-600 hover:text-blue-900"
                                   />
                                 </Link>
-                                <button
-                                  onClick={() => {
-                                    setIsAddOpen(true);
-                                    setSelected(member);
-                                  }}
-                                  title="Edit"
-                                >
-                                  <MdEdit size={22} className="text-green-600 hover:text-green-900" />
-                                </button>
-                                <button
-                                 onClick={() => {
-                                    setIsOpen(true);
-                                    setSelected(member);
-                                  }}
-                                  title="Block"
-                                >
-                                  {member?.deleted_at ? 
-                                  <CgUnblock
-                                    size={24}
-                                    className="text-red-600 hover:text-red-700"
-                                  />
-                                  :
-                                  <MdBlock
-                                    size={24}
-                                    className="text-red-600 hover:text-red-700"
-                                  />
-                                  }
-                                </button>
+                                {canUpdate && (
+                                  <button
+                                    onClick={() => {
+                                      setIsAddOpen(true);
+                                      setSelected(member);
+                                    }}
+                                    title="Edit"
+                                  >
+                                    <MdEdit size={22} className="text-green-600 hover:text-green-900" />
+                                  </button>
+                                )}
+                                {canDelete && (
+                                  <button
+                                    onClick={() => {
+                                      setIsOpen(true);
+                                      setSelected(member);
+                                    }}
+                                    title="Block"
+                                  >
+                                    {member?.deleted_at ?
+                                      <CgUnblock
+                                        size={24}
+                                        className="text-red-600 hover:text-red-700"
+                                      />
+                                      :
+                                      <MdBlock
+                                        size={24}
+                                        className="text-red-600 hover:text-red-700"
+                                      />
+                                    }
+                                  </button>
+                                )}
                               </div>
                             </td>
                           </tr>

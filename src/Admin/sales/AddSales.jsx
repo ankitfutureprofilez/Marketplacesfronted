@@ -3,6 +3,8 @@ import defaultimage from "../../img/userdefault.webp";
 import Listing from "../../Apis/Listing";
 import toast from "react-hot-toast";
 import Popup from "../../common/Popup";
+import { useRole } from "../../context/RoleContext";
+import { hasPermission } from "../../common/Permissions";
 
 const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) => {
   const [loading, setLoading] = useState(false);
@@ -10,6 +12,10 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
   const [isPhoneVerified, setIsPhoneVerified] = useState(false);
   const [originalPhone, setOriginalPhone] = useState("");
   const [isPhoneChanged, setIsPhoneChanged] = useState(false);
+  const { user } = useRole();
+
+  const canCreate = hasPermission(user, "create_sales");
+  const canUpdate = hasPermission(user, "update_sales");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -124,6 +130,15 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
   // 🔹 Unified submit just picks which to call
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isEdit && !canUpdate) {
+      toast.error("You don't have permission to update sales");
+      return;
+    }
+
+    if (!isEdit && !canCreate) {
+      toast.error("You don't have permission to create sales");
+      return;
+    }
     setLoading(true);
 
     if (isPhoneChanged && !isPhoneVerified) {
@@ -315,13 +330,15 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
             </div>
 
             {/* Submit */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-400"
-            >
-              {loading ? "Submitting..." : isEdit ? "Update" : "Submit"}
-            </button>
+            {((isEdit && canUpdate) || (!isEdit && canCreate)) && (
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-400"
+              >
+                {loading ? "Submitting..." : isEdit ? "Update" : "Submit"}
+              </button>
+            )}
           </form>
         </div>
       </div>
