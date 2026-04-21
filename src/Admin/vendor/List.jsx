@@ -291,7 +291,26 @@ function List() {
                             </td>
                             <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px] ">
                               <p className="text-white text-center bg-blue-600 rounded-full px-2 py-0.5">
-                                {vendor?.added_by?.role || "--"}
+                                {/* {vendor?.added_by?.role || "--"} */}
+                                {/* {
+                                  vendor?.added_by?.role
+                                    ? vendor.added_by.role
+                                    : vendor?.user?.role === "vendor"
+                                      ? (vendor?.assign_staff ? "admin" : "--")
+                                      : "--"
+                                } */}
+                                <p
+                                  className={`text-center rounded-full px-2 py-0.5 ${vendor?.assign_staff
+                                      ? "bg-blue-600 text-white"
+                                      : "text-gray-400"
+                                    }`}
+                                >
+                                  {
+                                    vendor?.assign_staff
+                                      ? (vendor?.added_by?.role || "admin")
+                                      : "--"
+                                  }
+                                </p>
                               </p>
                             </td>
                             <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">

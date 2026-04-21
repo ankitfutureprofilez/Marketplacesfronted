@@ -171,7 +171,7 @@ export default function Add({ isOpen, onClose, member, fetchData, isEdit = false
   return (
     <Popup isOpen={isOpen} onClose={onClose} size={"max-w-[540px]"}>
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 relative">
+        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 relative max-h-[90vh] overflow-y-auto">
           <button
             onClick={onClose}
             className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl"
