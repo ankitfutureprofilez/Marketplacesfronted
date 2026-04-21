@@ -6,6 +6,7 @@ import Listing from "../../Apis/Listing";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRole } from "../../context/RoleContext";
+import { hasPermission } from "../../common/Permissions";
 
 const ADDRESS_PROOFS = [
   "aadhaar_front",
@@ -102,11 +103,9 @@ export default function AddVendor() {
   const [selectedBusinessProof, setSelectedBusinessProof] = useState("");
   const { user } = useRole();
 
-  const permissions = user?.permissions || [];
-
-  const canCreateVendor = permissions.includes("create_vendor");
-  const canUpdateVendor = permissions.includes("update_vendor");
-  const canViewVendor = permissions.includes("manage_vendor");
+  const canCreateVendor = hasPermission(user, "create_vendor");
+  const canUpdateVendor = hasPermission(user, "update_vendor");
+  const canViewVendor = hasPermission(user, "manage_vendor");
 
   useEffect(() => {
     if (!canCreateVendor && !canUpdateVendor) {
@@ -331,11 +330,12 @@ export default function AddVendor() {
     }
   };
 
-  const handleFileChange = (e) => { 
-    const file = e.target.files[0]; 
-    const { name } = e.target; 
-    setFormData((prev) => ({ ...prev, [name]: file, [`${name}Preview`]: URL.createObjectURL(file) // preview url 
-    })); 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    const { name } = e.target;
+    setFormData((prev) => ({
+      ...prev, [name]: file, [`${name}Preview`]: URL.createObjectURL(file) // preview url 
+    }));
   };
 
   const handleSubmit = async (e) => {
