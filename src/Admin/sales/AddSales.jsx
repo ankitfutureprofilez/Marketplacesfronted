@@ -22,6 +22,8 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
     phone: "",
     otp: "",
     email: "",
+    alternate_phone: "",
+    address: "",
     avatar: null,
     role: "sales",
   });
@@ -34,6 +36,8 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
       phone: member?.phone || "",
       otp: member?.otp || "",
       email: member?.email || "",
+      alternate_phone: member?.alternate_phone || "",
+      address: member?.address || "",
       avatar: member?.avatar || null,
       role: "sales",
     });
@@ -87,6 +91,8 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
     data.append("otp", formData.otp);
     data.append("email", formData.email);
     data.append("role", formData.role);
+    data.append("alternate_phone", formData.alternate_phone);
+    data.append("address", formData.address);
     if (formData.avatar && formData.avatar instanceof File) {
       data.append("avatar", formData.avatar);
     }
@@ -111,6 +117,8 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
     data.append("otp", formData.otp);
     data.append("email", formData.email);
     data.append("role", formData.role);
+    data.append("alternate_phone", formData.alternate_phone);
+    data.append("address", formData.address);
     if (formData.avatar && formData.avatar instanceof File) {
       data.append("avatar", formData.avatar);
     }
@@ -162,6 +170,8 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
         phone: "",
         otp: "",
         email: "",
+        alternate_phone: "",
+        address: "",
         avatar: null,
         role: "sales",
       });
@@ -326,6 +336,44 @@ const AddSales = ({ isOpen, onClose, member, fecthSalesList, isEdit = false }) =
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 placeholder="Enter email address"
                 required
+              />
+            </div>
+
+            {/* Alternate Phone */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Alternate Mobile Number (Optional)
+              </label>
+              <input
+                name="alternate_phone"
+                type="tel"
+                value={formData.alternate_phone}
+                onChange={(e) => {
+                  if (
+                    e.target.value.length <= 10 &&
+                    /^[0-9]*$/.test(e.target.value)
+                  ) {
+                    handleChange(e);
+                  }
+                }}
+                maxLength="10"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                placeholder="Enter alternate mobile number"
+              />
+            </div>
+
+            {/* Address */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Address (Optional)
+              </label>
+              <textarea
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                rows="2"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none resize-none"
+                placeholder="Enter address"
               />
             </div>
 
