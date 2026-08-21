@@ -6,6 +6,7 @@ import HeaderAdmin from "../../common/HeaderAdmin";
 import PurchaseTable from "../../common/PurchaseTable";
 import { FaUserCircle, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
 import moment from "moment";
+import { formatMultiPrice } from "../../Hooks/ValueDataHook";
 
 function SalesDetails() {
   const { id } = useParams();
@@ -114,7 +115,7 @@ function SalesDetails() {
           </div>
 
           {/* ================= Stats ================= */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
             <div
               onClick={() =>
                 offersRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -161,6 +162,18 @@ function SalesDetails() {
               <p className="text-sm text-yellow-700">Total Earnings</p>
               <p className="text-3xl font-extrabold text-yellow-600 mt-1">
                 {record?.total_offer_stats?.totalAmount ?? 0}
+              </p>
+            </div>
+
+            <div
+              onClick={() =>
+                purchaseRef.current?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="p-4 rounded-xl shadow-lg bg-teal-50 border border-teal-200 cursor-pointer"
+            >
+              <p className="text-sm text-teal-700">Total Profit/Earning</p>
+              <p className="text-3xl font-extrabold text-teal-600 mt-1">
+                {formatMultiPrice(record?.total_offer_stats?.totalEarningProfit || 0, "INR")}
               </p>
             </div>
           </div>
