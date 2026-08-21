@@ -12,11 +12,12 @@ export default function PurchaseTable({ data, showCustomer }) {
     "Offer Name",
     "Vendor Name",
     ...(showCustomer ? ["Customer"] : []),
+    "Amount Summary",
+    "Earning/Profit",
     // "Total Amount",
     // "Discount",
     // "Total Offer Amount",
     // "Final Amount",
-    "Amount Summary",
     "Time",
     "Bill",
     "Status",
@@ -164,6 +165,10 @@ export default function PurchaseTable({ data, showCustomer }) {
 
                     </div>
                   )}
+                </td>
+
+                <td className="px-[10px] py-[16px] text-[16px] font-semibold text-green-600">
+                  {formatMultiPrice(item?.offer?.flat?.amount || item?.offer?.percentage?.amount || 0, "INR")}
                 </td>
 
                 <td className="px-[10px] py-[16px] text-[14px]">
