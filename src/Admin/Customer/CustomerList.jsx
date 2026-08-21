@@ -145,6 +145,12 @@ function CustomerList() {
                         scope="col"
                         className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
                       >
+                        AREA
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 font-[Poppins] font-[600] py-3 text-[16px] font-medium text-[#8C9199] uppercase tracking-wider text-center"
+                      >
                         Total Purchases
                       </th>
                       {/* <th
@@ -183,6 +189,9 @@ function CustomerList() {
                             </td>
                             <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] capitalize text-center">
                               {member?.phone}
+                            </td>
+                            <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] capitalize text-center">
+                              {member?.area || "-"}
                             </td>
                             <td className="px-6 font-[Poppins] font-[400] py-4 whitespace-nowrap text-sm text-[#46494D] capitalize text-center">
                               {member?.purchases_count}

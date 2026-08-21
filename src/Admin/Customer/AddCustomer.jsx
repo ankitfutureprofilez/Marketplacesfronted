@@ -35,6 +35,7 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
     phone: "",
     otp: "",
     email: "",
+    area: "",
     avatar: null,
     role: "customer",
   });
@@ -47,6 +48,7 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
       phone: member?.phone || "",
       otp: member?.otp || "",
       email: member?.email || "",
+      area: member?.area || "",
       avatar: member?.avatar || null,
       role: "customer",
     });
@@ -100,6 +102,7 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
     data.append("otp", formData.otp);
     data.append("email", formData.email);
     data.append("role", formData.role);
+    data.append("area", formData.area);
     if (formData.avatar && formData.avatar instanceof File) {
       data.append("avatar", formData.avatar);
     }
@@ -124,6 +127,7 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
     data.append("otp", formData.otp);
     data.append("email", formData.email);
     data.append("role", formData.role);
+    data.append("area", formData.area);
     if (formData.avatar && formData.avatar instanceof File) {
       data.append("avatar", formData.avatar);
     }
@@ -166,8 +170,9 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
         phone: "",
         otp: "",
         email: "",
+        area: "",
         avatar: null,
-        role: "sales",
+        role: "customer",
       });
     } catch (error) {
       console.log("error", error);
@@ -329,6 +334,21 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 placeholder="Enter email address"
+              />
+            </div>
+
+            {/* Location / Area */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Location / Area
+              </label>
+              <input
+                name="area"
+                type="text"
+                value={formData.area}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                placeholder="Enter location or area"
               />
             </div>
 
