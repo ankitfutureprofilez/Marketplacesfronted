@@ -111,6 +111,22 @@ function SalesDetails() {
                   {record?.sales?.phone || "N/A"}
                 </a>
               </div>
+
+              {record?.sales?.alternate_phone && (
+                <div className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-lg border">
+                  <FaPhoneAlt className="text-gray-400 w-4 h-4" />
+                  <a href={`tel:${record?.sales?.alternate_phone}`} className="font-medium">
+                    {record?.sales?.alternate_phone} (Alt)
+                  </a>
+                </div>
+              )}
+
+              {record?.sales?.address && (
+                <div className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-lg border">
+                  <span className="font-semibold text-gray-500">Address:</span>
+                  <span className="font-medium">{record?.sales?.address}</span>
+                </div>
+              )}
             </div>
           </div>
 

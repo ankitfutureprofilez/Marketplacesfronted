@@ -166,6 +166,12 @@ function SalesView() {
                       <th className=" font-[Poppins] text-[14px] text-[#8C9199] font-[600] uppercase text-left p-[10px] mb-[10px]">
                         PHONE
                       </th>
+                      <th className=" font-[Poppins] text-[14px] text-[#8C9199] font-[600] uppercase text-left p-[10px] mb-[10px]">
+                        ALT PHONE
+                      </th>
+                      <th className=" font-[Poppins] text-[14px] text-[#8C9199] font-[600] uppercase text-left p-[10px] mb-[10px]">
+                        ADDRESS
+                      </th>
                       <th className=" font-[Poppins] text-[14px] text-[#8C9199] font-[600] uppercase p-[10px] mb-[10px] text-center">
                         MERCHANTS Assigned
                       </th>
@@ -208,6 +214,12 @@ function SalesView() {
                             </td>
                             <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
                               {member?.phone}
+                            </td>
+                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                              {member?.alternate_phone || "N/A"}
+                            </td>
+                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px] max-w-[200px] truncate" title={member?.address}>
+                              {member?.address || "N/A"}
                             </td>
                             <td className="font-[Poppins] text-black text-[16px] px-[10px] py-[16px] text-center">
                               {member?.assigned_vendors}
