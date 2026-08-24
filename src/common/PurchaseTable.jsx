@@ -159,7 +159,8 @@ export default function PurchaseTable({ data, showCustomer }) {
                       <div className="flex justify-between gap-4">
                         <span className="text-gray-500">Offer Price</span>
                         <span className="font-medium text-black">
-                          {formatMultiPrice(item.offer_paid_amount, "INR")}
+                          {/* {formatMultiPrice(item.offer_paid_amount, "INR")} */}
+                          {formatMultiPrice(item?.offer?.flat?.amount || item?.offer?.percentage?.amount || 0, "INR")}
                         </span>
                       </div>
 
