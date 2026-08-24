@@ -277,19 +277,19 @@ function List() {
                             className={`bg-white ${isDeleted ? "opacity-50" : ""
                               }`}
                           >
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                               {index + 1}
                             </td>
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px] capitalize">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px] capitalize">
                               {vendor?.business_name}
                             </td>
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px] capitalize">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px] capitalize">
                               {vendor?.user?.name}
                             </td>
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                               {vendor.user?.phone}
                             </td>
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px] ">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px] ">
                               <p className="text-white text-center bg-blue-600 rounded-full px-2 py-0.5">
                                 {/* {vendor?.added_by?.role || "--"} */}
                                 {/* {
@@ -313,16 +313,16 @@ function List() {
                                 </p>
                               </p>
                             </td>
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                               {vendor.category?.name}
                             </td>
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                               {vendor.subcategory?.name}
                             </td>
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                               {vendor.city}
                             </td>
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                               <AssignStaff
                                 id={vendor._id}
                                 fetchTeamList={fetchTeamList}
@@ -331,7 +331,7 @@ function List() {
                                 loadingStaff={loadingStaff}
                               />
                             </td>
-                            {/* <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                            {/* <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                               <span
                                 className={`px-2 py-1 inline-flex font-[Poppins] uppercase text-xs font-semibold rounded-full cursor-pointer ${
                                   isDeleted
@@ -349,7 +349,7 @@ function List() {
                                 {isDeleted ? "Deleted" : vendor?.Verify_status}
                               </span>
                             </td> */}
-                            <td className="font-[Poppins] text-black text-[16px] text-left px-[10px] py-[16px]">
+                            <td className="font-[Poppins] text-gray-800 text-[14px] text-left px-[10px] py-[16px]">
                               <select
                                 value={vendor?.Verify_status}
                                 onChange={(e) =>

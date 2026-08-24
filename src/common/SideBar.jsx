@@ -1,10 +1,10 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../img/market.png"; // Ensure the path is correct
-import { MdSpaceDashboard } from "react-icons/md";
+import { MdContentPaste, MdLogout, MdOutlineCategory, MdSpaceDashboard } from "react-icons/md";
 import { IoIosMenu } from "react-icons/io";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdDashboard, MdSettings, MdVerifiedUser } from "react-icons/md";
-import { LuMessageCircleMore } from "react-icons/lu";
+import { LuMessageCircleMore, LuShieldCheck, LuUsers, LuUserSearch } from "react-icons/lu";
 import { FaUser, FaUserAlt } from "react-icons/fa";
 import { MdPayment } from "react-icons/md";
 import { FaRegEnvelope } from "react-icons/fa6";
@@ -15,6 +15,8 @@ import { MdContacts } from "react-icons/md";
 import toast from "react-hot-toast";
 import { useMemo, useState } from "react";
 import { useRole } from "../context/RoleContext";
+import { LiaShoppingBagSolid } from "react-icons/lia";
+import { BiPurchaseTag } from "react-icons/bi";
 
 function SideBar() {
   const SIDEBAR_ITEMS = [
@@ -22,34 +24,34 @@ function SideBar() {
     {
       label: "Customer Management",
       path: "/customer",
-      icon: FaUser,
+      icon: LuUsers,
       permission: "manage_customers",
     },
     {
       label: "Sales Management",
       path: "/sales",
-      icon: FaUserAlt,
+      icon: LuUserSearch,
       permission: "manage_sales",
     },
     {
       label: "Vendor Management",
       path: "/vendor",
-      icon: FaUser,
+      icon: LiaShoppingBagSolid,
       permission: "manage_vendors",
     },
     {
       label: "Categories",
       path: "/category",
-      icon: FaUser,
+      icon: MdOutlineCategory,
       permission: "manage_categories",
     },
     {
       label: "Purchase History",
       path: "/purchase-history",
-      icon: MdPayment,
+      icon: BiPurchaseTag,
       permission: "view_purchase",
     },
-    { label: "Sub-Admin", path: "/sub-admin", icon: FaUser, role: "admin" },
+    { label: "Sub-Admin", path: "/sub-admin", icon: LuShieldCheck, role: "admin" },
     {
       label: "Enquiries",
       path: "/enquiries",
@@ -58,7 +60,7 @@ function SideBar() {
     {
       label: "Website Content",
       path: "/home",
-      icon: MdSettings,
+      icon: MdContentPaste,
       permission: "manage_website",
     },
 
@@ -161,7 +163,7 @@ function SideBar() {
             Main Menu
           </p>
 
-          <ul className="space-y-1">
+          <ul className="space-y-1 px-2">
             {visibleItems && visibleItems?.map((item) => {
               const Icon = item.icon;
               return (
@@ -169,10 +171,10 @@ function SideBar() {
                   <Link
                     to={item.path}
                     onClick={handleLinkClick}
-                    className={`flex items-center gap-2 py-2.5 px-6 text-base font-medium
+                    className={`flex items-center gap-2 py-2.5 px-6 rounded-2xl
                         ${isActive(item.path)
-                        ? "text-blue-600 bg-gray-200"
-                        : "text-[#565F66] hover:bg-gray-100"
+                        ? "text-white bg-blue-600"
+                        : "text-gray-800 hover:bg-gray-100"
                       }`}
                   >
                     <Icon size={20} />
@@ -186,7 +188,7 @@ function SideBar() {
               <Link
                 to={"/setting"}
                 onClick={handleLinkClick}
-                className={`flex items-center gap-2 py-2.5 px-6 text-base font-medium
+                className={`flex items-center gap-2 py-2.5 px-6 text-base font-medium rounded-2xl
                     ${isActive("/setting")
                     ? "text-blue-600 bg-gray-200"
                     : "text-[#565F66] hover:bg-gray-100"
@@ -200,9 +202,9 @@ function SideBar() {
             <li>
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 py-2.5 px-6 text-base font-medium text-[#565F66] hover:bg-gray-100 w-full"
+                className="flex items-center gap-2 py-2.5 px-6 text-base font-medium text-red-600 hover:bg-gray-100 w-full rounded-2xl"
               >
-                <IoLogOutSharp size={20} />
+                <MdLogout size={20} />
                 Logout
               </button>
             </li>

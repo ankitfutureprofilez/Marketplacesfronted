@@ -86,7 +86,7 @@ const StudentChangePassword = ({ listing }) => {
             name="oldPassword"
             value={Regs.oldPassword}
             onChange={handleInputs}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg pr-10 outline-none"
+            className="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg pr-10 outline-none"
             placeholder="Enter old password"
           />
           <div
@@ -114,7 +114,7 @@ const StudentChangePassword = ({ listing }) => {
             name="newPassword"
             value={Regs.newPassword}
             onChange={handleInputs}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg pr-10 outline-none"
+            className="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg pr-10 outline-none"
             placeholder="Enter new password"
           />
           <div
@@ -142,7 +142,7 @@ const StudentChangePassword = ({ listing }) => {
             name="confirmPassword"
             value={Regs.confirmPassword}
             onChange={handleInputs}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg pr-10 outline-none"
+            className="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg pr-10 outline-none"
             placeholder="Confirm new password"
           />
           <div

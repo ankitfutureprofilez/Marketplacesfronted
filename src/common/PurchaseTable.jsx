@@ -53,9 +53,9 @@ export default function PurchaseTable({ data, showCustomer }) {
               onClick={() =>
                 setOpenRow(openRow === item._id ? null : item._id)
               }>
-                <td className="px-[10px] py-[16px] text-[16px]">{index + 1}</td>
+                <td className="px-[10px] py-[16px] text-[14px]">{index + 1}</td>
 
-                <td className="px-[10px] py-[16px] text-[16px] capitalize">
+                <td className="px-[10px] py-[16px] text-[14px] capitalize">
                   <div className="flex items-center gap-2">
                     {hasUpgradeHistory && (
                       <button
@@ -69,7 +69,7 @@ export default function PurchaseTable({ data, showCustomer }) {
                 </td>
 
                 {/* VENDOR */}
-                <td className="px-[10px] py-[16px] text-[16px]">
+                <td className="px-[10px] py-[16px] text-[14px]">
                   <div className="flex flex-col">
                     <span className="font-medium capitalize">{item?.vendor?.name}</span>
                     <span className="text-[13px] text-gray-500 capitalize">{item?.vendor?.business_name}</span>
@@ -86,7 +86,7 @@ export default function PurchaseTable({ data, showCustomer }) {
 
                 {/* CUSTOMER (ADMIN ONLY) */}
                 {showCustomer && (
-                  <td className="px-[10px] py-[16px] text-[16px]">
+                  <td className="px-[10px] py-[16px] text-[14px]">
                     <div className="flex flex-col">
                       <span className="font-medium">{item?.user?.name}</span>
                       {item?.user?.email && (
@@ -167,7 +167,7 @@ export default function PurchaseTable({ data, showCustomer }) {
                   )}
                 </td>
 
-                <td className="px-[10px] py-[16px] text-[16px] font-semibold text-green-600">
+                <td className="px-[10px] py-[16px] text-[14px] font-semibold text-green-600">
                   {formatMultiPrice(item?.offer?.flat?.amount || item?.offer?.percentage?.amount || 0, "INR")}
                 </td>
 
