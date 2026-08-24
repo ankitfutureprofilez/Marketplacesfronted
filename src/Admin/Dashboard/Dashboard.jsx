@@ -7,7 +7,9 @@ import MyLineChart from "./MyLineChart";
 import { MdDelete } from "react-icons/md";
 import { BiSolidOffer } from "react-icons/bi";
 import Listing from "../../Apis/Listing";
-import { FaListAlt, FaUsers } from "react-icons/fa";
+import { FaListAlt, } from "react-icons/fa";
+import { LiaShoppingBagSolid } from "react-icons/lia";
+import { FiUserCheck, FiUsers } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
@@ -52,7 +54,7 @@ function Dashboard() {
   }, []);
 
   useEffect(() => {
-    if(startDate && endDate){
+    if (startDate && endDate) {
       fetchSalesData(startDate, endDate);
     }
   }, [startDate, endDate]);
@@ -84,8 +86,8 @@ function Dashboard() {
               to="/sales"
               className="flex items-center gap-[5px] xl:gap-[8px] lg:gap-[10px] xl:gap-[15px] bg-white rounded-[10px] md:rounded-[10px] lg:rounded-[20px] p-[10px] md:p-[10px] lg:p-[25px] w-full md:w-4/12"
             >
-              <div className="flex items-center justify-center  w-[50px] h-[50px] md:w-[60px] md:h-[60px] lg:w-[80px] lg:h-[80px] rounded-[8px]">
-                <FaUsers className="text-black text-[30px]" />
+              <div className="flex items-center justify-center bg-green-600/10 w-[50px] h-[50px] md:w-[60px] md:h-[60px] lg:w-[60px] lg:h-[60px] rounded-[12px]">
+                <FiUsers className="text-green-600 text-[30px]" />
               </div>
               <div className="pl-[2px] lg:pl-[10px] xl:pl-[15px]">
                 <h3 className="capitalize font-[Poppins] font-[400] text-black text-[14px] leading-[15px] mb-[2px] lg:mb-[5px] lg:mb-[8px] ">
@@ -101,8 +103,8 @@ function Dashboard() {
               to="/vendor"
               className="flex items-center gap-[5px] xl:gap-[8px] lg:gap-[10px] xl:gap-[15px] bg-white rounded-[10px] md:rounded-[10px] lg:rounded-[20px] p-[10px] md:p-[10px] lg:p-[25px] w-full md:w-4/12"
             >
-              <div className="flex items-center justify-center  w-[50px] h-[50px] md:w-[60px] md:h-[60px] lg:w-[80px] lg:h-[80px] rounded-[8px]">
-                <FaListAlt className="text-black text-[30px]" />
+              <div className="flex items-center justify-center bg-blue-600/10 p-2  w-[50px] h-[50px] md:w-[60px] md:h-[60px] lg:w-[60px] lg:h-[60px] rounded-[12px]">
+                <LiaShoppingBagSolid className="text-blue-600 text-[30px]" />
               </div>
               <div className="pl-[2px] lg:pl-[10px] xl:pl-[15px]">
                 <h3 className="capitalize font-[Poppins] font-[400] text-black text-[14px] leading-[15px] mb-[2px] lg:mb-[5px] lg:mb-[8px]  ">
@@ -118,8 +120,8 @@ function Dashboard() {
               to="/vendor"
               className="flex items-center gap-[5px] xl:gap-[8px] lg:gap-[10px] xl:gap-[15px] bg-white rounded-[10px] md:rounded-[10px] lg:rounded-[20px] p-[10px] md:p-[10px] lg:p-[25px] w-full md:w-4/12"
             >
-              <div className="flex items-center justify-center  w-[50px] h-[50px] md:w-[60px] md:h-[60px] lg:w-[80px] lg:h-[80px] rounded-[8px]">
-                <FaUsers className="text-black text-[30px]" />
+              <div className="flex items-center justify-center bg-orange-600/10  w-[50px] h-[50px] md:w-[60px] md:h-[60px] lg:w-[60px] lg:h-[60px] rounded-[12px]">
+                <BiSolidOffer className="text-orange-600 text-[30px]" />
               </div>
               <div className="pl-[2px] lg:pl-[10px] xl:pl-[15px]">
                 <h3 className="capitalize font-[Poppins] font-[400] text-black text-[14px] leading-[15px] mb-[2px] lg:mb-[5px] lg:mb-[8px]  ">
@@ -135,8 +137,8 @@ function Dashboard() {
               to="/customer"
               className="flex items-center gap-[5px] xl:gap-[8px] lg:gap-[10px] xl:gap-[15px] bg-white rounded-[10px] md:rounded-[10px] lg:rounded-[20px] p-[10px] md:p-[10px] lg:p-[25px] w-full md:w-4/12"
             >
-              <div className="flex items-center justify-center  w-[50px] h-[50px] md:w-[60px] md:h-[60px] lg:w-[80px] lg:h-[80px] rounded-[8px]">
-                <BiSolidOffer className="text-black text-[30px]" />
+              <div className="flex items-center justify-center bg-purple-600/10 w-[50px] h-[50px] md:w-[60px] md:h-[60px] lg:w-[60px] lg:h-[60px] rounded-[12px]">
+                <FiUserCheck className="text-purple-600 text-[30px]" />
               </div>
               <div className="pl-[2px] lg:pl-[10px] xl:pl-[15px]">
                 <h3 className="capitalize font-[Poppins] font-[400] text-black text-[14px] leading-[15px] mb-[2px] lg:mb-[5px] lg:mb-[8px] ">
@@ -152,8 +154,8 @@ function Dashboard() {
             <MyLineChart data={data} startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} />
           </div>
           <div className="w-full  bg-white p-[10px] md:p-[25px] rounded-[10px] md:rounded-[20px] mt-[15px]">
-            <div className="px-4 py-4 flex flex-wrap justify-between items-center border-b border-black  border-opacity-10">
-              <h2 className=" text-base lg:text-lg font-bold font-[Poppins] font-[400] text-[#1E1E1E] m-0 tracking-[-0.03em]">
+            <div className=" flex flex-wrap justify-between items-center border-b border-black  border-opacity-10">
+              <h2 className=" text-base lg:text-lg font-bold font-[Poppins] font-[400] text-[#1E1E1E] mb-4 tracking-[-0.03em]">
                 Latest Vendors
               </h2>
             </div>
@@ -190,25 +192,25 @@ function Dashboard() {
                       key={index}
                       className="bg-white border-t transition duration-300 ease-in-out hover:bg-gray-100"
                     >
-                      <td className="font-[Poppins] font-[400] text-black text-[16px] text-left px-[10px] py-[16px] capitalize">
+                      <td className="font-[Poppins] font-[400] text-gray-800 text-[14px] text-left px-[10px] py-[16px] capitalize">
                         {index + 1}
                       </td>
-                      <td className="font-[Poppins] font-[400] text-black text-[16px] text-left px-[10px] py-[16px] capitalize">
+                      <td className="font-[Poppins] font-[400] text-gray-800 text-[14px] text-left px-[10px] py-[16px] capitalize">
                         {vendor?.business_name}
                       </td>
-                      <td className="font-[Poppins] font-[400] text-black text-[16px] text-center px-[10px] py-[16px] capitalize">
+                      <td className="font-[Poppins] font-[400] text-gray-800 text-[14px] text-center px-[10px] py-[16px] capitalize">
                         {vendor?.user?.name}
                       </td>
-                      <td className="font-[Poppins] font-[400] text-black text-[16px] text-center px-[10px] py-[16px] capitalize">
+                      <td className="font-[Poppins] font-[400] text-gray-800 text-[14px] text-center px-[10px] py-[16px] capitalize">
                         {vendor?.user?.phone}
                       </td>
-                      <td className="font-[Poppins] font-[400] text-black text-[16px] text-center px-[10px] py-[16px] capitalize">
+                      <td className="font-[Poppins] font-[400] text-gray-800 text-[14px] text-center px-[10px] py-[16px] capitalize">
                         {vendor?.city}
                       </td>
-                      <td className="font-[Poppins] font-[400] text-black text-[16px] text-center px-[10px] py-[16px] capitalize">
+                      <td className="font-[Poppins] font-[400] text-gray-800 text-[14px] text-center px-[10px] py-[16px] capitalize">
                         {vendor?.address}
                       </td>
-                      <td className="text-center font-[Poppins] font-[400] text-black text-[16px] text-left px-[10px] py-[16px] capitalize">
+                      <td className="text-center font-[Poppins] font-[400] text-black text-[14px] text-left px-[10px] py-[16px] capitalize">
                         <span
                           className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full capitalize ${getStatusClasses(
                             vendor?.status

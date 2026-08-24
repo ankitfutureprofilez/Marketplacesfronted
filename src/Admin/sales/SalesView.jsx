@@ -194,11 +194,11 @@ function SalesView() {
                             className={`bg-white ${isDeleted ? "opacity-50" : ""
                               }`}
                           >
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                               {index + 1}
                             </td>
 
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px] capitalize">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px] capitalize">
                               <div className="flex items-center space-x-3">
                                 <img
                                   className="h-10 w-10 rounded-full object-cover"
@@ -209,19 +209,19 @@ function SalesView() {
                               </div>
                             </td>
 
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                               {member?.email}
                             </td>
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                               {member?.phone}
                             </td>
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                               {member?.alternate_phone || "N/A"}
                             </td>
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px] max-w-[200px] truncate" title={member?.address}>
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px] max-w-[200px] truncate" title={member?.address}>
                               {member?.address || "N/A"}
                             </td>
-                            <td className="font-[Poppins] text-black text-[16px] px-[10px] py-[16px] text-center">
+                            <td className="font-[Poppins] text-gray-800 text-[14px] px-[10px] py-[16px] text-center">
                               {member?.assigned_vendors}
                             </td>
                             {/* <td className="font-[Poppins] uppercase  text-black text-[16px] text-left px-[10px] py-[16px]">

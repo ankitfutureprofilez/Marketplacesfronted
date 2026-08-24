@@ -149,11 +149,11 @@ export default function AdminList() {
                             className={`bg-white ${isDeleted ? "opacity-50" : ""
                               }`}
                           >
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                               {index + 1}
                             </td>
 
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px] capitalize">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px] capitalize">
                               <div className="flex items-center space-x-3">
                                 <img
                                   className="h-10 w-10 rounded-full object-cover"
@@ -164,13 +164,13 @@ export default function AdminList() {
                               </div>
                             </td>
 
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                               {member?.email}
                             </td>
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                               {member?.phone}
                             </td>
-                            {/* <td className="font-[Poppins] uppercase  text-black text-[16px] text-left px-[10px] py-[16px]">
+                            {/* <td className="font-[Poppins] uppercase  text-gray-800 text-[14px] text-left px-[10px] py-[16px]">
                                     <span
                                       onClick={() =>
                                         handlestatus(member?._id, member?.status)
@@ -183,7 +183,7 @@ export default function AdminList() {
                                     </span>
                                   </td> */}
 
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                               <div className="flex gap-1">
                                 {/* <Link to={`/sales/${member?._id}`} title="View">
                                   <IoMdEye

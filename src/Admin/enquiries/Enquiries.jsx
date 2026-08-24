@@ -119,24 +119,24 @@ function Enquiries() {
                                                 <tr
                                                     key={data._id}
                                                 >
-                                                    <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                                                    <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                                                         {index + 1}
                                                     </td>
 
-                                                    <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px] capitalize">
+                                                    <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px] capitalize">
                                                         {data?.firstName} {" "} {data?.lastName}
                                                     </td>
 
-                                                    <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                                                    <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                                                         {data?.email || "--"}
                                                     </td>
-                                                    <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                                                    <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                                                         {data?.role || "--"}
                                                     </td>
-                                                    <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                                                    <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                                                         {data?.phone || "--"}
                                                     </td>
-                                                    <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
+                                                    <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
                                                         {data?.message || "--"}
                                                     </td>
                                                 </tr>

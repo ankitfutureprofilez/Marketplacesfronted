@@ -119,7 +119,7 @@ const Profileupdate = ({ fetchData, listing, setListing }) => {
             onChange={handleInputs}
             name="name"
             required
-            className="w-full px-4 py-2 border rounded-lg"
+            className="w-full px-4 py-2 text-sm border rounded-lg"
             placeholder="Enter full name"
           />
         </div>
@@ -133,7 +133,7 @@ const Profileupdate = ({ fetchData, listing, setListing }) => {
             onChange={handleInputs}
             name="email"
             required
-            className="w-full px-4 py-2 border rounded-lg"
+            className="w-full px-4 py-2 text-sm border rounded-lg"
             placeholder="Enter email"
           />
         </div>
@@ -149,7 +149,7 @@ const Profileupdate = ({ fetchData, listing, setListing }) => {
             maxLength="10"
             pattern="[0-9]{10}"
             required
-            className="w-full px-4 py-2 border rounded-lg"
+            className="w-full px-4 py-2 text-sm border rounded-lg"
             placeholder="Enter phone number"
           />
         </div>
