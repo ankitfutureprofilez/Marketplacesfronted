@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { formatMultiPrice } from "../Hooks/ValueDataHook";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import { FiChevronDown, FiChevronRight, FiFileText } from "react-icons/fi";
 
 export default function PurchaseTable({ data, showCustomer }) {
   const [openRow, setOpenRow] = useState(null);
@@ -24,13 +25,13 @@ export default function PurchaseTable({ data, showCustomer }) {
   ];
   return (
     <table className="w-full table-auto whitespace-nowrap">
-      <thead className="border-b border-[#000000] border-opacity-10">
+      <thead className="bg-[#FAFAFB] border-b border-gray-200">
         <tr>
           {headers &&
             headers?.map((header) => (
               <th
                 key={header}
-                className="font-[Poppins] text-[14px] text-[#8C9199] font-[600] uppercase text-left p-[10px]"
+                className="font-[Poppins] text-[13px] text-gray-600 font-medium uppercase tracking-wide text-left py-3 px-4"
               >
                 {header}
               </th>
@@ -38,7 +39,7 @@ export default function PurchaseTable({ data, showCustomer }) {
         </tr>
       </thead>
 
-      <tbody className="bg-white divide-y divide-gray-200">
+      <tbody className="divide-y divide-[#F0F0F3]">
         {data?.map((item, index) => {
           const offerTitle =
             item?.offer?.flat?.title || item?.offer?.percentage?.title || "N/A";
@@ -49,36 +50,36 @@ export default function PurchaseTable({ data, showCustomer }) {
           return (
             <React.Fragment key={item._id}>
               {/* MAIN ROW */}
-              <tr className={`bg-white ${hasUpgradeHistory ? "cursor-pointer" : ""}`}
+              <tr className={`hover:bg-[#FAFAFB] transition-colors duration-150 ${hasUpgradeHistory ? "cursor-pointer" : ""}`}
               onClick={() =>
                 setOpenRow(openRow === item._id ? null : item._id)
               }>
-                <td className="px-[10px] py-[16px] text-[14px]">{index + 1}</td>
+                <td className="px-4 py-4 text-[13px] font-[Poppins] text-[#8C9199]">{String(index + 1).padStart(2, "0")}</td>
 
-                <td className="px-[10px] py-[16px] text-[14px] capitalize">
+                <td className="px-4 py-4 text-[13px] font-[Poppins] capitalize">
                   <div className="flex items-center gap-2">
                     {hasUpgradeHistory && (
                       <button
-                        className="text-blue-600 text-sm font-bold"
+                        className="flex items-center justify-center w-6 h-6 rounded-md bg-blue-50 text-blue-600 shrink-0"
                       >
-                        {openRow === item._id ? "▾" : "▸"}
+                        {openRow === item._id ? <FiChevronDown size={13} /> : <FiChevronRight size={13} />}
                       </button>
                     )}
-                    <span>{offerTitle}</span>
+                    <span className="font-medium text-[#14161A]">{offerTitle}</span>
                   </div>
                 </td>
 
                 {/* VENDOR */}
-                <td className="px-[10px] py-[16px] text-[14px]">
-                  <div className="flex flex-col">
-                    <span className="font-medium capitalize">{item?.vendor?.name}</span>
-                    <span className="text-[13px] text-gray-500 capitalize">{item?.vendor?.business_name}</span>
+                <td className="px-4 py-4 text-[13px] font-[Poppins]">
+                  <div className="flex flex-col gap-0.5">
+                    <span className="font-medium text-[#14161A] capitalize">{item?.vendor?.name}</span>
+                    <span className="text-[12px] text-[#8C9199] capitalize">{item?.vendor?.business_name}</span>
                     {item?.vendor?.email && (
-                      <span className="text-[13px] text-gray-500">
+                      <span className="text-[12px] text-[#8C9199]">
                         {item?.vendor?.email}
                       </span>
                     )}
-                    <span className="text-[13px] text-gray-500">
+                    <span className="text-[12px] text-[#8C9199]">
                       {item?.vendor?.phone}
                     </span>
                   </div>
@@ -86,15 +87,15 @@ export default function PurchaseTable({ data, showCustomer }) {
 
                 {/* CUSTOMER (ADMIN ONLY) */}
                 {showCustomer && (
-                  <td className="px-[10px] py-[16px] text-[14px]">
-                    <div className="flex flex-col">
-                      <span className="font-medium">{item?.user?.name}</span>
+                  <td className="px-4 py-4 text-[13px] font-[Poppins]">
+                    <div className="flex flex-col gap-0.5">
+                      <span className="font-medium text-[#14161A]">{item?.user?.name}</span>
                       {item?.user?.email && (
-                        <span className="text-[13px] text-gray-500">
+                        <span className="text-[12px] text-[#8C9199]">
                           {item?.user?.email}
                         </span>
                       )}
-                      <span className="text-[13px] text-gray-500">
+                      <span className="text-[12px] text-[#8C9199]">
                         {item?.user?.phone}
                       </span>
                     </div>
@@ -123,19 +124,19 @@ export default function PurchaseTable({ data, showCustomer }) {
                     : "N/A"}
                 </td> */}
 
-                <td className="px-[10px] py-[16px] text-[14px]">
+                <td className="px-4 py-4 text-[13px] font-[Poppins]">
                   {item?.vendor_bill_status ? (
-                    <div className="space-y-1">
+                    <div className="bg-[#FAFAFB] border border-[#ECEDF2] rounded-xl p-2.5 space-y-1 min-w-[170px]">
                       <div className="flex justify-between gap-4">
-                        <span className="text-gray-500">Total</span>
-                        <span className="font-medium">
+                        <span className="text-[#8C9199]">Total</span>
+                        <span className="font-medium text-[#14161A] tabular-nums">
                           {formatMultiPrice(item.total_amount, "INR")}
                         </span>
                       </div>
 
                       <div className="flex justify-between gap-4">
-                        <span className="text-gray-500">Discount</span>
-                        <span className="font-medium text-red-600">
+                        <span className="text-[#8C9199]">Discount</span>
+                        <span className="font-medium text-red-600 tabular-nums">
                           − {formatMultiPrice(item.discount, "INR")}
                         </span>
                       </div>
@@ -143,55 +144,55 @@ export default function PurchaseTable({ data, showCustomer }) {
                       {hasUpgradeHistory ? (
                         <>
                           <div className="flex justify-between gap-4">
-                            <span className="text-gray-500">Offer Price</span>
-                            <span className="font-medium text-red-600">
+                            <span className="text-[#8C9199]">Offer Price</span>
+                            <span className="font-medium text-red-600 tabular-nums">
                               - {formatMultiPrice(item.upgraded_from[0]?.offer_paid_amount || 0, "INR")}
                             </span>
                           </div>
                           <div className="flex justify-between gap-4">
-                            <span className="text-gray-500">Upgrade Price</span>
-                            <span className="font-medium text-red-600">
+                            <span className="text-[#8C9199]">Upgrade Price</span>
+                            <span className="font-medium text-red-600 tabular-nums">
                               - {formatMultiPrice(item.offer_paid_amount - (item.upgraded_from[0]?.offer_paid_amount || 0), "INR")}
                             </span>
                           </div>
                         </>
                       ) : (
                         <div className="flex justify-between gap-4">
-                          <span className="text-gray-500">Offer Price</span>
-                          <span className="font-medium text-red-600">
+                          <span className="text-[#8C9199]">Offer Price</span>
+                          <span className="font-medium text-red-600 tabular-nums">
                             - {formatMultiPrice(item.offer_paid_amount, "INR")}
                           </span>
                         </div>
                       )}
 
-                      <div className="flex justify-between gap-4 border-t pt-1 mt-1">
-                        <span className="font-semibold">Final</span>
-                        <span className="font-semibold">
+                      <div className="flex justify-between gap-4 border-t border-[#ECEDF2] pt-1.5 mt-1.5">
+                        <span className="font-semibold text-[#14161A]">Final</span>
+                        <span className="font-semibold text-[#14161A] tabular-nums">
                           {formatMultiPrice(item.final_amount, "INR")}
                         </span>
                       </div>
                     </div>
                   ) : (
-                    <div className="space-y-1">
+                    <div className="bg-[#FAFAFB] border border-[#ECEDF2] rounded-xl p-2.5 space-y-1 min-w-[170px]">
                       {hasUpgradeHistory ? (
                         <>
                           <div className="flex justify-between gap-4">
-                            <span className="text-gray-500">Offer Price</span>
-                            <span className="font-medium text-black">
+                            <span className="text-[#8C9199]">Offer Price</span>
+                            <span className="font-medium text-[#14161A] tabular-nums">
                               {formatMultiPrice(item.upgraded_from[0]?.offer_paid_amount || 0, "INR")}
                             </span>
                           </div>
                           <div className="flex justify-between gap-4">
-                            <span className="text-gray-500">Upgrade Price</span>
-                            <span className="font-medium text-black">
+                            <span className="text-[#8C9199]">Upgrade Price</span>
+                            <span className="font-medium text-[#14161A] tabular-nums">
                               {formatMultiPrice(item.offer_paid_amount - (item.upgraded_from[0]?.offer_paid_amount || 0), "INR")}
                             </span>
                           </div>
                         </>
                       ) : (
                         <div className="flex justify-between gap-4">
-                          <span className="text-gray-500">Offer Price</span>
-                          <span className="font-medium text-black">
+                          <span className="text-[#8C9199]">Offer Price</span>
+                          <span className="font-medium text-[#14161A] tabular-nums">
                             {formatMultiPrice(item?.offer?.flat?.amount || item?.offer?.percentage?.amount || 0, "INR")}
                           </span>
                         </div>
@@ -200,15 +201,15 @@ export default function PurchaseTable({ data, showCustomer }) {
                   )}
                 </td>
 
-                <td className="px-[10px] py-[16px] text-[14px] font-semibold text-green-600">
+                <td className="px-4 py-4 text-[14px] font-[Poppins] font-semibold text-green-600 tabular-nums">
                   {formatMultiPrice(item?.offer_paid_amount || (item?.offer?.flat?.amount || item?.offer?.percentage?.amount || 0), "INR")}
                 </td>
 
-                <td className="px-[10px] py-[16px] text-[14px]">
+                <td className="px-4 py-4 text-[13px] font-[Poppins]">
                   <div className="flex flex-col gap-1">
                     <div>
-                      <span className="text-gray-500">Purchased:</span>{" "}
-                      <span className="font-medium">
+                      <span className="text-[#8C9199]">Purchased:</span>{" "}
+                      <span className="font-medium text-[#14161A]">
                         {item?.createdAt
                           ? moment(item.createdAt).format("DD MMM YYYY, hh:mm A")
                           : "N/A"}
@@ -216,8 +217,8 @@ export default function PurchaseTable({ data, showCustomer }) {
                     </div>
 
                     <div>
-                      <span className="text-gray-500">Used:</span>{" "}
-                      <span className="font-medium">
+                      <span className="text-[#8C9199]">Used:</span>{" "}
+                      <span className="font-medium text-[#14161A]">
                         {item?.used_time
                           ? moment(item.used_time).format("DD MMM YYYY, hh:mm A")
                           : "—"}
@@ -226,27 +227,28 @@ export default function PurchaseTable({ data, showCustomer }) {
                   </div>
                 </td>
 
-                <td className="px-[10px] py-[16px]">
+                <td className="px-4 py-4">
                   {item?.bill ? (
                     <a
                       href={item.bill}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 underline"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg text-[12px] font-medium font-[Poppins] transition-colors"
                     >
+                      <FiFileText size={13} />
                       View
                     </a>
                   ) : (
-                    "—"
+                    <span className="text-[#8C9199] text-[13px] font-[Poppins]">—</span>
                   )}
                 </td>
 
-                <td className="px-[10px] py-[16px]">
+                <td className="px-4 py-4">
                   <span
-                    className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                    className={`px-2.5 py-1 rounded-full text-[11px] font-medium font-[Poppins] ${
                       item?.vendor_bill_status
-                        ? "bg-green-500 text-white"
-                        : "bg-yellow-400 text-white"
+                        ? "bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20"
+                        : "bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-600/20"
                     }`}
                   >
                     {item?.vendor_bill_status ? "Redeemed" : "Pending"}
@@ -256,7 +258,7 @@ export default function PurchaseTable({ data, showCustomer }) {
 
               {/* 🔽 UPGRADE HISTORY DROPDOWN */}
               {openRow === item._id && hasUpgradeHistory && (
-                <tr className="bg-gray-50">
+                <tr className="bg-[#FAFAFB]">
                   <td colSpan={headers.length} className="px-6 py-4">
                     <div className="space-y-3">
                       {item.upgraded_from.map((history, idx) => {
@@ -272,11 +274,11 @@ export default function PurchaseTable({ data, showCustomer }) {
                         return (
                           <div
                             key={history?._id}
-                            className="flex justify-between border-b pb-2 text-sm"
+                            className="flex justify-between bg-white border border-[#ECEDF2] rounded-xl px-4 py-3 text-[13px] font-[Poppins]"
                           >
                             <div>
-                              <div className="font-medium">{historyTitle}</div>
-                              <div className="text-gray-500">
+                              <div className="font-medium text-[#14161A]">{historyTitle}</div>
+                              <div className="text-[#8C9199] text-[12px] mt-0.5">
                                 Purchased:{" "}
                                 {moment(history?.createdAt).format(
                                   "DD MMM YYYY, hh:mm A"
@@ -285,13 +287,13 @@ export default function PurchaseTable({ data, showCustomer }) {
                             </div>
 
                             <div className="text-right">
-                              <div className="font-medium">
+                              <div className="font-medium text-[#14161A] tabular-nums">
                                 {formatMultiPrice(
                                   history?.payment_id?.amount,
                                   "INR"
                                 )}
                               </div>
-                              <div className="text-gray-500">
+                              <div className="text-[#8C9199] text-[12px] mt-0.5">
                                 Upgraded:{" "}
                                 {moment(nextUpgradeDate).format("DD MMM YYYY, hh:mm A")}
                               </div>
