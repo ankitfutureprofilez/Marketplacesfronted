@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import toast from "react-hot-toast";
 import { Outlet, Link, useNavigate, useLocation } from "react-router-dom";
 import SideBar from "../common/SideBar";
@@ -13,11 +13,11 @@ export default function AdminLayout() {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const { user, setUser } = useRole();
 
   const SIDEBAR_ITEMS = [
     { label: "Dashboard", path: "/" },
-
     {
       label: "Customer Management",
       path: "/customer",
@@ -88,7 +88,6 @@ export default function AdminLayout() {
   };
 
   const hasAccess = (user, item) => {
-    // console.log("Checking access for user:", user, "on item:", item);
     if (!user) return false;
     if (user.role === "admin") return true;
     if (item.role && item.role !== user.role) return false;
@@ -97,7 +96,6 @@ export default function AdminLayout() {
   };
 
   const fetchData = async (signal) => {
-    // setLoading(true);
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -105,12 +103,8 @@ export default function AdminLayout() {
       }
       const main = new Listing();
       const response = await main.profileVerify({ signal });
-      // console.log("response", response);
       if (response.data?.status) {
         setUser(response.data.data);
-      }
-      else{
-        // throw error("Error in profile api");
       }
     } catch (error) {
       console.error("Fetch error:", error);
@@ -122,8 +116,6 @@ export default function AdminLayout() {
         toast.error("Please log in again");
         navigate("/login");
       }
-    } finally {
-      // setLoading(false);
     }
   };
 
@@ -132,10 +124,20 @@ export default function AdminLayout() {
     const { signal } = controller;
     fetchData(signal);
     return () => {
-      console.log("Aborting fetch...");
       controller.abort();
     };
   }, [location.pathname]);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     if (!user) return;
@@ -145,10 +147,10 @@ export default function AdminLayout() {
     const matchedItem = SIDEBAR_ITEMS.find(
       (item) =>
         currentPath === item.path ||
-        currentPath.startsWith(item.path + "/") // handles /sales/123
+        currentPath.startsWith(item.path + "/")
     );
 
-    if (!matchedItem) return; // public or unknown route
+    if (!matchedItem) return;
 
     const allowed = hasAccess(user, matchedItem);
 
@@ -160,9 +162,9 @@ export default function AdminLayout() {
 
   const handleLogout = () => {
     localStorage && localStorage.removeItem("token");
+    localStorage && localStorage.removeItem("AdminToken");
+    toast.success("Logout Successful");
     navigate("/login");
-    toast.success("Logout Successfully");
-    // setUser(null);
   };
 
   if (loading) {
@@ -174,57 +176,88 @@ export default function AdminLayout() {
   }
 
   return (
-    <div className="md:flex flex-wrap bg-black items-start">
+    <div className="min-h-screen bg-[#F8FAFC]">
+      {/* Sidebar */}
       <SideBar />
-      <div className="w-full lg:ml-[286px] lg:w-[calc(100%-286px)]">
-        <div className="fixed right-0  z-10 pl-0 lg:pl-[30px] top-0 w-full lg:w-[calc(100%-286px)] ">
-          <div className="justify-between px-4 md:px-5 lg:px-[30px] py-3 lg:py-4 top-0 bg-white flex items-center w-full flex-wrap rounded-b-[10px]">
-            <div className="w-7/12 sm:w-4/12 pl-6 lg:pl-0">
-              <h1 className="text-blue-600 text-lg sm:text-xl lg:text-2xl tracking-[-0.04em] font-semibold">
-                {getPageTitle(location.pathname) || "Dashboard"}
-              </h1>
-            </div>
-            <div className="w-5/12 sm:w-8/12 flex justify-end space-x-2.5 md:space-x-4">
-              <div className="relative">
-                <button
-                  className="border border-[rgba(0,0,0,0.2)] rounded-md lg:rounded-xl
-                            w-[44px] lg:w-[48px] h-[34px] lg:h-[38px]
-                            flex items-center justify-center
-                            text-black bg-white
-                            hover:bg-black hover:text-white
-                            transition-colors duration-200
-                            cursor-pointer"
-                  onClick={() => setDropdownOpen(!dropdownOpen)}
-                >
-                  <FaRegUser size={18} />
-                </button>
-                {dropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-50">
-                    <ul className="py-1">
-                      <Link
-                        to="/setting"
-                        className="flex gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                      >
-                        <IoSettingsOutline size={20} /> Settings
-                      </Link>
-                      <li
-                        className="flex gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                        onClick={handleLogout}
-                      >
-                        <MdLogout size={20} /> Logout
-                      </li>
-                    </ul>
-                  </div>
-                )}
+
+      {/* Main Container aligned with Sidebar width (286px) */}
+      <div className="lg:pl-[286px] flex flex-col min-h-screen">
+        {/* Modern Sticky Header */}
+        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200/80">
+          <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3">
+            {/* Title Section */}
+            <div className="pl-12 lg:pl-0 flex items-center gap-3">
+              <div>
+                <h1 className="text-slate-900 text-lg sm:text-xl font-bold tracking-tight">
+                  {getPageTitle(location.pathname)}
+                </h1>
+                <p className="text-[11px] text-slate-400 font-medium hidden sm:block">
+                  Marketplace Admin Portal
+                </p>
               </div>
             </div>
+
+            {/* Profile Dropdown */}
+            <div className="relative" ref={dropdownRef}>
+              <button
+                className="flex items-center gap-2.5 p-1 sm:pr-3 rounded-full border border-slate-200/80 bg-white hover:bg-slate-50 transition-colors shadow-xs"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+              >
+                <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-semibold text-xs border border-blue-100">
+                  <FaRegUser size={13} />
+                </div>
+                <div className="hidden sm:flex flex-col text-left">
+                  <span className="text-xs font-semibold text-slate-800 leading-tight">
+                    {user?.name || "Admin User"}
+                  </span>
+                  <span className="text-[10px] text-slate-400 font-medium capitalize leading-tight">
+                    {user?.role || "Administrator"}
+                  </span>
+                </div>
+              </button>
+
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-52 bg-white border border-slate-200/90 rounded-2xl shadow-xl shadow-slate-900/5 z-50 overflow-hidden p-1.5 animate-in fade-in zoom-in-95 duration-100">
+                  <div className="px-3 py-2 border-b border-slate-100 mb-1">
+                    <p className="text-xs font-semibold text-slate-900 truncate">
+                      {user?.name || "Admin"}
+                    </p>
+                    <p className="text-[11px] text-slate-400 truncate">
+                      {user?.email || "admin@marketplace.com"}
+                    </p>
+                  </div>
+
+                  <Link
+                    to="/setting"
+                    onClick={() => setDropdownOpen(false)}
+                    className="flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 rounded-xl transition-colors"
+                  >
+                    <IoSettingsOutline size={16} className="text-slate-400" />
+                    Settings
+                  </Link>
+
+                  <div className="my-1 border-t border-slate-100" />
+
+                  <button
+                    onClick={() => {
+                      setDropdownOpen(false);
+                      handleLogout();
+                    }}
+                    className="flex w-full items-center gap-2.5 px-3 py-2 text-xs font-medium text-red-600 hover:bg-red-50 rounded-xl transition-colors"
+                  >
+                    <MdLogout size={16} />
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="pl-0 md:pl-5 lg:pl-[30px] pt-20 lg:pt-24 pb-8 bg-[#F2F2F2]">
-          <div className=" rounded-[10px] lg:rounded-[10px] ">
-            <Outlet />
-          </div>
-        </div>
+        </header>
+
+        {/* Page Content Outlet */}
+        <main className="flex-1 p-4 sm:p-6 lg:p-8">
+          <Outlet />
+        </main>
       </div>
     </div>
   );
