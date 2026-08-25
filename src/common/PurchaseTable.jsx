@@ -201,7 +201,7 @@ export default function PurchaseTable({ data, showCustomer }) {
                 </td>
 
                 <td className="px-[10px] py-[16px] text-[14px] font-semibold text-green-600">
-                  {formatMultiPrice(item?.offer?.flat?.amount || item?.offer?.percentage?.amount || 0, "INR")}
+                  {formatMultiPrice(item?.offer_paid_amount || (item?.offer?.flat?.amount || item?.offer?.percentage?.amount || 0), "INR")}
                 </td>
 
                 <td className="px-[10px] py-[16px] text-[14px]">

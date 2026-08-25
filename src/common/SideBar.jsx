@@ -17,6 +17,8 @@ import { useMemo, useState } from "react";
 import { useRole } from "../context/RoleContext";
 import { LiaShoppingBagSolid } from "react-icons/lia";
 import { BiPurchaseTag } from "react-icons/bi";
+import { FiLogOut } from "react-icons/fi";
+
 
 function SideBar() {
   const SIDEBAR_ITEMS = [
@@ -121,43 +123,20 @@ function SideBar() {
           </button>
         )}
 
-        <div className="px-3 md:px-4 lg:px-6 text-center py-6 lg:py-8">
+        <div className="border-b border-gray-100 flex items-center px-3 md:px-4 lg:px-6 text-center py-6 lg:py-4">
           <Link to="/">
             <img
               src={logo}
               alt="Marketplace"
               height={1000}
               width={1000}
-              className="h-[85px] w-[100px] mx-2 inline-block"
+              className="h-[40px] w-[40px] mx-2 inline-block"
             />
           </Link>
+          <p className="text-lg font-medium uppercase">Market Place</p>
         </div>
 
-        <div className="px-3 lg:px-4">
-          <Link
-            to="/setting"
-            className="user_row p-2.5 bg-white shadow-md rounded-lg lg:rounded-xl flex items-center gap-3"
-          >
-            <div className="w-11 h-11 rounded-full flex items-center justify-center text-white text-xl font-bold">
-              {/* Replace with an actual image if needed */}
-              <img
-                src={user?.avatar || "/Placeholder.png"}
-                alt="User profile photo"
-                className="w-11 h-11 rounded-full object-cover"
-              />
-            </div>
-            <div className="flex flex-col">
-              <div className="flex items-center gap-2">
-                <p className="font-medium text-sm capitalize text-black -tracking-[0.04em]">
-                  {user?.name || ""}
-                </p>
-              </div>
-              <p className="text-xs capitalize #7A7A7A text-[#7A7A7A]">
-                {user?.role || "Admin"}
-              </p>
-            </div>
-          </Link>
-        </div>
+        
         <div className="py-6">
           <p className="px-6 uppercase text-[#727272] text-sm font-medium mb-4">
             Main Menu
@@ -171,7 +150,7 @@ function SideBar() {
                   <Link
                     to={item.path}
                     onClick={handleLinkClick}
-                    className={`flex items-center gap-2 py-2.5 px-6 rounded-2xl
+                    className={`flex items-center gap-2 py-2.5 px-6 text-sm rounded-xl
                         ${isActive(item.path)
                         ? "text-white bg-blue-600"
                         : "text-gray-800 hover:bg-gray-100"
@@ -188,10 +167,10 @@ function SideBar() {
               <Link
                 to={"/setting"}
                 onClick={handleLinkClick}
-                className={`flex items-center gap-2 py-2.5 px-6 text-base font-medium rounded-2xl
+                className={`flex items-center gap-2 py-2.5 px-6 text-sm rounded-xl
                     ${isActive("/setting")
                     ? "text-blue-600 bg-gray-200"
-                    : "text-[#565F66] hover:bg-gray-100"
+                    : "text-gray-800 hover:bg-gray-100"
                   }`}
               >
                 <MdSettings size={20} />
@@ -202,13 +181,45 @@ function SideBar() {
             <li>
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 py-2.5 px-6 text-base font-medium text-red-600 hover:bg-gray-100 w-full rounded-2xl"
+                className="flex items-center gap-2 py-2.5 px-6 text-sm text-red-600 hover:bg-gray-100 w-full rounded-xl"
               >
                 <MdLogout size={20} />
                 Logout
               </button>
             </li>
           </ul>
+        </div>
+        {/* Bottom User Profile Card */}
+        <div className="p-3 border-t border-slate-100 bg-slate-50/50">
+          <div className="p-2.5 rounded-xl bg-white border border-slate-200/70 flex items-center justify-between shadow-xs">
+            <Link
+              to="/setting"
+              onClick={handleLinkClick}
+              className="flex items-center gap-3 overflow-hidden"
+            >
+              <img
+                src={user?.avatar || "/Placeholder.png"}
+                alt="Profile"
+                className="w-8 h-8 rounded-lg object-cover ring-1 ring-slate-200/60 shrink-0"
+              />
+              <div className="min-w-0 text-left">
+                <p className="text-xs font-semibold text-slate-900 truncate">
+                  {user?.name || "Admin User"}
+                </p>
+                <p className="text-[11px] text-slate-400 capitalize truncate">
+                  {user?.role || "Administrator"}
+                </p>
+              </div>
+            </Link>
+
+            <button
+              onClick={handleLogout}
+              title="Logout"
+              className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors"
+            >
+              <FiLogOut size={16} />
+            </button>
+          </div>
         </div>
       </div>
     </>

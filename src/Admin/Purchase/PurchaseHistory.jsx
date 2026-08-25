@@ -4,39 +4,36 @@ import Listing from "../../Apis/Listing";
 import Nodata from "../../common/Nodata";
 import PurchaseTable from "../../common/PurchaseTable";
 import LoadingSpinner from "../../common/LoadingSpinner";
+import Pagination from "../../component/Pagination";
 import { CiSearch } from "react-icons/ci";
 
 export default function PurchaseHistory() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [loadingMore, setLoadingMore] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const fetchData = async () => {
     try {
-      if (page == 1) {
-        setLoading(true);
-      } else {
-        setLoadingMore(true);
-      }
+      setLoading(true);
       const main = new Listing();
       const response = await main.PurchasedOfferGet(searchQuery, statusFilter, page);
       if (response?.data?.status) {
-        const newData = response?.data?.data?.purchased || []
-        setData(prev =>
-          page === 1 ? newData : [...(Array.isArray(prev) ? prev : []), ...newData]
-        );
+        const newData = response?.data?.data?.purchased || [];
+        setData(newData);
+        setTotalPages(response?.data?.data?.total_pages || 1);
       } else {
         setData([]);
+        setTotalPages(1);
       }
     } catch (error) {
       console.error("Error fetching team list:", error);
       setData([]);
+      setTotalPages(1);
     } finally {
       setLoading(false);
-      setLoadingMore(false);
     }
   };
 
@@ -51,12 +48,14 @@ export default function PurchaseHistory() {
   const handleSearchChange = (e) => {
     const val = e.target.value;
     setSearchQuery(val);
+    setPage(1);
   };
 
   // ✅ Handle Status Filter
   const handleStatusChange = (e) => {
     const val = e.target.value;
     setStatusFilter(val);
+    setPage(1);
   };
 
   // console.log("data", data);
@@ -111,15 +110,13 @@ export default function PurchaseHistory() {
               )}
             </div>
 
-            <div className="flex justify-center py-6">
-              <button
-                onClick={() => setPage(prev => prev + 1)}
-                disabled={loadingMore}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-150"
-              >
-                {loadingMore ? "Loading..." : "Load More"}
-              </button>
-            </div>
+            {totalPages > 1 && (
+              <Pagination
+                currentPage={page}
+                totalPages={totalPages}
+                onPageChange={(p) => setPage(p)}
+              />
+            )}
           </div>
         </div>
       </div>
