@@ -140,12 +140,29 @@ export default function PurchaseTable({ data, showCustomer }) {
                         </span>
                       </div>
 
-                      <div className="flex justify-between gap-4">
-                        <span className="text-gray-500">Offer Price</span>
-                        <span className="font-medium text-red-600">
-                          - {formatMultiPrice(item.offer_paid_amount, "INR")}
-                        </span>
-                      </div>
+                      {hasUpgradeHistory ? (
+                        <>
+                          <div className="flex justify-between gap-4">
+                            <span className="text-gray-500">Offer Price</span>
+                            <span className="font-medium text-red-600">
+                              - {formatMultiPrice(item.upgraded_from[0]?.offer_paid_amount || 0, "INR")}
+                            </span>
+                          </div>
+                          <div className="flex justify-between gap-4">
+                            <span className="text-gray-500">Upgrade Price</span>
+                            <span className="font-medium text-red-600">
+                              - {formatMultiPrice(item.offer_paid_amount - (item.upgraded_from[0]?.offer_paid_amount || 0), "INR")}
+                            </span>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="flex justify-between gap-4">
+                          <span className="text-gray-500">Offer Price</span>
+                          <span className="font-medium text-red-600">
+                            - {formatMultiPrice(item.offer_paid_amount, "INR")}
+                          </span>
+                        </div>
+                      )}
 
                       <div className="flex justify-between gap-4 border-t pt-1 mt-1">
                         <span className="font-semibold">Final</span>
@@ -156,14 +173,29 @@ export default function PurchaseTable({ data, showCustomer }) {
                     </div>
                   ) : (
                     <div className="space-y-1">
-                      <div className="flex justify-between gap-4">
-                        <span className="text-gray-500">Offer Price</span>
-                        <span className="font-medium text-black">
-                          {/* {formatMultiPrice(item.offer_paid_amount, "INR")} */}
-                          {formatMultiPrice(item?.offer?.flat?.amount || item?.offer?.percentage?.amount || 0, "INR")}
-                        </span>
-                      </div>
-
+                      {hasUpgradeHistory ? (
+                        <>
+                          <div className="flex justify-between gap-4">
+                            <span className="text-gray-500">Offer Price</span>
+                            <span className="font-medium text-black">
+                              {formatMultiPrice(item.upgraded_from[0]?.offer_paid_amount || 0, "INR")}
+                            </span>
+                          </div>
+                          <div className="flex justify-between gap-4">
+                            <span className="text-gray-500">Upgrade Price</span>
+                            <span className="font-medium text-black">
+                              {formatMultiPrice(item.offer_paid_amount - (item.upgraded_from[0]?.offer_paid_amount || 0), "INR")}
+                            </span>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="flex justify-between gap-4">
+                          <span className="text-gray-500">Offer Price</span>
+                          <span className="font-medium text-black">
+                            {formatMultiPrice(item?.offer?.flat?.amount || item?.offer?.percentage?.amount || 0, "INR")}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   )}
                 </td>
