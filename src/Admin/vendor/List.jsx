@@ -12,6 +12,7 @@ import { MdBlock } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
 import { useRole } from "../../context/RoleContext";
 import { hasPermission } from "../../common/Permissions";
+import { FiSearch, FiMapPin, FiPhone, FiShoppingBag, FiX, FiUserCheck } from "react-icons/fi";
 
 function List() {
   const [team, setTeams] = useState([]);
@@ -31,6 +32,29 @@ function List() {
   const closePopup = () => setIsOpen(false);
 
   const [selected, setSelected] = useState(null);
+
+  const initials = (name = "") =>
+    name
+      .trim()
+      .split(" ")
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((w) => w[0]?.toUpperCase())
+      .join("") || "?";
+
+  const avatarPalette = [
+    "bg-indigo-50 text-indigo-600",
+    "bg-emerald-50 text-emerald-600",
+    "bg-orange-50 text-orange-600",
+    "bg-purple-50 text-purple-600",
+    "bg-rose-50 text-rose-600",
+    "bg-sky-50 text-sky-600",
+  ];
+  const avatarColor = (name = "") => {
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    return avatarPalette[Math.abs(hash) % avatarPalette.length];
+  };
 
   // ✅ Fetch Vendor List
   const fetchTeamList = async (search = "", status = "", category = "", loading = true) => {
@@ -150,46 +174,62 @@ function List() {
 
   return (
     <>
-      <div className="w-full">
+      <style>{`
+        @keyframes vendorCardIn {
+          from { opacity: 0; transform: translateY(6px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .vendor-card {
+          animation: vendorCardIn 0.35s ease both;
+        }
+      `}</style>
+
+      <div className="w-full min-h-full">
         <HeaderAdmin title="Vendor Listing" />
 
-        <div className="py-2lg:py-2.5">
-          <div className="bg-white rounded-[20px] mb-[10px] p-2">
+        <div className="">
+          <div className="mb-4 overflow-hidden">
             {/* 🔹 Header + Filters */}
-            <div className="px-4 py-4 flex flex-wrap justify-between items-center border-b border-black  border-opacity-10">
-              <h2 className=" text-[16px] lg:text-[18px] font-bold font-[Poppins] font-[400] text-[#1E1E1E] m-0 tracking-[-0.03em]">
-                Vendor Team Listing
-              </h2>
-
-              <div className="flex flex-col md:flex-row items-center w-full md:w-auto space-y-4 md:space-y-0 md:space-x-4">
+            <div className="px-5 py-4 flex flex-wrap justify-between items-center bg-white gap-4 border border-gray-200 rounded-2xl mb-4">
+              <div className="flex items-baseline gap-2">
+                <h2 className="text-[15px] lg:text-base font-semibold font-[Poppins] text-[#14161A] tracking-tight m-0">
+                  Vendor Listing
+                </h2>
+                {!loading && (
+                  <span className="font-[Poppins] text-[12px] text-[#8C9199]">
+                    {team.length} {team.length === 1 ? "vendor" : "vendors"}
+                  </span>
+                )}
+              </div>
+              
+              <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 w-full md:w-auto">
                 {/* Search */}
-                <div className="relative w-full md:w-64">
+                <div className="relative w-full sm:w-60">
+                  <FiSearch className="h-4 w-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8C9199]" />
                   <input
                     type="text"
                     placeholder="Search by owner or business name"
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                    className="w-full pl-10 pr-9 py-2.5 bg-[#FAFAFB] border border-[#ECEDF2] rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 text-[13px] font-[Poppins] text-[#14161A] placeholder:text-[#8C9199] transition-colors"
                     value={searchQuery}
                     onChange={handleSearchChange}
                   />
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSearchQuery("");
+                        fetchTeamList("", statusFilter === "All Status" ? "" : statusFilter, categoryFilter);
+                      }}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center justify-center w-6 h-6 rounded-md text-[#8C9199] hover:text-[#14161A] hover:bg-[#ECEDF2] transition-colors"
+                    >
+                      <FiX size={14} />
+                    </button>
+                  )}
                 </div>
 
                 {/* Status Filter */}
                 <select
-                  className="w-full md:w-40 py-2 px-3 border border-gray-300 rounded-lg bg-white text-gray-700 text-sm focus:ring-2 focus:ring-blue-500"
+                  className="w-full sm:w-36 py-2.5 px-3 bg-[#FAFAFB] border border-[#ECEDF2] rounded-xl text-[13px] font-[Poppins] text-[#14161A] focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-colors cursor-pointer"
                   value={statusFilter}
                   onChange={handleStatusChange}
                 >
@@ -201,7 +241,7 @@ function List() {
 
                 {/* Category Filter */}
                 <select
-                  className="w-full md:w-40 py-2 px-3 border border-gray-300 rounded-lg bg-white text-gray-700 text-sm focus:ring-2 focus:ring-blue-500"
+                  className="w-full sm:w-40 py-2.5 px-3 bg-[#FAFAFB] border border-[#ECEDF2] rounded-xl text-[13px] font-[Poppins] text-[#14161A] focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-colors cursor-pointer"
                   value={categoryFilter}
                   onChange={handleCategoryChange}
                 >
@@ -213,15 +253,15 @@ function List() {
                   ))}
                 </select>
 
-                {/* Add Vendor */}
+                {/* Add Vendor Button */}
                 {canCreate && (
                   <Link
                     to="/vendor/add"
-                    className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 focus:ring-2 focus:ring-blue-500"
+                    className="bg-blue-600 text-white px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 hover:bg-blue-700 active:bg-blue-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 transition-colors duration-150 text-[13px] font-medium font-[Poppins] whitespace-nowrap"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
+                      className="h-4 w-4"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                     >
@@ -237,92 +277,104 @@ function List() {
               </div>
             </div>
 
-            {/* 🔹 Table */}
-            <div className="overflow-x-auto">
+            {/* 🔹 Cards Grid */}
+            <div className="">
               {loading ? (
-                <LoadingSpinner />
+                <div className="py-16 flex justify-center">
+                  <LoadingSpinner />
+                </div>
               ) : team.length === 0 ? (
-                <Nodata />
+                <div className="text-center">
+                  <Nodata />
+                  <p className="font-[Poppins] text-[13px] text-[#8C9199] -mt-2">
+                    {searchQuery
+                      ? `No vendors match search query.`
+                      : "Vendors you add will show up here."}
+                  </p>
+                </div>
               ) : (
-                <table className="w-full table-auto whitespace-nowrap">
-                  <thead className="mb-[15px] border-b border-[#000000] border-opacity-10">
-                    <tr>
-                      {[
-                        "S. No.",
-                        "Business Name",
-                        "Owner Name",
-                        "Mobile",
-                        "Created By",
-                        "Category",
-                        "Sub Category",
-                        "City",
-                        "Sales",
-                        "Status",
-                        "Action",
-                      ]?.map((header) => (
-                        <th className=" font-[Poppins] text-[14px] text-[#8C9199] font-[600] uppercase text-left p-[10px] mb-[10px]">
-                          {header}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {team &&
-                      team?.map((vendor, index) => {
-                        const isDeleted = !!vendor?.user?.deleted_at;
-                        return (
-                          <tr
-                            key={vendor._id}
-                            className={`bg-white ${isDeleted ? "opacity-50" : ""
-                              }`}
-                          >
-                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
-                              {index + 1}
-                            </td>
-                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px] capitalize">
-                              {vendor?.business_name}
-                            </td>
-                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px] capitalize">
-                              {vendor?.user?.name}
-                            </td>
-                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
-                              {vendor.user?.phone}
-                            </td>
-                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px] ">
-                              <p className="text-white text-center bg-blue-600 rounded-full px-2 py-0.5">
-                                {/* {vendor?.added_by?.role || "--"} */}
-                                {/* {
-                                  vendor?.added_by?.role
-                                    ? vendor.added_by.role
-                                    : vendor?.user?.role === "vendor"
-                                      ? (vendor?.assign_staff ? "admin" : "--")
-                                      : "--"
-                                } */}
-                                <p
-                                  className={`text-center rounded-full px-2 py-0.5 ${vendor?.assign_staff
-                                      ? "bg-blue-600 text-white"
-                                      : "text-gray-400"
-                                    }`}
-                                >
-                                  {
-                                    vendor?.assign_staff
-                                      ? (vendor?.added_by?.role || "admin")
-                                      : "--"
-                                  }
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                  {team &&
+                    team?.map((vendor, index) => {
+                      const isDeleted = !!vendor?.user?.deleted_at;
+                      return (
+                        <div
+                          key={vendor._id}
+                          style={{ animationDelay: `${Math.min(index, 8) * 40}ms` }}
+                          className={`vendor-card relative bg-white border border-[#ECEDF2] rounded-2xl p-4 transition-all duration-200 hover:shadow-[0_4px_20px_rgba(20,22,26,0.06)] hover:-translate-y-0.5 ${
+                            isDeleted ? "opacity-60" : ""
+                          }`}
+                        >
+                          {/* Card Header */}
+                          <div className="flex items-start justify-between gap-2 mb-3">
+                            <div className="flex items-center gap-3 min-w-0">
+                              <span
+                                className={`flex items-center justify-center w-11 h-11 rounded-full text-[14px] font-semibold shrink-0 transition-transform duration-200 group-hover:scale-105 ${avatarColor(
+                                  vendor?.business_name || ""
+                                )}`}
+                              >
+                                {initials(vendor?.business_name)}
+                              </span>
+                              <div className="min-w-0">
+                                <h3 className="font-[Poppins] font-semibold text-[14px] text-[#14161A] capitalize truncate" title={vendor?.business_name}>
+                                  {vendor?.business_name}
+                                </h3>
+                                <p className="font-[Poppins] text-[11px] text-gray-500 truncate">
+                                  Owner: <span className="font-semibold text-gray-700 capitalize">{vendor?.user?.name || "--"}</span>
                                 </p>
-                              </p>
-                            </td>
-                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
-                              {vendor.category?.name}
-                            </td>
-                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
-                              {vendor.subcategory?.name}
-                            </td>
-                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
-                              {vendor.city}
-                            </td>
-                            <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
+                              </div>
+                            </div>
+
+                            {/* Status Selector Dropdown */}
+                            <select
+                              value={vendor?.Verify_status}
+                              onChange={(e) =>
+                                handleStatusToggle(vendor._id, e.target.value)
+                              }
+                              disabled={loading}
+                              className={`px-2.5 py-1 text-[11px] font-semibold rounded-full cursor-pointer outline-none ring-1 ring-inset ring-opacity-10 capitalize ${getStatusClasses(
+                                vendor?.Verify_status
+                              )}`}
+                            >
+                              {STATUS_OPTIONS.map((option) => (
+                                  <option key={option.value} value={option.value}>
+                                    {option.label}
+                                  </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          {/* Card Body */}
+                          <div className="space-y-2 mb-4 font-[Poppins] text-[13px] text-gray-600">
+                            <div className="flex items-center gap-2 min-w-0">
+                              <FiPhone className="text-gray-500 shrink-0" size={14} />
+                              <span className="truncate">{vendor?.user?.phone || "--"}</span>
+                            </div>
+                            <div className="flex items-center gap-2 min-w-0">
+                              <FiMapPin className="text-gray-500 shrink-0" size={14} />
+                              <span className="truncate capitalize">{vendor?.city || "--"}</span>
+                            </div>
+                            <div className="flex items-center gap-2 min-w-0">
+                              <FiShoppingBag className="text-gray-500 shrink-0" size={14} />
+                              <span className="truncate text-slate-600">
+                                {vendor.category?.name || "No Category"} 
+                                {vendor.subcategory?.name && ` • ${vendor.subcategory?.name}`}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <FiUserCheck className="text-gray-500 shrink-0" size={14} />
+                              <span className="text-xs text-slate-500">
+                                Created By:{" "}
+                                <span className="font-semibold text-slate-700 capitalize">
+                                  {vendor?.assign_staff ? (vendor?.added_by?.role || "admin") : "--"}
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Card Footer */}
+                          <div className="flex items-center justify-between pt-3 border-t border-[#F0F0F3] gap-2">
+                            <div className="min-w-0">
                               <AssignStaff
                                 id={vendor._id}
                                 fetchTeamList={fetchTeamList}
@@ -330,86 +382,50 @@ function List() {
                                 staffList={staffList}
                                 loadingStaff={loadingStaff}
                               />
-                            </td>
-                            {/* <td className="font-[Poppins]  text-gray-800 text-[14px] text-left px-[10px] py-[16px]  ">
-                              <span
-                                className={`px-2 py-1 inline-flex font-[Poppins] uppercase text-xs font-semibold rounded-full cursor-pointer ${
-                                  isDeleted
-                                    ? "bg-gray-400 text-white"
-                                    : getStatusClasses(vendor?.Verify_status)
-                                }`}
-                                onClick={() =>
-                                  !isDeleted &&
-                                  handleStatusToggle(
-                                    vendor._id,
-                                    vendor?.Verify_status
-                                  )
-                                }
-                              >
-                                {isDeleted ? "Deleted" : vendor?.Verify_status}
-                              </span>
-                            </td> */}
-                            <td className="font-[Poppins] text-gray-800 text-[14px] text-left px-[10px] py-[16px]">
-                              <select
-                                value={vendor?.Verify_status}
-                                onChange={(e) =>
-                                  handleStatusToggle(vendor._id, e.target.value)
-                                }
-                                disabled={loading}
-                                className={`px-2 py-1 text-xs font-semibold rounded-full cursor-pointer outline-none ${getStatusClasses(
-                                  vendor?.Verify_status
-                                )}`}
-                              >
-                                {STATUS_OPTIONS.map((option) => (
-                                  <option key={option.value} value={option.value}>
-                                    {option.label}
-                                  </option>
-                                ))}
-                              </select>
-                            </td>
-                            <td className="font-[Poppins]  text-black text-[16px] text-left px-[10px] py-[16px]  ">
-                              <div className="flex gap-1">
-                                <Link to={`/vendor/${vendor?._id}`} title="View">
-                                  <IoMdEye
-                                    size={22}
-                                    className="text-blue-600 hover:text-blue-900"
-                                  />
-                                </Link>
-                                {canUpdate && (
-                                  <Link to={`/vendor/add/${vendor._id}`}>
-                                    <MdEdit size={22} className="text-green-600 hover:text-green-900" />
-                                  </Link>
-                                )}
+                            </div>
 
-                                {/* <Delete Id={vendor._id} step={1} fetchTeamList={fetchTeamList} /> */}
-                                {canDelete && (
-                                  <button
-                                    onClick={() => {
-                                      setSelected(vendor);
-                                      setIsOpen(true);
-                                    }}
-                                    title="Block"
-                                  >
-                                    {isDeleted ?
-                                      <CgUnblock
-                                        size={24}
-                                        className="text-red-600 hover:text-red-700"
-                                      />
-                                      :
-                                      <MdBlock
-                                        size={24}
-                                        className="text-red-600 hover:text-red-700"
-                                      />
-                                    }
-                                  </button>
-                                )}
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                </table>
+                            <div className="flex items-center gap-1.5 shrink-0">
+                              <Link
+                                to={`/vendor/${vendor?._id}`}
+                                title="View"
+                                aria-label={`View ${vendor?.business_name}`}
+                                className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 hover:bg-blue-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 transition-colors"
+                              >
+                                <IoMdEye size={16} className="text-blue-600" />
+                              </Link>
+                              {canUpdate && (
+                                <Link
+                                  to={`/vendor/add/${vendor._id}`}
+                                  title="Edit"
+                                  aria-label={`Edit ${vendor?.business_name}`}
+                                  className="flex items-center justify-center w-8 h-8 rounded-lg bg-green-50 hover:bg-green-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500/40 transition-colors"
+                                >
+                                  <MdEdit size={16} className="text-green-600" />
+                                </Link>
+                              )}
+                              {canDelete && (
+                                <button
+                                  onClick={() => {
+                                    setSelected(vendor);
+                                    setIsOpen(true);
+                                  }}
+                                  title={isDeleted ? "Unblock" : "Block"}
+                                  aria-label={`${isDeleted ? "Unblock" : "Block"} ${vendor?.business_name}`}
+                                  className="flex items-center justify-center w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/40 transition-colors cursor-pointer"
+                                >
+                                  {isDeleted ? (
+                                    <CgUnblock size={16} className="text-red-600" />
+                                  ) : (
+                                    <MdBlock size={16} className="text-red-600" />
+                                  )}
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
               )}
             </div>
           </div>
