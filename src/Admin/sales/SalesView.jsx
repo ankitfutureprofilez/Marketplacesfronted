@@ -204,7 +204,7 @@ function SalesView() {
                                 <h3 className="font-[Poppins] font-semibold text-[14px] text-[#14161A] capitalize truncate">
                                   {member?.name}
                                 </h3>
-                                <p className="font-[Poppins] text-[12px] text-[#8C9199]">
+                                <p className="font-[Poppins] text-[12px] text-gray-600">
                                   #{String(index + 1).padStart(2, "0")}
                                 </p>
                               </div>
@@ -221,21 +221,21 @@ function SalesView() {
                           </div>
 
                           <div className="space-y-2 mb-4 font-[Poppins]">
-                            <div className="flex items-center gap-2 text-[13px] text-[#6B7280] min-w-0">
-                              <FiMail className="text-[#8C9199] shrink-0" size={14} />
+                            <div className="flex items-center gap-2 text-[13px] text-gray-600 min-w-0">
+                              <FiMail className="text-gray-600 shrink-0" size={14} />
                               <span className="truncate">{member?.email}</span>
                             </div>
-                            <div className="flex items-center gap-2 text-[13px] text-[#6B7280]">
-                              <FiPhone className="text-[#8C9199] shrink-0" size={14} />
+                            <div className="flex items-center gap-2 text-[13px] text-gray-600">
+                              <FiPhone className="text-gray-600 shrink-0" size={14} />
                               <span>
                                 {member?.phone}
                                 {member?.alternate_phone && (
-                                  <span className="text-[#8C9199]"> · {member?.alternate_phone}</span>
+                                  <span className="text-gray-600"> · {member?.alternate_phone}</span>
                                 )}
                               </span>
                             </div>
-                            <div className="flex items-center gap-2 text-[13px] text-[#6B7280] min-w-0">
-                              <FiMapPin className="text-[#8C9199] shrink-0" size={14} />
+                            <div className="flex items-center gap-2 text-[13px] text-gray-600 min-w-0">
+                              <FiMapPin className="text-gray-600 shrink-0" size={14} />
                               <span className="truncate" title={member?.address}>
                                 {member?.address || "N/A"}
                               </span>
@@ -244,11 +244,11 @@ function SalesView() {
 
                           <div className="flex items-center justify-between pt-3 border-t border-[#F0F0F3]">
                             <div className="flex items-center gap-1.5 text-[13px] font-[Poppins]">
-                              <FiUsers className="text-[#8C9199]" size={14} />
+                              <FiUsers className="text-gray-600" size={14} />
                               <span className="text-[#14161A] font-semibold tabular-nums">
                                 {member?.assigned_vendors ?? 0}
                               </span>
-                              <span className="text-[#8C9199]">merchants</span>
+                              <span className="text-gray-600">merchants</span>
                             </div>
 
                             <div className="flex items-center gap-1.5">

@@ -81,71 +81,105 @@ function Dashboard() {
       <div className="w-full ">
         <HeaderAdmin title={"Admin Dashboard"} />
         <div className="py-2 lg:py-4">
-          <div className="w-full flex flex-wrap md:flex-nowrap gap-[15px] mb-[20px]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+            {/* Sales Personnel */}
             <Link
               to="/sales"
-              className="flex items-center gap-[5px] xl:gap-[8px] lg:gap-[10px] xl:gap-[15px] bg-white rounded-[10px] md:rounded-[10px] lg:rounded-[20px] p-[10px] md:p-[10px] lg:p-[25px] w-full md:w-4/12"
+              className="group relative bg-white border border-slate-200/90 hover:border-emerald-500 rounded-[2rem] p-6 shadow-xs hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300 overflow-hidden flex flex-col justify-between"
             >
-              <div className="flex items-center justify-center bg-green-600/10 w-[50px] h-[50px] md:w-[60px] md:h-[60px] lg:w-[60px] lg:h-[60px] rounded-[12px]">
-                <FiUsers className="text-green-600 text-[30px]" />
+              {/* Ambient Watermark Icon */}
+              <FiUsers className="absolute -right-3 -bottom-3 text-7xl text-slate-100 group-hover:text-emerald-500/10 transition-colors pointer-events-none" />
+
+              <div className="relative z-10 flex items-center justify-between">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-xl shadow-md shadow-emerald-600/30 transition-transform">
+                  <FiUsers className="text-2xl" />
+                </div>
+                <span className="text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+                  Team
+                </span>
               </div>
-              <div className="pl-[2px] lg:pl-[10px] xl:pl-[15px]">
-                <h3 className="capitalize font-[Poppins] font-[400] text-black text-[14px] leading-[15px] mb-[2px] lg:mb-[5px] lg:mb-[8px] ">
-                  Total Sales Person
-                </h3>
-                <h2 className="font-[Poppins] font-[400] text-black text-[25px] md:text-[28px] lg:text-[35px] xl:text-[48px] leading-[48px]">
-                  {team?.stats?.total_sales}
+
+              <div className="relative z-10 mt-6">
+                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block">
+                  Total Sales Force
+                </span>
+                <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mt-1">
+                  {team?.stats?.total_sales ?? 0}
                 </h2>
               </div>
             </Link>
 
+            {/* Total Vendors */}
             <Link
               to="/vendor"
-              className="flex items-center gap-[5px] xl:gap-[8px] lg:gap-[10px] xl:gap-[15px] bg-white rounded-[10px] md:rounded-[10px] lg:rounded-[20px] p-[10px] md:p-[10px] lg:p-[25px] w-full md:w-4/12"
+              className="group relative bg-white border border-slate-200/90 hover:border-blue-500 rounded-[2rem] p-6 shadow-xs hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 overflow-hidden flex flex-col justify-between"
             >
-              <div className="flex items-center justify-center bg-blue-600/10 p-2  w-[50px] h-[50px] md:w-[60px] md:h-[60px] lg:w-[60px] lg:h-[60px] rounded-[12px]">
-                <LiaShoppingBagSolid className="text-blue-600 text-[30px]" />
+              <LiaShoppingBagSolid className="absolute -right-3 -bottom-3 text-7xl text-slate-100 group-hover:text-blue-500/10 transition-colors pointer-events-none" />
+              <div className="relative z-10 flex items-center justify-between">
+                <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center text-xl shadow-md shadow-blue-600/30 transition-transform">
+                  <LiaShoppingBagSolid className="text-2xl" />
+                </div>
+                <span className="text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200/60">
+                  Vendors
+                </span>
               </div>
-              <div className="pl-[2px] lg:pl-[10px] xl:pl-[15px]">
-                <h3 className="capitalize font-[Poppins] font-[400] text-black text-[14px] leading-[15px] mb-[2px] lg:mb-[5px] lg:mb-[8px]  ">
-                  Total Vendors
-                </h3>
-                <h2 className="font-[Poppins] font-[400] text-black text-[25px] md:text-[28px] lg:text-[35px] xl:text-[48px] leading-[48px]">
-                  {team?.stats?.total_vendors}
+              <div className="relative z-10 mt-6">
+                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block">
+                  Active Merchants
+                </span>
+                <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mt-1">
+                  {team?.stats?.total_vendors ?? 0}
                 </h2>
               </div>
             </Link>
 
+            {/* Active Offers */}
             <Link
               to="/vendor"
-              className="flex items-center gap-[5px] xl:gap-[8px] lg:gap-[10px] xl:gap-[15px] bg-white rounded-[10px] md:rounded-[10px] lg:rounded-[20px] p-[10px] md:p-[10px] lg:p-[25px] w-full md:w-4/12"
+              className="group relative bg-white border border-slate-200/90 hover:border-amber-500 rounded-[2rem] p-6 shadow-xs hover:shadow-xl hover:shadow-amber-500/10 transition-all duration-300 overflow-hidden flex flex-col justify-between"
             >
-              <div className="flex items-center justify-center bg-orange-600/10  w-[50px] h-[50px] md:w-[60px] md:h-[60px] lg:w-[60px] lg:h-[60px] rounded-[12px]">
-                <BiSolidOffer className="text-orange-600 text-[30px]" />
+              <BiSolidOffer className="absolute -right-3 -bottom-3 text-7xl text-slate-100 group-hover:text-amber-500/10 transition-colors pointer-events-none" />
+
+              <div className="relative z-10 flex items-center justify-between">
+                <div className="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center text-xl shadow-md shadow-amber-500/30 transition-transform">
+                  <BiSolidOffer className="text-2xl" />
+                </div>
+                <span className="text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200/60">
+                  Deals
+                </span>
               </div>
-              <div className="pl-[2px] lg:pl-[10px] xl:pl-[15px]">
-                <h3 className="capitalize font-[Poppins] font-[400] text-black text-[14px] leading-[15px] mb-[2px] lg:mb-[5px] lg:mb-[8px]  ">
-                  Active Offers
-                </h3>
-                <h2 className="font-[Poppins] font-[400] text-black text-[25px] md:text-[28px] lg:text-[35px] xl:text-[48px] leading-[48px]">
-                  {team?.stats?.active_offers}
+              <div className="relative z-10 mt-6">
+                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block">
+                  Published Offers
+                </span>
+                <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mt-1">
+                  {team?.stats?.active_offers ?? 0}
                 </h2>
               </div>
             </Link>
 
+            {/* Total Customers */}
             <Link
               to="/customer"
-              className="flex items-center gap-[5px] xl:gap-[8px] lg:gap-[10px] xl:gap-[15px] bg-white rounded-[10px] md:rounded-[10px] lg:rounded-[20px] p-[10px] md:p-[10px] lg:p-[25px] w-full md:w-4/12"
+              className="group relative bg-white border border-slate-200/90 hover:border-purple-500 rounded-[2rem] p-6 shadow-xs hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300 overflow-hidden flex flex-col justify-between"
             >
-              <div className="flex items-center justify-center bg-purple-600/10 w-[50px] h-[50px] md:w-[60px] md:h-[60px] lg:w-[60px] lg:h-[60px] rounded-[12px]">
-                <FiUserCheck className="text-purple-600 text-[30px]" />
+              <FiUserCheck className="absolute -right-3 -bottom-3 text-7xl text-slate-100 group-hover:text-purple-500/10 transition-colors pointer-events-none" />
+
+              <div className="relative z-10 flex items-center justify-between">
+                <div className="w-12 h-12 rounded-2xl bg-purple-600 text-white flex items-center justify-center text-xl shadow-md shadow-purple-600/30 transition-transform">
+                  <FiUserCheck className="text-2xl" />
+                </div>
+                <span className="text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full bg-purple-50 text-purple-700 border border-purple-200/60">
+                  Clients
+                </span>
               </div>
-              <div className="pl-[2px] lg:pl-[10px] xl:pl-[15px]">
-                <h3 className="capitalize font-[Poppins] font-[400] text-black text-[14px] leading-[15px] mb-[2px] lg:mb-[5px] lg:mb-[8px] ">
+
+              <div className="relative z-10 mt-6">
+                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block">
                   Total Customers
-                </h3>
-                <h2 className="font-[Poppins] font-[400] text-black text-[25px] md:text-[28px] lg:text-[35px] xl:text-[48px] leading-[48px]">
-                  {team?.stats?.total_customers}
+                </span>
+                <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mt-1">
+                  {team?.stats?.total_customers ?? 0}
                 </h2>
               </div>
             </Link>

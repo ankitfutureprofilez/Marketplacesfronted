@@ -82,7 +82,7 @@ export default function AdminList() {
         <div className="">
           <div className="mb-4 overflow-hidden">
             {/* Header */}
-            <div className="px-5 py-4 flex flex-wrap justify-between items-center bg-white gap-3 border-b border-gray-100 rounded-2xl mb-4">
+            <div className="px-5 py-4 flex flex-wrap justify-between items-center bg-white gap-3 border border-gray-200 rounded-2xl mb-4">
               <div className="flex items-baseline gap-2">
                 <h2 className="text-[15px] lg:text-base font-semibold font-[Poppins] text-[#14161A] tracking-tight m-0">
                   Sub Admins Listing
@@ -171,7 +171,7 @@ export default function AdminList() {
                                 <h3 className="font-[Poppins] font-semibold text-[14px] text-[#14161A] capitalize truncate">
                                   {member?.name}
                                 </h3>
-                                <p className="font-[Poppins] text-[12px] text-[#8C9199]">
+                                <p className="font-[Poppins] text-[12px] text-gray-600">
                                   #{String(index + 1).padStart(2, "0")}
                                 </p>
                               </div>
@@ -188,12 +188,12 @@ export default function AdminList() {
                           </div>
 
                           <div className="space-y-2 mb-4 font-[Poppins]">
-                            <div className="flex items-center gap-2 text-[13px] text-[#6B7280] min-w-0">
-                              <FiMail className="text-[#8C9199] shrink-0" size={14} />
+                            <div className="flex items-center gap-2 text-[13px] text-gray-600 min-w-0">
+                              <FiMail className="text-gray-600 shrink-0" size={14} />
                               <span className="truncate">{member?.email}</span>
                             </div>
-                            <div className="flex items-center gap-2 text-[13px] text-[#6B7280]">
-                              <FiPhone className="text-[#8C9199] shrink-0" size={14} />
+                            <div className="flex items-center gap-2 text-[13px] text-gray-600">
+                              <FiPhone className="text-gray-600 shrink-0" size={14} />
                               <span>{member?.phone}</span>
                             </div>
                           </div>
