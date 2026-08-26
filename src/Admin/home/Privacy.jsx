@@ -68,7 +68,7 @@ export default function Privacy() {
   };
 
   return (
-    <div className=" mx-auto p-6 bg-white ">
+    <div className="mx-auto pt-2">
       <form onSubmit={handleSubmit} className="space-y-6">
         <ReactQuillEditor
           label="Privacy Policy"
@@ -76,11 +76,11 @@ export default function Privacy() {
           handleBioChange={(val) => handleQuillChange("privacy_policy", val)}
         />
         {/* Submit Button */}
-        <div className="text-center">
+        <div className="text-center md:text-left">
           <button
             disabled={processing}
             type="submit"
-            className="w-full max-w-[183px] bg-blue-600 hover:bg-blue-700 transition duration-150  text-white py-2.5 lg:py-3.5 cursor-pointer rounded-[10px] font-normal text-base xl:text-xl tracking-[-0.04em]"
+            className="w-full max-w-[180px] py-2.5 bg-blue-800 text-white rounded-xl font-medium hover:bg-blue-900 transition disabled:bg-slate-200 disabled:text-slate-400 text-sm flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow font-[Poppins]"
           >
             Save Settings
           </button>

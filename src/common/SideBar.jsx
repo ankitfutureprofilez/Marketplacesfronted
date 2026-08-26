@@ -135,7 +135,7 @@ function SideBar() {
               Main Menu
             </p>
 
-            <ul className="space-y-1 px-3">
+            <ul className="space-y-1.5 px-3">
               {visibleItems &&
                 visibleItems?.map((item) => {
                   const Icon = item.icon;

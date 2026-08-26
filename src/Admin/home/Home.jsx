@@ -13,47 +13,44 @@ export default function Home() {
     <>
       <div className="flex flex-col w-full">
         <HeaderAdmin title={"Website"} />
-        <div className="bg-white py-2lg:py-2.5">
-        <div className="flex border-b border-[rgba(0,0,0,.1)]">
-          {/* <button
-            onClick={() => handleTabClick("offer")}
-            className={` cursor-pointer tracking-[-0.04em] font-medium  px-2 md:px-4 lg:px-3 xl:px-8 pt-3 lg:pt-4 pb-3 lg:pb-4 text-sm 
-            sm:text-base  xl:text-xl outline-none focus:outline-none ease-linear transition-all border-b duration-150  
-            ${
-              activeTab === "offer"
-                ? "text-blue-600 border-blue-600"
-                : "text-[#535353]  border-[rgba(0,0,0,.0)] "
-            }`}
-          >
-            Offers Price
-          </button> */}
+        <div className="bg-white border border-gray-200 rounded-3xl py-4 lg:p-6">
+          {/* Tab Headers */}
+          <div className="flex mb-6 font-[Poppins]">
+            <div className="flex items-center h-11 bg-slate-100 rounded-2xl p-1.5 shrink-0">
+              {/* <button
+                onClick={() => setActiveTab("offer")}
+                className={`flex items-center h-full px-5 rounded-xl text-[13.5px] font-semibold transition-all duration-200 cursor-pointer ${
+                  activeTab === "offer"
+                    ? "bg-white text-slate-900 shadow-[0_1px_3px_rgba(0,0,0,0.1)]"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                Offers Price
+              </button> */}
 
-          <button
-            onClick={() => handleTabClick("term")}
-            className={` cursor-pointer tracking-[-0.04em] font-medium  px-2 md:px-4 lg:px-3 xl:px-8 pt-3 lg:pt-4 pb-3 lg:pb-4 text-sm 
-            sm:text-base  xl:text-xl outline-none focus:outline-none ease-linear transition-all border-b duration-150  
-            ${
-              activeTab === "term"
-                ? "text-blue-600 border-blue-600"
-                : "text-[#535353]  border-[rgba(0,0,0,.0)] "
-            }`}
-          >
-            Terms & Conditions
-          </button>
+              <button
+                onClick={() => setActiveTab("term")}
+                className={`flex items-center h-full px-5 rounded-xl text-[13.5px] font-semibold transition-all duration-200 cursor-pointer ${
+                  activeTab === "term"
+                    ? "bg-white text-slate-900 shadow-[0_1px_3px_rgba(0,0,0,0.1)]"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                Terms & Conditions
+              </button>
 
-          <button
-            onClick={() => handleTabClick("privacy")}
-            className={` cursor-pointer tracking-[-0.04em] font-medium  px-2 md:px-4 lg:px-3 xl:px-8 pt-3 lg:pt-4 pb-3 
-            lg:pb-4 text-sm sm:text-base  xl:text-xl outline-none focus:outline-none ease-linear transition-all 
-            border-b duration-150  ${
-              activeTab === "privacy"
-                ? "text-blue-600 border-blue-600"
-                : "text-[#535353]  border-[rgba(0,0,0,.0)] "
-            }`}
-          >
-            Privacy Policy
-          </button>
-        </div>
+              <button
+                onClick={() => setActiveTab("privacy")}
+                className={`flex items-center h-full px-5 rounded-xl text-[13.5px] font-semibold transition-all duration-200 cursor-pointer ${
+                  activeTab === "privacy"
+                    ? "bg-white text-slate-900 shadow-[0_1px_3px_rgba(0,0,0,0.1)]"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                Privacy Policy
+              </button>
+            </div>
+          </div>
         <div className="min-h-[75vh]">
           <div className="mt-0">
             {activeTab === "offer" && <OfferPrice />}

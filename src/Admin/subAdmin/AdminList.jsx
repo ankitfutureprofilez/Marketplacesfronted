@@ -82,7 +82,7 @@ export default function AdminList() {
         <div className="">
           <div className="mb-4 overflow-hidden">
             {/* Header */}
-            <div className="px-5 py-4 flex flex-wrap justify-between items-center bg-white gap-3 border border-gray-200 rounded-2xl mb-4">
+            <div className="px-5 py-4 flex flex-wrap justify-between items-center bg-white gap-3 border border-gray-200 rounded-3xl mb-4">
               <div className="flex items-baseline gap-2">
                 <h2 className="text-[15px] lg:text-base font-semibold font-[Poppins] text-[#14161A] tracking-tight m-0">
                   Sub Admins Listing
@@ -156,7 +156,7 @@ export default function AdminList() {
                         <div
                           key={member._id}
                           style={{ animationDelay: `${Math.min(index, 8) * 40}ms` }}
-                          className={`admin-card relative bg-white border border-[#ECEDF2] rounded-2xl p-4 transition-all duration-200 hover:shadow-[0_4px_20px_rgba(20,22,26,0.06)] hover:-translate-y-0.5 ${
+                          className={`admin-card relative bg-white border border-[#ECEDF2] rounded-3xl p-4 transition-all duration-200 shadow-sm hover:shadow-[0_4px_20px_rgba(20,22,26,0.06)] hover:-translate-y-0.5 ${
                             isDeleted ? "opacity-60" : ""
                           }`}
                         >
