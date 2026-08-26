@@ -183,7 +183,7 @@ export default function AdminLayout() {
       {/* Main Container aligned with Sidebar width (286px) */}
       <div className="lg:pl-[286px] flex flex-col min-h-screen">
         {/* Top Header */}
-        <header className="sticky top-0 z-30 bg-white border-b border-gray-200">
+        <header className="sticky top-0 z-30 bg-white border-b border-gray-200/70">
           <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3.5">
             {/* Page Title with mobile menu offset */}
             <div className="pl-12 lg:pl-0">

@@ -88,7 +88,7 @@ export default function PurchaseHistory() {
 
               <div className="flex flex-col md:flex-row items-stretch md:items-center w-full md:w-auto gap-3">
                 {/* Search */}
-                <div className="relative w-full md:w-64">
+                <div className="relative w-full md:w-64 ">
                   <CiSearch
                     size={18}
                     className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8C9199]"

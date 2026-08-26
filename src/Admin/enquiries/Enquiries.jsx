@@ -113,7 +113,7 @@ function Enquiries() {
                                     type="text"
                                     aria-label="Search enquiries by name"
                                     placeholder="Search by name"
-                                    className="w-full pl-10 pr-9 py-2.5 bg-[#FAFAFB] border border-[#ECEDF2] rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 text-[13px] font-[Poppins] text-[#14161A] placeholder:text-[#8C9199] transition-colors"
+                                    className="w-full pl-10 pr-9 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 text-[13px] font-[Poppins] text-[#14161A] placeholder:text-[#8C9199] transition-colors"
                                     value={searchQuery}
                                     onChange={handleSearchChange}
                                 />

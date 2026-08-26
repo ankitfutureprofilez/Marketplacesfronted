@@ -97,39 +97,69 @@ export default function AddCategory({ isOpen, onClose, member, isEdit, fecthSale
 
   return (
     <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex justify-center items-center p-4 z-50 transition-all">
-      <div className="bg-white w-full max-w-md rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 relative animate-in fade-in zoom-in-95 duration-200">
+      <div className="bg-white w-full max-w-[480px] rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 relative animate-in fade-in zoom-in-95 duration-200">
+        
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute right-4 top-4 cursor-pointer text-slate-400 hover:text-slate-600 focus:outline-none transition-colors"
+        >
+          <FiX className="w-5 h-5" />
+        </button>
 
-        {/* Modal Top Header with Icon & Close Action */}
-        <div className="flex items-center justify-between pb-5 mb-5 border-b border-slate-100">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-lg shrink-0">
-              <BiCategory />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold text-slate-900 tracking-tight">
-                {member ? "Edit Category" : "Add New Category"}
-              </h2>
-              <p className="text-xs text-slate-400">
-                {member ? "Update category information" : "Create a new catalog category"}
-              </p>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="w-8 h-8 rounded-full bg-slate-50 hover:bg-slate-100 text-slate-400 hover:text-slate-700 flex items-center justify-center transition-colors"
-          >
-            <FiX className="w-4 h-4" />
-          </button>
+        <div className="text-center mb-6">
+          <h2 className="text-xl font-bold text-slate-800 tracking-tight font-[Poppins]">
+            {member ? "Edit Category Details" : "Add New Category"}
+          </h2>
+          <p className="text-sm text-gray-500 mt-1 font-[Poppins]">
+            Please fill in the category details below
+          </p>
         </div>
 
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="space-y-4">
           
+          {/* Profile Image Uploader */}
+          <div className="flex flex-col items-center mb-2">
+            <label className="relative cursor-pointer group">
+              <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-slate-100 ring-4 ring-slate-50 shadow-sm relative transition group-hover:opacity-90 bg-white">
+                <img
+                  src={preview || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyCbJoUCRscGfzySEtqoR5HtHnEOE0ux4r-A&s"}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <span className="text-[10px] text-white font-semibold uppercase tracking-wider">Change</span>
+                </div>
+              </div>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+            </label>
+            <p className="text-[11px] text-slate-400 mt-2 font-[Poppins]">
+              Upload category image
+            </p>
+
+            {preview && (
+              <button
+                type="button"
+                onClick={() => {
+                  setPreview("");
+                  setImageFile(null);
+                }}
+                className="text-rose-500 text-xs mt-1 hover:underline font-semibold font-[Poppins]"
+              >
+                Remove Image
+              </button>
+            )}
+          </div>
+
           {/* Category Name */}
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
+            <label className="block text-sm font-medium text-gray-700 mb-1.5 font-[Poppins]">
               Category Name <span className="text-rose-500">*</span>
             </label>
             <input
@@ -137,75 +167,24 @@ export default function AddCategory({ isOpen, onClose, member, isEdit, fecthSale
               value={name}
               placeholder="e.g. Food & Beverages"
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/90 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all font-medium"
+              className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none transition-all placeholder:text-slate-400 text-slate-800 text-sm font-[Poppins]"
               required
             />
           </div>
 
-          {/* Image Upload Area */}
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
-              Category Icon / Image
-            </label>
-            
-            <div className="relative border-2 border-dashed border-slate-200 hover:border-blue-400 rounded-2xl p-4 bg-slate-50/50 hover:bg-blue-50/20 transition-all text-center group cursor-pointer">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-              />
-
-              <div className="flex flex-col items-center justify-center gap-1.5">
-                <div className="w-9 h-9 rounded-xl bg-white border border-slate-200 text-blue-600 flex items-center justify-center shadow-2xs group-hover:scale-105 transition-transform">
-                  <FiUploadCloud className="w-5 h-5" />
-                </div>
-                <span className="text-xs font-semibold text-slate-700">
-                  Click to upload category image
-                </span>
-                <span className="text-[11px] text-slate-400">
-                  PNG, JPG, or SVG up to 2MB
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Image Preview Card */}
-          {preview && (
-            <div className="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200/80 rounded-2xl">
-              <div className="w-14 h-14 rounded-xl bg-white border border-slate-200 p-1 flex items-center justify-center shrink-0 shadow-2xs overflow-hidden">
-                <img
-                  src={preview}
-                  alt="preview"
-                  className="w-full h-full object-cover rounded-lg"
-                />
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-800">
-                  <FiImage className="text-slate-400" />
-                  <span className="truncate">{imageFile?.name || "Selected Image"}</span>
-                </div>
-                <p className="text-[11px] text-emerald-600 font-medium flex items-center gap-1 mt-0.5">
-                  <FiCheck className="w-3 h-3" /> Ready for upload
-                </p>
-              </div>
-            </div>
-          )}
-
           {/* Action Buttons */}
-          <div className="grid grid-cols-2 gap-3 pt-3">
+          <div className="flex items-center gap-3 pt-2">
             <button
               type="button"
-              className="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 active:scale-[0.99] text-slate-700 font-semibold text-xs sm:text-sm rounded-xl transition-all"
               onClick={onClose}
+              className="w-1/2 py-2.5 border border-slate-200 text-gray-700 rounded-xl font-semibold hover:bg-slate-50 transition text-sm cursor-pointer font-[Poppins]"
             >
               Cancel
             </button>
-
             <button
               type="submit"
-              className="w-full py-2.5 px-4 bg-blue-800 hover:bg-blue-900 active:scale-[0.99] text-white font-medium text-xs sm:text-sm rounded-xl shadow-md shadow-blue-600/20 transition-all disabled:opacity-50 flex items-center justify-center gap-1.5"
               disabled={loading}
+              className="w-1/2 py-2.5 bg-blue-800 text-white rounded-xl font-medium hover:bg-blue-900 transition disabled:bg-slate-200 disabled:text-slate-400 text-sm flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow font-[Poppins]"
             >
               {loading ? (
                 <>

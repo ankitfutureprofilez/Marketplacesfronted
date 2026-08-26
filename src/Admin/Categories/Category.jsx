@@ -105,7 +105,7 @@ export default function Category() {
                 </span>
               </div>
               <button
-                className="bg-blue-600 text-white px-4 py-2.5 rounded-xl flex items-center gap-2 hover:bg-blue-700 active:bg-blue-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 transition-colors duration-150 text-[13px] font-medium font-[Poppins]"
+                className="bg-blue-800 text-white px-4 py-2.5 rounded-xl flex items-center gap-2 hover:bg-blue-900 active:bg-blue-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 transition-colors duration-150 text-[13px] font-medium font-[Poppins]"
                 onClick={() => {
                   setSelected(null);
                   setIsOpen(true);

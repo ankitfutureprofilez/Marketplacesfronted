@@ -169,108 +169,174 @@ export default function Add({ isOpen, onClose, member, fetchData, isEdit = false
   };
 
   return (
-    <Popup isOpen={isOpen} onClose={onClose} size={"max-w-[540px]"}>
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 relative max-h-[90vh] overflow-y-auto">
+    <Popup isOpen={isOpen} onClose={onClose} size={"max-w-[480px]"}>
+      <div className="px-2 py-3">
+        <div className="text-center mb-6">
+          <h2 className="text-xl font-bold text-slate-800 tracking-tight font-[Poppins]">
+            {isEdit ? "Edit Sub-Admin Details" : "Add New Sub-Admin"}
+          </h2>
+          <p className="text-sm text-gray-500 mt-1 font-[Poppins]">
+            Please fill in the profile details below
+          </p>
+        </div>
+
+        <div className="relative">
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl"
+            className="hidden"
           >
             &times;
           </button>
 
-          <h2 className="text-2xl font-semibold text-center mb-2">
-            {isEdit ? "Edit " : "Add "}Sub-Admin
-          </h2>
-
-          <form onSubmit={isEdit ? handleUpdate : handleSubmit} className="space-y-5">
-            {/* Avatar */}
-            <div className="flex flex-col items-center">
-              <div className="w-24 h-24 rounded-full overflow-hidden border">
-                <img
-                  src={previewImage}
-                  className="w-full h-full object-cover"
+          <form onSubmit={isEdit ? handleUpdate : handleSubmit} className="space-y-4">
+            {/* Profile Image Uploader */}
+            <div className="flex flex-col items-center mb-2">
+              <label className="relative cursor-pointer group">
+                <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-slate-100 ring-4 ring-slate-50 shadow-sm relative transition group-hover:opacity-90">
+                  <img
+                    src={previewImage}
+                    alt="Profile"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <span className="text-[10px] text-white font-semibold uppercase tracking-wider">Change</span>
+                  </div>
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarChange}
+                  className="hidden"
                 />
-              </div>
-              <input
-                type="file"
-                onChange={handleAvatarChange}
-                className="mt-2 text-sm"
-              />
+              </label>
+              <p className="text-[11px] text-slate-400 mt-2 font-[Poppins]">
+                Upload profile picture <span className="text-rose-500">*</span>
+              </p>
+
+              {previewImage !== defaultimage && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPreviewImage(defaultimage);
+                    setFormData((prev) => ({ ...prev, avatar: null }));
+                  }}
+                  className="text-rose-500 text-xs mt-1 hover:underline font-semibold font-[Poppins]"
+                >
+                  Remove Picture
+                </button>
+              )}
             </div>
 
             {/* Name */}
-            <input
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Full Name"
-              required
-              className="w-full px-4 py-2 border rounded-lg"
-            />
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5 font-[Poppins]">
+                Full Name <span className="text-rose-500">*</span>
+              </label>
+              <input
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Enter full name"
+                required
+                className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none transition-all placeholder:text-slate-400 text-slate-800 text-sm font-[Poppins]"
+              />
+            </div>
 
             {/* Phone */}
-            <input
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="Phone"
-              maxLength={10}
-              required
-              className="w-full px-4 py-2 border rounded-lg"
-            />
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5 font-[Poppins]">
+                Phone Number <span className="text-rose-500">*</span>
+              </label>
+              <input
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Enter phone number"
+                maxLength={10}
+                required
+                className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none transition-all placeholder:text-slate-400 text-slate-800 text-sm font-[Poppins]"
+              />
+            </div>
 
             {/* Email */}
-            <input
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-              required
-              className="w-full px-4 py-2 border rounded-lg"
-            />
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5 font-[Poppins]">
+                Email Address <span className="text-rose-500">*</span>
+              </label>
+              <input
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter email address"
+                required
+                className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none transition-all placeholder:text-slate-400 text-slate-800 text-sm font-[Poppins]"
+              />
+            </div>
 
             {/* Password */}
-            <input
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Password"
-              required={!isEdit}
-              autoComplete="new-password"
-              className="w-full px-4 py-2 border rounded-lg"
-            />
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5 font-[Poppins]">
+                Password {!isEdit && <span className="text-rose-500">*</span>}
+              </label>
+              <input
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter password"
+                required={!isEdit}
+                autoComplete="new-password"
+                className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none transition-all placeholder:text-slate-400 text-slate-800 text-sm font-[Poppins]"
+              />
+            </div>
 
             {/* Permissions */}
             <div>
-              <p className="text-sm font-medium mb-2">Permissions</p>
-              <div className="grid grid-cols-2 gap-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1.5 font-[Poppins]">
+                Permissions <span className="text-rose-500">*</span>
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 p-3 bg-slate-50 border border-slate-200/60 rounded-2xl max-h-48 overflow-y-auto scrollbar-thin">
                 {PERMISSIONS.map((perm) => (
-                  <label key={perm.value} className="flex items-center gap-2">
+                  <label key={perm.value} className="flex items-center gap-2.5 p-2 bg-white rounded-xl border border-slate-200/80 hover:bg-blue-50/20 hover:border-blue-200 transition-all cursor-pointer">
                     <input
                       type="checkbox"
                       checked={formData.permissions.includes(perm.value)}
                       onChange={() => handlePermissionToggle(perm.value)}
+                      className="rounded border-slate-300 text-blue-800 focus:ring-blue-600/20 h-4 w-4 transition-colors"
                     />
-                    <span className="text-sm">{perm.label}</span>
+                    <span className="text-xs font-medium text-slate-700 select-none font-[Poppins]">{perm.label}</span>
                   </label>
                 ))}
               </div>
             </div>
 
-            {/* Submit */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold"
-            >
-              {loading ? "Submitting..." :
-                isEdit ? "Update Sub-Admin"
-                  :
-                  "Create Sub-Admin"}
-            </button>
+            {/* Action Buttons */}
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                type="button"
+                onClick={onClose}
+                className="w-1/2 py-2.5 border border-slate-200 text-gray-700 rounded-xl font-semibold hover:bg-slate-50 transition text-sm cursor-pointer font-[Poppins]"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-1/2 py-2.5 bg-blue-800 text-white rounded-xl font-medium hover:bg-blue-900 transition disabled:bg-slate-200 disabled:text-slate-400 text-sm flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow font-[Poppins]"
+              >
+                {loading ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                    Submitting...
+                  </>
+                ) : isEdit ? (
+                  "Update Details"
+                ) : (
+                  "Add Sub-Admin"
+                )}
+              </button>
+            </div>
           </form>
         </div>
       </div>

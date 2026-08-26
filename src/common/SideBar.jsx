@@ -116,7 +116,7 @@ function SideBar() {
           )}
 
           {/* Logo Header */}
-          <div className="border-b border-gray-100 flex items-center px-3 md:px-4 lg:px-6 py-6 lg:py-4 shrink-0">
+          <div className="border-b border-gray-100 flex items-center px-3 md:px-4 lg:px-6 py-6 lg:py-3.5 shrink-0">
             <Link to="/" onClick={handleLinkClick} className="flex items-center">
               <img
                 src={logo}
@@ -125,7 +125,7 @@ function SideBar() {
                 width={1000}
                 className="h-[40px] w-[40px] mx-2 inline-block object-contain"
               />
-              <p className="text-lg font-medium uppercase text-slate-800">Market Place</p>
+              <p className="text-xl font-bold uppercase text-slate-800">Market Place</p>
             </Link>
           </div>
 
