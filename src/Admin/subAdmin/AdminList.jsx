@@ -101,7 +101,7 @@ export default function AdminList() {
                     type="text"
                     aria-label="Search sub admins by name and email"
                     placeholder="Search by name and email"
-                    className="w-full pl-10 pr-9 py-2.5 bg-[#FAFAFB] border border-[#ECEDF2] rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 text-[13px] font-[Poppins] text-[#14161A] placeholder:text-[#8C9199] transition-colors"
+                    className="w-full pl-10 pr-9 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 text-[13px] font-[Poppins] text-[#14161A] placeholder:text-[#8C9199] transition-colors"
                     value={searchQuery}
                     onChange={handleSearchChange}
                   />
@@ -123,7 +123,7 @@ export default function AdminList() {
                       setSelected(null);
                       setIsAddOpen(true);
                     }}
-                    className="bg-blue-600 text-white px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 hover:bg-blue-700 active:bg-blue-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 transition-colors duration-150 text-[13px] font-medium font-[Poppins] whitespace-nowrap"
+                    className="bg-blue-800 text-white px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 hover:bg-blue-900 active:bg-blue-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 transition-colors duration-150 text-[13px] font-medium font-[Poppins] whitespace-nowrap"
                   >
                     <HiOutlineUserAdd className="w-4 h-4" />
                     <span>Add Sub Admin</span>

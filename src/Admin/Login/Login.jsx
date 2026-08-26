@@ -70,9 +70,9 @@ function Login() {
       </div>
 
       {/* Main Form Container Card */}
-      <div className="w-full max-w-xl bg-white border border-slate-200/90 rounded-3xl p-8 sm:p-12 shadow-xl shadow-slate-900/5">
+      <div className="w-full max-w-lg bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-900/5">
         {/* Card Header with Logo */}
-        <div className="flex items-center gap-4 mb-8 pb-6 border-b border-slate-100">
+        <div className="flex items-center gap-4 mb-8 pb-2">
           <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-200/80 p-2 flex items-center justify-center shrink-0 shadow-xs">
             <img
               src={logo}
@@ -160,7 +160,7 @@ function Login() {
         </form>
 
         {/* Security Footer Notice */}
-        <div className="mt-8 pt-5 border-t border-slate-100 flex items-center justify-center gap-2 text-slate-400 text-xs text-center">
+        <div className="mt-8 pt-5 flex items-center justify-center gap-2 text-slate-400 text-xs text-center">
           <FiShield className="w-3.5 h-3.5 text-slate-400 shrink-0" />
           <span>Restricted to authorized administrator personnel</span>
         </div>

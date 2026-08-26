@@ -12,7 +12,7 @@ import { MdBlock } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
 import { useRole } from "../../context/RoleContext";
 import { hasPermission } from "../../common/Permissions";
-import { FiSearch, FiMapPin, FiPhone, FiShoppingBag, FiX, FiUserCheck } from "react-icons/fi";
+import { FiSearch, FiMapPin, FiPhone, FiShoppingBag, FiX, FiUserCheck, FiUserPlus } from "react-icons/fi";
 
 function List() {
   const [team, setTeams] = useState([]);
@@ -209,7 +209,7 @@ function List() {
                   <input
                     type="text"
                     placeholder="Search by owner or business name"
-                    className="w-full pl-10 pr-9 py-2.5 bg-[#FAFAFB] border border-[#ECEDF2] rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 text-[13px] font-[Poppins] text-[#14161A] placeholder:text-[#8C9199] transition-colors"
+                    className="w-full pl-10 pr-9 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 text-[13px] font-[Poppins] text-[#14161A] placeholder:text-[#8C9199] transition-colors"
                     value={searchQuery}
                     onChange={handleSearchChange}
                   />
@@ -229,7 +229,7 @@ function List() {
 
                 {/* Status Filter */}
                 <select
-                  className="w-full sm:w-36 py-2.5 px-3 bg-[#FAFAFB] border border-[#ECEDF2] rounded-xl text-[13px] font-[Poppins] text-[#14161A] focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-colors cursor-pointer"
+                  className="w-full sm:w-36 py-2.5 px-3 border border-gray-200 rounded-xl text-[13px] font-[Poppins] text-[#14161A] focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-colors cursor-pointer"
                   value={statusFilter}
                   onChange={handleStatusChange}
                 >
@@ -241,7 +241,7 @@ function List() {
 
                 {/* Category Filter */}
                 <select
-                  className="w-full sm:w-40 py-2.5 px-3 bg-[#FAFAFB] border border-[#ECEDF2] rounded-xl text-[13px] font-[Poppins] text-[#14161A] focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-colors cursor-pointer"
+                  className="w-full sm:w-40 py-2.5 px-3 border border-gray-200 rounded-xl text-[13px] font-[Poppins] text-[#14161A] focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 transition-colors cursor-pointer"
                   value={categoryFilter}
                   onChange={handleCategoryChange}
                 >
@@ -257,20 +257,9 @@ function List() {
                 {canCreate && (
                   <Link
                     to="/vendor/add"
-                    className="bg-blue-600 text-white px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 hover:bg-blue-700 active:bg-blue-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 transition-colors duration-150 text-[13px] font-medium font-[Poppins] whitespace-nowrap"
+                    className="bg-blue-800 text-white px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 hover:bg-blue-900 active:bg-blue-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 transition-colors duration-150 text-[13px] font-medium font-[Poppins] whitespace-nowrap"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
+                    <FiUserPlus size={16} />
                     <span>Add Vendor</span>
                   </Link>
                 )}

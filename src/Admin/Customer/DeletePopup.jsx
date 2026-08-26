@@ -87,7 +87,7 @@ export default function DeletePopup({
         <div className="flex items-center justify-center gap-3">
           <button
             onClick={onClose}
-            className="w-1/2 rounded-xl border border-slate-200/90 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-xs hover:bg-slate-50 active:scale-[0.98] transition-all"
+            className="w-1/2 rounded-xl border border-slate-200/90 bg-white px-4 py-2.5 text-xs md:text-sm font-semibold text-slate-700 shadow-xs hover:bg-slate-50 active:scale-[0.98] transition-all"
           >
             Cancel
           </button>
@@ -95,7 +95,7 @@ export default function DeletePopup({
             onClick={() => {
               handleDeletestatus(member?._id);
             }}
-            className={`w-1/2 rounded-xl px-4 py-2.5 text-xs font-semibold text-white shadow-xs active:scale-[0.98] transition-all ${
+            className={`w-1/2 rounded-xl px-4 py-2.5 text-xs md:text-sm font-semibold text-white shadow-xs active:scale-[0.98] transition-all ${
               member?.deleted_at
                 ? "bg-emerald-600 hover:bg-emerald-700 shadow-emerald-500/20"
                 : "bg-rose-600 hover:bg-rose-700 shadow-rose-500/20"

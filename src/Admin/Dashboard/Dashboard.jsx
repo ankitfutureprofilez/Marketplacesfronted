@@ -100,8 +100,8 @@ function Dashboard() {
               </div>
 
               <div className="relative z-10 mt-6">
-                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block">
-                  Total Sales Force
+                <span className="text-xs font-semibold uppercase tracking-wider text-gray-600 block">
+                  Total Sales Person
                 </span>
                 <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mt-1">
                   {team?.stats?.total_sales ?? 0}
@@ -124,8 +124,8 @@ function Dashboard() {
                 </span>
               </div>
               <div className="relative z-10 mt-6">
-                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block">
-                  Active Merchants
+                <span className="text-xs font-semibold uppercase tracking-wider text-gray-600 block">
+                  Total Vendors
                 </span>
                 <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mt-1">
                   {team?.stats?.total_vendors ?? 0}
@@ -149,8 +149,8 @@ function Dashboard() {
                 </span>
               </div>
               <div className="relative z-10 mt-6">
-                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block">
-                  Published Offers
+                <span className="text-xs font-semibold uppercase tracking-wider text-gray-600 block">
+                  Active Offers
                 </span>
                 <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mt-1">
                   {team?.stats?.active_offers ?? 0}
@@ -175,7 +175,7 @@ function Dashboard() {
               </div>
 
               <div className="relative z-10 mt-6">
-                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block">
+                <span className="text-xs font-semibold uppercase tracking-wider text-gray-600 block">
                   Total Customers
                 </span>
                 <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight mt-1">

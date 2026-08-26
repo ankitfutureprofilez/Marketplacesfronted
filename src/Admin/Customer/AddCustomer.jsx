@@ -366,7 +366,7 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
                 (!isEdit && !canCreate) ||
                 (isEdit && !canUpdate)
               }
-              className="w-1/2 py-2.5 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition disabled:bg-slate-200 disabled:text-slate-400 text-sm flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow"
+              className="w-1/2 py-2.5 bg-blue-800 text-white rounded-xl font-semibold hover:bg-blue-900 transition disabled:bg-slate-200 disabled:text-slate-400 text-sm flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow"
             >
               {loading ? (
                 <>
