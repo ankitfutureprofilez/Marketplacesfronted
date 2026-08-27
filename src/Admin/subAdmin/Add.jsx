@@ -6,25 +6,25 @@ import toast from "react-hot-toast";
 
 export default function Add({ isOpen, onClose, member, fetchData, isEdit = false }) {
   const PERMISSIONS = [
-    { label: "Manage Customers", value: "manage_customers" },
+    { label: "View Customers", value: "manage_customers" },
     // Customer Actions
     { label: "Create Customer", value: "create_customer" },
     { label: "Update Customer", value: "update_customer" },
     { label: "Delete Customer", value: "delete_customer" },
 
-    { label: "Manage Sales", value: "manage_sales" },
+    { label: "View Sales", value: "manage_sales" },
     // Sales Actions
     { label: "Create Sales", value: "create_sales" },
     { label: "Update Sales", value: "update_sales" },
     { label: "Delete Sales", value: "delete_sales" },
 
-    { label: "Manage Vendors", value: "manage_vendors" },
+    { label: "View Vendors", value: "manage_vendors" },
     // Vendor Actions
     { label: "Create Vendor", value: "create_vendor" },
     { label: "Update Vendor", value: "update_vendor" },
     { label: "Delete Vendor", value: "delete_vendor" },
     
-    { label: "Manage Categories", value: "manage_categories" },
+    { label: "View Categories", value: "manage_categories" },
     { label: "Manage website", value: "manage_website" },
     { label: "View Purchase", value: "view_purchase" },
   ];
