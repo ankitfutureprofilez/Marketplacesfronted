@@ -163,7 +163,7 @@ function SideBar() {
                   onClick={handleLinkClick}
                   className={`flex items-center gap-3 py-2.5 px-4 text-sm font-medium rounded-xl transition-colors ${
                     isActive("/setting")
-                      ? "text-white bg-blue-600 shadow-sm"
+                      ? "text-white bg-blue-800 shadow-sm"
                       : "text-gray-700 hover:bg-gray-100"
                   }`}
                 >
