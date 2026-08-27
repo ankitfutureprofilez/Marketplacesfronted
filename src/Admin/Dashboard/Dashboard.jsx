@@ -9,7 +9,7 @@ import { BiSolidOffer } from "react-icons/bi";
 import Listing from "../../Apis/Listing";
 import { FaListAlt, } from "react-icons/fa";
 import { LiaShoppingBagSolid } from "react-icons/lia";
-import { FiUserCheck, FiUsers } from "react-icons/fi";
+import { FiUserCheck, FiUsers, FiPhone, FiMapPin, FiShoppingBag } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
@@ -20,6 +20,29 @@ function Dashboard() {
 
   const [startDate, setStartDate] = useState(moment().subtract(30, "days").format("YYYY-MM-DD"));
   const [endDate, setEndDate] = useState(moment().format("YYYY-MM-DD"));
+
+  const initials = (name = "") =>
+    name
+      .trim()
+      .split(" ")
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((w) => w[0]?.toUpperCase())
+      .join("") || "?";
+
+  const avatarPalette = [
+    "bg-indigo-50 text-indigo-600",
+    "bg-emerald-50 text-emerald-600",
+    "bg-orange-50 text-orange-600",
+    "bg-purple-50 text-purple-600",
+    "bg-rose-50 text-rose-600",
+    "bg-sky-50 text-sky-600",
+  ];
+  const avatarColor = (name = "") => {
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    return avatarPalette[Math.abs(hash) % avatarPalette.length];
+  };
 
   const fetchData = async () => {
     try {
@@ -60,17 +83,17 @@ function Dashboard() {
   }, [startDate, endDate]);
 
   const getStatusClasses = (status) => {
-    switch (status) {
-      case "Approved":
-        return "bg-green-100 text-green-700";
+    switch (status?.toLowerCase()) {
+      case "approved":
       case "active":
+      case "verify":
         return "bg-green-100 text-green-700";
-      case "Pending":
+      case "pending":
         return "bg-yellow-100 text-yellow-700";
-      case "Rejected":
+      case "rejected":
         return "bg-red-100 text-red-700";
       default:
-        return "";
+        return "bg-gray-100 text-gray-700";
     }
   };
 
@@ -187,77 +210,115 @@ function Dashboard() {
           <div>
             <MyLineChart data={data} startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate} />
           </div>
-          <div className="w-full  bg-white p-[10px] md:p-[25px] rounded-[10px] md:rounded-[20px] mt-[15px]">
-            <div className=" flex flex-wrap justify-between items-center border-b border-black  border-opacity-10">
-              <h2 className=" text-base lg:text-lg font-bold font-[Poppins] font-[400] text-[#1E1E1E] mb-4 tracking-[-0.03em]">
+          <style>{`
+            @keyframes vendorCardIn {
+              from { opacity: 0; transform: translateY(6px); }
+              to { opacity: 1; transform: translateY(0); }
+            }
+            .vendor-card {
+              animation: vendorCardIn 0.35s ease both;
+            }
+          `}</style>
+
+          <div className="w-full bg-white rounded-2xl p-4 md:p-6 mt-[20px]">
+            <div className="flex flex-wrap justify-between items-center border-opacity-10 mb-4 pb-2">
+              <h2 className="text-base lg:text-lg font-bold font-[Poppins] text-[#1E1E1E] tracking-[-0.03em]">
                 Latest Vendors
               </h2>
             </div>
-            <div className="overflow-auto">
-              <table className="w-full table-auto whitespace-nowrap">
-                <thead className="mb-[15px]">
-                  <tr>
-                    <th className="font-[Poppins] font-[600] text-[14px] text-[#8C9199] uppercase text-left p-[10px] mb-[10px]">
-                      S. No.
-                    </th>
-                    <th className="font-[Poppins] font-[600] text-[14px] text-[#8C9199] uppercase text-left p-[10px] mb-[10px]">
-                      BUSINESS NAME
-                    </th>
-                    <th className="font-[Poppins] font-[600] text-[14px] text-[#8C9199] uppercase text-center p-[10px]">
-                      OWNER NAME
-                    </th>
-                    <th className="font-[Poppins] font-[600] text-[14px] text-[#8C9199] uppercase text-center p-[10px]">
-                      MOBILE
-                    </th>
-                    <th className="font-[Poppins] font-[600] text-[14px] text-[#8C9199] uppercase text-center p-[10px]">
-                      CITY
-                    </th>
-                    <th className="font-[Poppins] font-[600] text-[14px] text-[#8C9199] uppercase text-center p-[10px]">
-                      ADDRESS
-                    </th>
-                    <th className="font-[Poppins] font-[600] text-[14px] text-[#8C9199] uppercase text-center p-[10px]">
-                      STATUS
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {team?.vendors && team?.vendors?.map((vendor, index) => (
-                    <tr
-                      key={index}
-                      className="bg-white border-t transition duration-300 ease-in-out hover:bg-gray-100"
+            
+            {team?.vendors && team?.vendors.length === 0 ? (
+              <div className="text-center py-10 bg-white rounded-2xl border border-gray-100 shadow-xs">
+                <Nodata />
+                <p className="font-[Poppins] text-[13px] text-[#8C9199] -mt-2">
+                  No vendors found.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                {team?.vendors && team?.vendors?.map((vendor, index) => {
+                  const isDeleted = !!vendor?.user?.deleted_at;
+                  return (
+                    <div
+                      key={vendor._id || index}
+                      style={{ animationDelay: `${Math.min(index, 8) * 40}ms` }}
+                      className={`vendor-card relative bg-white border border-[#ECEDF2] rounded-2xl p-4 transition-all duration-200 hover:shadow-[0_4px_20px_rgba(20,22,26,0.06)] hover:-translate-y-0.5 ${
+                        isDeleted ? "opacity-60" : ""
+                      }`}
                     >
-                      <td className="font-[Poppins] font-[400] text-gray-800 text-[14px] text-left px-[10px] py-[16px] capitalize">
-                        {index + 1}
-                      </td>
-                      <td className="font-[Poppins] font-[400] text-gray-800 text-[14px] text-left px-[10px] py-[16px] capitalize">
-                        {vendor?.business_name}
-                      </td>
-                      <td className="font-[Poppins] font-[400] text-gray-800 text-[14px] text-center px-[10px] py-[16px] capitalize">
-                        {vendor?.user?.name}
-                      </td>
-                      <td className="font-[Poppins] font-[400] text-gray-800 text-[14px] text-center px-[10px] py-[16px] capitalize">
-                        {vendor?.user?.phone}
-                      </td>
-                      <td className="font-[Poppins] font-[400] text-gray-800 text-[14px] text-center px-[10px] py-[16px] capitalize">
-                        {vendor?.city}
-                      </td>
-                      <td className="font-[Poppins] font-[400] text-gray-800 text-[14px] text-center px-[10px] py-[16px] capitalize">
-                        {vendor?.address}
-                      </td>
-                      <td className="text-center font-[Poppins] font-[400] text-black text-[14px] text-left px-[10px] py-[16px] capitalize">
+                      {/* Card Header */}
+                      <div className="flex items-start justify-between gap-2 mb-3">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <span
+                            className={`flex items-center justify-center w-11 h-11 rounded-full text-[14px] font-semibold shrink-0 transition-transform duration-200 group-hover:scale-105 ${avatarColor(
+                              vendor?.business_name || ""
+                            )}`}
+                          >
+                            {initials(vendor?.business_name)}
+                          </span>
+                          <div className="min-w-0">
+                            <h3 className="font-[Poppins] font-semibold text-[14px] text-[#14161A] capitalize truncate" title={vendor?.business_name}>
+                              {vendor?.business_name}
+                            </h3>
+                            <p className="font-[Poppins] text-[11px] text-gray-500 truncate">
+                              Owner: <span className="font-semibold text-gray-700 capitalize">{vendor?.user?.name || "--"}</span>
+                            </p>
+                          </div>
+                        </div>
+
                         <span
-                          className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full capitalize ${getStatusClasses(
+                          className={`px-2.5 py-1 text-[11px] font-semibold rounded-full capitalize ${getStatusClasses(
                             vendor?.status
                           )}`}
                         >
                           {vendor?.status}
                         </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                      </div>
+
+                      {/* Card Body */}
+                      <div className="space-y-2 mb-4 font-[Poppins] text-[13px] text-gray-600">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <FiPhone className="text-gray-500 shrink-0" size={14} />
+                          <span className="truncate">{vendor?.user?.phone || "--"}</span>
+                        </div>
+                        <div className="flex items-center gap-2 min-w-0">
+                          <FiMapPin className="text-gray-500 shrink-0" size={14} />
+                          <span className="truncate capitalize">{vendor?.city || "--"}</span>
+                        </div>
+                        <div className="flex items-center gap-2 min-w-0">
+                          <FiShoppingBag className="text-gray-500 shrink-0" size={14} />
+                          <span className="truncate text-slate-600">
+                            {vendor.category?.name || "No Category"} 
+                            {vendor.subcategory?.name && ` • ${vendor.subcategory?.name}`}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <FiUserCheck className="text-gray-500 shrink-0" size={14} />
+                          <span className="text-xs text-slate-500">
+                            Created By:{" "}
+                            <span className="font-semibold text-slate-700 capitalize">
+                              {vendor?.assign_staff ? (vendor?.added_by?.role || "admin") : "--"}
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Card Footer */}
+                      <div className="flex items-center justify-end pt-3 border-t border-[#F0F0F3]">
+                        <Link
+                          to={`/vendor/${vendor?._id}`}
+                          title="View"
+                          aria-label={`View ${vendor?.business_name}`}
+                          className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 hover:bg-blue-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 transition-colors"
+                        >
+                          <IoMdEye size={16} className="text-blue-600" />
+                        </Link>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       </div>
