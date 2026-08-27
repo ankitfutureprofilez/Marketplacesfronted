@@ -196,175 +196,191 @@ const AddSales = ({ isOpen, onClose, member, fetchSalesList, isEdit = false }) =
   };
 
   return (
-    <Popup isOpen={isOpen} onClose={onClose} size={"max-w-[540px]"}>
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 relative animate-[fadeIn_0.2s_ease-in-out]">
-          <button
-            onClick={onClose}
-            className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl"
-          >
-            &times;
-          </button>
-
-          <h2 className="text-2xl font-semibold text-gray-800 text-center mb-2">
-            {isEdit ? "Edit Customer" : "Add Customer"}
+    <Popup isOpen={isOpen} onClose={onClose} size={"max-w-[480px]"}>
+      <div className="px-2 py-3">
+        <div className="text-center mb-6">
+          <h2 className="text-xl font-bold text-slate-800 tracking-tight">
+            {isEdit ? "Edit Customer Details" : "Add New Customer"}
           </h2>
-          <p className="text-sm text-gray-500 text-center mb-6">
-            Please fill in the details below.
+          <p className="text-sm text-gray-500 mt-1">
+            Please fill in the profile details below
           </p>
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Profile Image */}
-            <div className="realtive flex flex-col items-center">
-              <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-gray-300 shadow-md">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Profile Image Uploader */}
+          <div className="flex flex-col items-center mb-2">
+            <label className="relative cursor-pointer group">
+              <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-slate-100 ring-4 ring-slate-50 shadow-sm relative transition group-hover:opacity-90">
                 <img
                   src={previewImage}
                   alt="Profile"
                   className="w-full h-full object-cover"
                 />
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <span className="text-[10px] text-white font-semibold uppercase tracking-wider">Change</span>
+                </div>
               </div>
-              <div className="relative">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleAvatarChange}
-                  className="mt-2 text-sm"
-                />
-                <span className="absolute top-2 right-16 text-red-500">*</span>
-              </div>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleAvatarChange}
+                className="hidden"
+              />
+            </label>
+            <p className="text-[11px] text-slate-400 mt-2">
+              Upload profile picture <span className="text-rose-500">*</span>
+            </p>
 
-              {previewImage !== defaultimage && (
+            {previewImage !== defaultimage && (
+              <button
+                type="button"
+                onClick={() => {
+                  setPreviewImage(defaultimage);
+                  setFormData((prev) => ({ ...prev, avatar: null }));
+                }}
+                className="text-rose-500 text-xs mt-1 hover:underline font-semibold"
+              >
+                Remove Picture
+              </button>
+            )}
+          </div>
+
+          {/* Name */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Name <span className="text-rose-500">*</span>
+            </label>
+            <input
+              name="name"
+              type="text"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none transition-all placeholder:text-slate-400 text-slate-800 text-sm"
+              placeholder="Enter full name"
+              required
+            />
+          </div>
+
+          {/* Phone */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Phone Number <span className="text-rose-500">*</span>
+            </label>
+            <div className="flex gap-2">
+              <input
+                name="phone"
+                type="tel"
+                value={formData.phone}
+                disabled={isPhoneChanged && isPhoneVerified}
+                onChange={(e) => {
+                  if (
+                    e.target.value.length <= 10 &&
+                    /^[0-9]*$/.test(e.target.value)
+                  ) {
+                    handleChange(e);
+                  }
+                }}
+                maxLength="10"
+                className="flex-grow px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none transition-all placeholder:text-slate-400 text-slate-800 text-sm disabled:bg-slate-50 disabled:text-slate-500"
+                placeholder="Enter phone number"
+                required
+              />
+              {isPhoneChanged && (
                 <button
                   type="button"
-                  onClick={() => {
-                    setPreviewImage(defaultimage);
-                    setFormData((prev) => ({ ...prev, avatar: null }));
-                  }}
-                  className="text-red-500 text-sm mt-1 hover:underline"
+                  onClick={handleOtpSend}
+                  disabled={isPhoneVerified || loading}
+                  className={`text-xs font-semibold px-4 py-2.5 rounded-xl transition-all duration-150 shrink-0 ${
+                    isPhoneVerified
+                      ? "bg-emerald-50 text-emerald-600 cursor-not-allowed border border-emerald-100"
+                      : "bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-100"
+                  }`}
                 >
-                  Remove
+                  {isPhoneVerified ? "Verified" : "Verify"}
                 </button>
               )}
             </div>
+          </div>
 
-            {/* Name */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Name
-                <span className="text-red-500">*</span>
+          {/* OTP */}
+          {isPhoneChanged && isPhoneVerified && (
+            <div className="animate-fadeIn">
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                OTP Verification <span className="text-rose-500">*</span>
               </label>
               <input
-                name="name"
-                type="text"
-                value={formData.name}
+                name="otp"
+                value={formData.otp}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                placeholder="Enter full name"
-                required
+                className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none transition-all placeholder:text-slate-400 text-slate-800 text-sm"
+                placeholder="Enter 4-digit OTP"
+                required={isPhoneChanged}
               />
             </div>
+          )}
 
-            {/* Phone */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Phone
-                <span className="text-red-500">*</span>
-              </label>
-              <div className="flex gap-2">
-                <input
-                  name="phone"
-                  type="tel"
-                  value={formData.phone}
-                  disabled={isPhoneChanged && isPhoneVerified}
-                  onChange={(e) => {
-                    if (
-                      e.target.value.length <= 10 &&
-                      /^[0-9]*$/.test(e.target.value)
-                    ) {
-                      handleChange(e);
-                    }
-                  }}
-                  maxLength="10"
-                  className="flex-grow px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Enter phone number"
-                  required
-                />
-                {isPhoneChanged && (
-                  <button
-                    type="button"
-                    onClick={handleOtpSend}
-                    disabled={isPhoneVerified || loading}
-                    className={`text-sm font-semibold px-3 py-2 rounded-lg transition ${isPhoneVerified
-                      ? "bg-green-100 text-green-600 cursor-not-allowed"
-                      : "bg-blue-100 text-blue-600 hover:bg-blue-200"
-                      }`}
-                  >
-                    {isPhoneVerified ? "OTP Sent" : "Verify"}
-                  </button>
-                )}
-              </div>
-            </div>
+          {/* Email */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Email Address
+            </label>
+            <input
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none transition-all placeholder:text-slate-400 text-slate-800 text-sm"
+              placeholder="Enter email address"
+            />
+          </div>
 
-            {/* OTP */}
-            {isPhoneChanged && isPhoneVerified && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  OTP
-                </label>
-                <input
-                  name="otp"
-                  value={formData.otp}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Enter OTP"
-                  required={isPhoneChanged}
-                />
-              </div>
-            )}
+          {/* Location / Area */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Location / Area
+            </label>
+            <input
+              name="area"
+              type="text"
+              value={formData.area}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none transition-all placeholder:text-slate-400 text-slate-800 text-sm"
+              placeholder="Enter location or area"
+            />
+          </div>
 
-            {/* Email */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email
-              </label>
-              <input
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                placeholder="Enter email address"
-              />
-            </div>
-
-            {/* Location / Area */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Location / Area
-              </label>
-              <input
-                name="area"
-                type="text"
-                value={formData.area}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                placeholder="Enter location or area"
-              />
-            </div>
-
-            {/* Submit */}
+          {/* Action Buttons */}
+          <div className="flex items-center gap-3 pt-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="w-1/2 py-2.5 border border-slate-200 text-gray-700 rounded-xl font-semibold hover:bg-slate-50 transition text-sm cursor-pointer"
+            >
+              Cancel
+            </button>
             <button
               type="submit"
               disabled={
                 loading ||
                 (!isEdit && !canCreate) ||
                 (isEdit && !canUpdate)
-              } className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-400"
+              }
+              className="w-1/2 py-2.5 bg-blue-800 text-white rounded-xl font-medium hover:bg-blue-900 transition disabled:bg-slate-200 disabled:text-slate-400 text-sm flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow"
             >
-              {loading ? "Submitting..." : isEdit ? "Update" : "Submit"}
+              {loading ? (
+                <>
+                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                  Submitting...
+                </>
+              ) : isEdit ? (
+                "Update Details"
+              ) : (
+                "Add Customer"
+              )}
             </button>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </Popup>
   );

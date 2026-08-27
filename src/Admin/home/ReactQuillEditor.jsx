@@ -29,12 +29,12 @@ const ReactQuillEditor = ({ label, desc, handleBioChange }) => {
   return (
     <div className="mb-6">
       {label && (
-        <label className="block mb-2 text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-700 mb-1.5 font-[Poppins]">
           {label}
         </label>
       )}
 
-      <div className="bg-white border border-gray-300 rounded-md">
+      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-2xs">
         <ReactQuill
           value={desc}
           onChange={handleBioChange}

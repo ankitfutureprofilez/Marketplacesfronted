@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import logo from "../../img/login.png";
-import loginbanner from "../../img/login-page.png";
 import Listing from "../../Apis/Listing";
-import { IoEye, IoEyeOff } from "react-icons/io5";
 import { useRole } from "../../context/RoleContext";
+import logo from "../../img/market.png";
+
+import { FiMail, FiLock, FiEye, FiEyeOff, FiArrowRight, FiShield } from "react-icons/fi";
+import { CgSpinner } from "react-icons/cg";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -53,86 +54,115 @@ function Login() {
   };
 
   return (
-    <div className="bg-white min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-6xl flex flex-col-reverse lg:flex-row items-center justify-center bg-white overflow-hidden">
-        {/* Left Image Section */}
-        <div className="w-full lg:w-1/2">
-          <img
-            src={logo}
-            alt="Login Illustration"
-            className="w-full h-64 sm:h-80 md:h-[500px] lg:h-full object-cover"
-          />
+    <div className="min-h-screen w-full bg-[#FAFAFA] flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
+      {/* Top Identity Header */}
+      <div className="text-center mb-8 max-w-xl mx-auto">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold mb-3 border border-slate-200/60">
+          <FiShield className="w-3.5 h-3.5 text-slate-900" />
+          <span>Admin Portal</span>
+        </div>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight uppercase">
+          Market Place
+        </h1>
+        <p className="text-xs sm:text-sm text-slate-500 mt-2 max-w-md mx-auto leading-relaxed">
+          Centralized management platform for vendors, orders, and customer operations
+        </p>
+      </div>
+
+      {/* Main Form Container Card */}
+      <div className="w-full max-w-lg bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-900/5">
+        {/* Card Header with Logo */}
+        <div className="flex items-center gap-4 mb-8 pb-2">
+          <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-200/80 p-2 flex items-center justify-center shrink-0 shadow-xs">
+            <img
+              src={logo}
+              alt="Market Place Logo"
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-slate-900 tracking-tight">
+              Sign In to Console
+            </h2>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Please enter your authorized credentials to continue
+            </p>
+          </div>
         </div>
 
-        {/* Right Form Section */}
-        <div className="w-full lg:w-1/2 p-6 sm:p-10 flex flex-col items-center text-center">
-          <img
-            src={loginbanner}
-            alt="Logo"
-            className="w-24 sm:w-28 md:w-32 mb-6"
-          />
-
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-900 mb-2">
-            Login to your account
-          </h2>
-          <p className="text-gray-500 mb-6 text-sm sm:text-base">
-            Welcome back! Please enter your details.
-          </p>
-
-          <form onSubmit={handleSubmit} className="w-full max-w-md space-y-5">
-            {/* Email Input */}
-            <div>
+        {/* Login Form */}
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Email */}
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-2">
+              Email Address <span className="text-rose-500">*</span>
+            </label>
+            <div className="relative group">
+              <FiMail className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-slate-900 transition-colors" />
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="Enter your email"
-                className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 outline-none"
+                placeholder="admin@marketplace.com"
+                className="w-full pl-11 pr-4 py-3 bg-slate-50/70 border border-slate-200/90 rounded-2xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 transition-all font-medium"
                 required
               />
             </div>
+          </div>
 
-            {/* Password Input */}
-            <div className="relative">
+          {/* Password */}
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-2">
+              Password <span className="text-rose-500">*</span>
+            </label>
+            <div className="relative group">
+              <FiLock className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-slate-900 transition-colors" />
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="Enter your password"
-                className="w-full px-5 py-3 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 outline-none"
+                placeholder="••••••••••••"
+                className="w-full pl-11 pr-12 py-3 bg-slate-50/70 border border-slate-200/90 rounded-2xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 transition-all font-medium"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute top-1/2 right-5 transform -translate-y-1/2 text-gray-600 hover:text-gray-800"
+                className="absolute top-1/2 right-3.5 -translate-y-1/2 p-1.5 text-slate-400 hover:text-slate-700 transition-colors focus:outline-none"
               >
-                {showPassword ? (
-                  <IoEyeOff size={22} />
-                ) : (
-                  <IoEye size={22} />
-                )}
+                {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
               </button>
             </div>
+          </div>
 
-            {/* Submit Button */}
+          {/* Action Button */}
+          <div className="pt-2">
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition disabled:opacity-50"
+              className="w-full py-3.5 px-4 bg-blue-800 hover:bg-blue-900 active:scale-[0.99] text-white font-semibold text-xs sm:text-sm rounded-2xl shadow-sm hover:shadow-md transition-all disabled:opacity-50 flex items-center justify-center gap-2 group"
             >
-              {loading ? "Signing in..." : "Login"}
+              {loading ? (
+                <>
+                  <CgSpinner className="w-4 h-4 animate-spin" />
+                  <span>Signing in...</span>
+                </>
+              ) : (
+                <>
+                  <span>Sign In</span>
+                  <FiArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                </>
+              )}
             </button>
-          </form>
+          </div>
+        </form>
 
-          {/* Optional Forgot Password */}
-          {/* <div className="mt-4 text-sm text-gray-500">
-            <a href="/forget-password" className="text-blue-600 hover:underline">
-              Forgot your password?
-            </a>
-          </div> */}
+        {/* Security Footer Notice */}
+        <div className="mt-8 pt-5 flex items-center justify-center gap-2 text-slate-400 text-xs text-center">
+          <FiShield className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+          <span>Restricted to authorized administrator personnel</span>
         </div>
       </div>
     </div>
